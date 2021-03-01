@@ -1,0 +1,19 @@
+{
+  "name": "nats-topology-visualiser",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"This goes well\" && exit 0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SimCorp/nats-topology-visualiser.git"
+  },
+  "author": "",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/SimCorp/nats-topology-visualiser/issues"
+  },
+  "homepage": "https://github.com/SimCorp/nats-topology-visualiser#readme"
+}
