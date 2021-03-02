@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/SimCorp/nats-topology-visualiser/issues"
   },
-  "homepage": "https://github.com/SimCorp/nats-topology-visualiser#readme"
+  "homepage": "https://github.com/SimCorp/nats-topology-visualiser#readme",
+  "dependencies": {
+    "vue": "^2.6.12"
+  }
 }
