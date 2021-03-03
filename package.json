@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"This goes well\" && exit 0"
+    "test": "echo \"This goes well\" && exit 0",
+    "serve": "vue serve"
   },
   "repository": {
     "type": "git",
