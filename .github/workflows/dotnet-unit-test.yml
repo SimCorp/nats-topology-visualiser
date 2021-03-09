@@ -1,0 +1,32 @@
+name: Test and Deploy
+
+# This workflow will run with these triggers
+on:
+  # Trigger on pushes to main
+  push:
+    branches: [ ci/unit-test ]
+  # Trigger on pull requests to main
+  pull_request:
+    branches: [ ci/unit-test ]
+  # Manual trigger
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs.
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 5.0.x
+    - name: Restore dependencies
+      run: dotnet restore
+      working-directory: ./backend
+    - name: Build dotnet project
+      run: dotnet build --no-restore
+      working-directory: ./backend
+    - name: Run dotnet tests
+      working-directory: ./backend/backend.Test
+      run: dotnet test --no-build --verbosity normal
