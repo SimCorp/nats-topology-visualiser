@@ -30,5 +30,5 @@ jobs:
       run: dotnet build --no-restore
       working-directory: ./backend
     - name: Run dotnet tests
-      working-directory: ./backend
+      working-directory: ./backend/backend.Tests
       run: dotnet test --no-build --verbosity normal
