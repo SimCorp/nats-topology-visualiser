@@ -20,7 +20,7 @@ namespace backend
 
         [HttpGet]
         [ProducesResponseType(Status200OK)]
-        public async Task<ActionResult<IEnumerable<Server>>> Get()
+        public ActionResult<IEnumerable<Server>> Get()
         {   
             return Program.Servers;
         }
