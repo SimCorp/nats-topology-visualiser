@@ -2,12 +2,9 @@ name: .Net Unit test
 
 # This workflow will run with these triggers
 on:
-  # Trigger on pushes to main
-  push:
-    branches: [ ci/unit-test ]
-  # Trigger on pull requests to main
+  # Trigger on pull requests to develop
   pull_request:
-    branches: [ ci/unit-test ]
+    branches: [ develop ]
   # Manual trigger
   workflow_dispatch:
 
