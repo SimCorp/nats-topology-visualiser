@@ -20,10 +20,8 @@ jobs:
         dotnet-version: 5.0.x
     - name: Restore dependencies
       run: dotnet restore
-      working-directory: ./backend
     - name: Build dotnet project
       run: dotnet build --no-restore
-      working-directory: ./backend
     - name: Run dotnet tests
-      working-directory: ./backend/backend.Tests
+      working-directory: ./tests/backend.Tests
       run: dotnet test --no-build --verbosity normal
