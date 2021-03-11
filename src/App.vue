@@ -1,6 +1,7 @@
 <template>
 <div id="app">
-  <p>Data result: {{ JSON.stringify(dataNATS) }}</p>
+  <h1>Data from NATS</h1>
+  <p>{{ JSON.stringify(dataNATS) }}</p>
 </div>
 </template>
 
