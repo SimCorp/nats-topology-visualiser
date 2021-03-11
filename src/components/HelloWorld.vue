@@ -1,6 +1,5 @@
 <template>
 <div id="app">
-  {{ info }}
+  Hello World!
 </div>
 </template>
-
