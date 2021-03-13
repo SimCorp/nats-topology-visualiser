@@ -20,6 +20,6 @@ Install all further dependencies with `npm i -D`
 
 ## Contributing
 
-If you are interested in contributing to NATS Topology Visualiser, read the [Contributing guide](https://github.com/simcorp/nats-topology-visualiser/blob/develop/contributing.md)
+If you are interested in contributing to NATS Topology Visualiser, read the [Contributing guide](contributing.md)
 
-For a high level overview of the project architecture see [Architecture.md](https://github.com/simcorp/nats-topology-visualiser/blob/develop/architecture.md)
+For a high level overview of the project architecture see [Architecture.md](architecture.md)
