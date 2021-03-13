@@ -20,6 +20,6 @@ Install all further dependencies with `npm i -D`
 
 ## Contributing
 
-If you are interested in contributing to NATS Topology Visualiser, read the [Contributing guide](contributing.md)
+If you are interested in contributing to NATS Topology Visualiser, read the [Contributing guide](CONTRIBUTING.md)
 
-For a high level overview of the project architecture see [Architecture.md](architecture.md)
+For a high level overview of the project architecture see [Architecture.md](ARCHITECTURE.md)
