@@ -23,10 +23,11 @@ Most importantly, keep the messages short, precise, and use imperative mood (e.g
 You can use the sentence *"When applied, this commit will..."* to help formulate the commit message.
 
 > *When applied, this commit will*, **Refactor subsystem X for readability**
+
 > *When applied, this commit will*, **Update getting started documentation**
 
 ## Pull request
-When you believe that your work is done and ready to be used, open a pull request by going to the repository on GitHub -> *Pull requests* -> *New pull request*
+When you believe that your work is done and ready to be used, open a pull request by going to the repository on GitHub → *Pull requests* → *New pull request*
 
 Set the base to *develop* and the one to be compared to, to *feature/your-branch*. Then request a review from those who you would like to review the changes.
 
