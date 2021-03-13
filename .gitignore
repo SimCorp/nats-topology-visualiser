@@ -23,10 +23,6 @@ pnpm-debug.log*
 *.sw?
 .vs
 
-tests/backend.Tests/bin/*
-tests/backend.Tests/obj/*
-backend/bin/*
-backend/obj/*
-backend/backend/bin/*
-backend/backend/obj/*
-
+# .NET build files
+bin
+obj
