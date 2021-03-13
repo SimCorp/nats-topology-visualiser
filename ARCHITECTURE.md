@@ -10,4 +10,4 @@ This project uses Vue.js with D3.js for the front-end and C# and .NET 5 for the 
 
 ## Architecture
 
-![architecture.png](https://github.com/simcorp/nats-topology-visualiser/blob/develop/misc-images/architecture.png)
+<img src="github.com/SimCorp/nats-topology-visualiser/blob/develop/misc-images/architecture.png" alt="architecture.png">
