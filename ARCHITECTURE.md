@@ -10,4 +10,4 @@ This project uses Vue.js with D3.js for the front-end and C# and .NET 5 for the 
 
 ## Architecture
 
-
+![architecture.png](misc-images/architecture.png)
