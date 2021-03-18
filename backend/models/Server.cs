@@ -9,6 +9,8 @@ namespace backend.models
         public Server()
         {
             //connections = new HashSet<Connection>();
+            connectionsList = new List<Connection>();
+            routesList = new List<Route>();
         }
 
         public string server_id { get; set; }
@@ -52,7 +54,8 @@ namespace backend.models
         public int slow_consumers { get; set; }
         public int subscriptions { get; set; }
         
-        //public ICollection<Connection> connections { get; set; }
+        public ICollection<Connection> connectionsList { get; set; }
+        public ICollection<Route> routesList { get; set; }
 
         //public virtual Server Server { get; set; }
     }

@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using backend.models;
+using Connection = NATS.Client.Connection;
 
 namespace backend
 {
@@ -19,7 +20,7 @@ namespace backend
             new Uri("nats://sysadmin:zZn6MvjhbSP8RG9f@nats1.westeurope.cloudapp.azure.com:4222/");
 
         //private static readonly List<Type> types = new List<Type>() { typeof(Server), typeof(Connection) };
-
+        public static Dictionary<string, Server> serverMap;
         public static List<Server> Servers = new List<Server>();
         public static List<backend.models.Connection> Connections = new List<backend.models.Connection>();
         public static List<Route> Routes = new List<Route>();
@@ -28,6 +29,8 @@ namespace backend
         {
             var options = ConnectionFactory.GetDefaultOptions();
             options.Url = Nats.OriginalString;
+            
+            serverMap = new Dictionary<string, Server>();
 
             using (var connection = new ConnectionFactory().CreateConnection(options))
             {
@@ -58,7 +61,28 @@ namespace backend
 
             }
 
+            foreach (var c in Connections)
+            {
+                if (serverMap.TryGetValue(c.server_id, out var s))
+                {
+                    s.connectionsList.Add(c);
+                    //Add does not overwrite, so the below code is to overwrite the map entry.
+                    serverMap[c.server_id] = s;
+
+                }
+            }
+
+            /*foreach (Route r in Routes)
+            {
+                if (serverMap.TryGetValue(r.remote_id, out var s))
+                {
+                    s.routesList.Add(r);
+                    serverMap[s.server_id] = s;
+                }
+            }*/
+
             CreateHostBuilder(args).Build().Run();
+            
         }
 
 
@@ -97,7 +121,7 @@ namespace backend
             {
                 Console.WriteLine(x.StackTrace);
             }
-
+            serverMap.Add(server.server_id, server);
             Servers.Add(server);
         }
 
@@ -149,6 +173,7 @@ namespace backend
             {
                 Console.WriteLine(x.StackTrace);
             }
+            Routes.Add(route);
         }
 
 
