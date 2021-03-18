@@ -1,8 +1,25 @@
 using System;
+using System.Collections.Generic;
 
-namespace backend
+namespace backend.models
 {
     public class Connection
+    {
+
+        public Connection()
+        {
+            connections = new HashSet<connection_node>();
+        }
+
+        public string server_id { get; set; }
+        //public DateTime now { get; set; }
+        public int num_connections { get; set; }
+        public int offset { get; set; }
+        public long limit { get; set; }
+        public ICollection<connection_node> connections { get; set; }
+    }
+
+    public class connection_node
     {
         public int cid { get; set; }
         public string ip { get; set; }
@@ -20,9 +37,6 @@ namespace backend
         public string lang { get; set; }
         public string version { get; set; } 
 
-
-        //public string server_id { get; set; }
-
-        //public virtual Server Server { get; set; }
     }
+
 }

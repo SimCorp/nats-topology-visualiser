@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using backend.models;
 
 namespace backend
 {
@@ -20,6 +21,7 @@ namespace backend
         //private static readonly List<Type> types = new List<Type>() { typeof(Server), typeof(Connection) };
 
         public static List<Server> Servers = new List<Server>();
+        public static List<backend.models.Connection> Connections = new List<backend.models.Connection>();
 
         private static void Main(string[] args)
         {
@@ -32,13 +34,27 @@ namespace backend
 
                 var inbox = connection.NewInbox();
 
-                using (var subscription = connection.SubscribeAsync(inbox, IncomingMessageHandler))
+                using (var subscription = connection.SubscribeAsync(inbox, IncomingMessageHandlerServer))
                 {
                     subscription.Start();
                     connection.Publish("$SYS.REQ.SERVER.PING.VARZ", inbox, new byte[0]);
-                    //connection.Publish("$SYS.REQ.SERVER.PING.CONNZ", inbox, new byte[0]);
-                    Thread.Sleep(TimeSpan.FromSeconds(5));
+                    Thread.Sleep(TimeSpan.FromSeconds(2));
                 }
+
+                using (var subscription = connection.SubscribeAsync(inbox, IncomingMessageHandlerConnection))
+                {
+                    subscription.Start();
+                    connection.Publish("$SYS.REQ.SERVER.PING.CONNZ", inbox, new byte[0]);
+                    Thread.Sleep(TimeSpan.FromSeconds(2));
+                }
+
+                using (var subscription = connection.SubscribeAsync(inbox, IncomingMessageHandlerRawJson))
+                {
+                    subscription.Start();
+                    connection.Publish("$SYS.REQ.SERVER.PING.ROUTEZ", inbox, new byte[0]);
+                    Thread.Sleep(TimeSpan.FromSeconds(2));
+                }
+
             }
 
             CreateHostBuilder(args).Build().Run();
@@ -56,14 +72,10 @@ namespace backend
 
             Console.WriteLine(e.Message.ArrivalSubscription.Subject);
 
-            //Servers.Add(json.ToString());
-
-            //Console.WriteLine();
-
-            //Console.WriteLine(json.ToString());
+            Console.WriteLine(json.ToString());
         }
 
-        private static void IncomingMessageHandler(object sender, MsgHandlerEventArgs e)
+        private static void IncomingMessageHandlerServer(object sender, MsgHandlerEventArgs e)
         {
             Console.WriteLine(e.Message.ToString());
 
@@ -86,10 +98,60 @@ namespace backend
             }
 
             Servers.Add(server);
-
-            Console.WriteLine(server.server_name);
-            Console.WriteLine(server.in_msgs);
-            //Console.WriteLine(string.Join("", server.connections));
         }
+
+        private static void IncomingMessageHandlerConnection(object sender, MsgHandlerEventArgs e)
+        {
+            Console.WriteLine(e.Message.ToString());
+
+            var json = JsonConvert.DeserializeObject(Encoding.UTF8.GetString(e.Message.Data));
+
+            JToken token = JObject.Parse(json.ToString());
+
+            var data_json = token.SelectToken("data");
+            //var server_json = token.SelectToken("server");
+
+            backend.models.Connection connection = new backend.models.Connection();
+
+            try
+            {
+                connection = JsonConvert.DeserializeObject<backend.models.Connection>(data_json.ToString());
+            }
+            catch (Exception x)
+            {
+                Console.WriteLine(x.StackTrace);
+            }
+
+            Connections.Add(connection);
+        }
+
+
+
+        private static void IncomingMessageHandlerRoute(object sender, MsgHandlerEventArgs e)
+        {
+            Console.WriteLine(e.Message.ToString());
+
+            var json = JsonConvert.DeserializeObject(Encoding.UTF8.GetString(e.Message.Data));
+
+            JToken token = JObject.Parse(json.ToString());
+
+            var data_json = token.SelectToken("data");
+            //var server_json = token.SelectToken("server");
+
+            Route route = new Route();
+
+            try
+            {
+                route = JsonConvert.DeserializeObject<Route>(data_json.ToString());
+            }
+            catch (Exception x)
+            {
+                Console.WriteLine(x.StackTrace);
+            }
+
+            Connections.Add(route);
+        }
+
+
     }
 }
