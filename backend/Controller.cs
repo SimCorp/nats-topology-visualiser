@@ -32,6 +32,13 @@ namespace backend
         {   
             return Program.Connections;
         }
+        
+        [HttpGet("{routez}")] //The route to the endpoint. Etc. localhost:5001/connz
+        [ProducesResponseType(Status200OK)]
+        public ActionResult<IEnumerable<Route>> Get_Routez()
+        {   
+            return Program.Routes;
+        }
 
     }
 }

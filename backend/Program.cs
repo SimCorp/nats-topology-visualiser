@@ -22,6 +22,7 @@ namespace backend
 
         public static List<Server> Servers = new List<Server>();
         public static List<backend.models.Connection> Connections = new List<backend.models.Connection>();
+        public static List<Route> Routes = new List<Route>();
 
         private static void Main(string[] args)
         {
@@ -48,7 +49,7 @@ namespace backend
                     Thread.Sleep(TimeSpan.FromSeconds(2));
                 }
 
-                using (var subscription = connection.SubscribeAsync(inbox, IncomingMessageHandlerRawJson))
+                using (var subscription = connection.SubscribeAsync(inbox, IncomingMessageHandlerRoute))
                 {
                     subscription.Start();
                     connection.Publish("$SYS.REQ.SERVER.PING.ROUTEZ", inbox, new byte[0]);
@@ -148,8 +149,6 @@ namespace backend
             {
                 Console.WriteLine(x.StackTrace);
             }
-
-            Connections.Add(route);
         }
 
 
