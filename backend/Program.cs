@@ -71,9 +71,12 @@ namespace backend
 
                 }
             }
-
+            
+            // I don't really understand how routes work - they don't have a matching server_id as far as I can tell
+            // 
             /*foreach (Route r in Routes)
             {
+                Console.WriteLine("remote id: " );
                 if (serverMap.TryGetValue(r.remote_id, out var s))
                 {
                     s.routesList.Add(r);
@@ -168,12 +171,13 @@ namespace backend
             try
             {
                 route = JsonConvert.DeserializeObject<Route>(data_json.ToString());
+                Routes.Add(route);
             }
             catch (Exception x)
             {
                 Console.WriteLine(x.StackTrace);
             }
-            Routes.Add(route);
+            
         }
 
 
