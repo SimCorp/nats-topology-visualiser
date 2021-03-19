@@ -68,7 +68,6 @@ namespace backend
                     s.connectionsList.Add(c);
                     //Add does not overwrite, so the below code is to overwrite the map entry.
                     serverMap[c.server_id] = s;
-
                 }
             }
             
