@@ -71,32 +71,32 @@ namespace backend
 
             }
 
-            Parallel.ForEach(Connections, c =>
+            Parallel.ForEach(Connections, connection =>
             {
-                if (serverMap.TryGetValue(c.server_id, out var s))
+                if (serverMap.TryGetValue(connection.server_id, out var s))
                 {
-                    s.connectionsList.Add(c);
+                    s.connectionsList.Add(connection);
                     //Add does not overwrite, so the below code is to overwrite the map entry.
-                    serverMap[c.server_id] = s;
+                    serverMap[connection.server_id] = s;
                 }
             });
 
-            Parallel.ForEach(Routes, r =>
+            Parallel.ForEach(Routes, route =>
             {
-                if (serverMap.TryGetValue(r.server_id, out var s))
+                if (serverMap.TryGetValue(route.server_id, out var s))
                 {
-                    s.routesList.Add(r);
+                    s.routesList.Add(route);
                     serverMap[s.server_id] = s;
                 }
             });
             
-            Parallel.ForEach(GateWays, g =>
+            Parallel.ForEach(GateWays, gateway =>
             {
-                if (serverMap.TryGetValue(g.server_id, out var s))
+                if (serverMap.TryGetValue(gateway.server_id, out var s))
                 {
-                    Console.WriteLine("G id: " + g.server_id);
+                    Console.WriteLine("G id: " + gateway.server_id);
                     s.gateway = new Gateway();
-                    s.gateway = g;
+                    s.gateway = gateway;
                     serverMap[s.server_id] = s;
                 }
             });
@@ -159,12 +159,12 @@ namespace backend
             try
             {
                 connection = JsonConvert.DeserializeObject<backend.models.Connection>(data_json.ToString());
+                Connections.Add(connection);
             }
             catch (Exception x)
             {
                 Console.WriteLine(x.StackTrace);
             }
-            Connections.Add(connection);
         }
 
 
