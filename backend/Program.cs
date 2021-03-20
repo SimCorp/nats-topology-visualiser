@@ -25,6 +25,7 @@ namespace backend
         public static List<Server> Servers = new List<Server>();
         public static List<backend.models.Connection> Connections = new List<backend.models.Connection>();
         public static List<Route> Routes = new List<Route>();
+        public static List<Gateway> GateWays = new List<Gateway>();
 
         private static void Main(string[] args)
         {
@@ -59,6 +60,13 @@ namespace backend
                     connection.Publish("$SYS.REQ.SERVER.PING.ROUTEZ", inbox, new byte[0]);
                     Thread.Sleep(TimeSpan.FromSeconds(2));
                 }
+                
+                using (var subscription = connection.SubscribeAsync(inbox, IncomingMessageHandlerGateWay))
+                {
+                    subscription.Start();
+                    connection.Publish("$SYS.REQ.SERVER.PING.GATEWAYZ", inbox, new byte[0]);
+                    Thread.Sleep(TimeSpan.FromSeconds(2));
+                }
 
             }
 
@@ -77,6 +85,18 @@ namespace backend
                 if (serverMap.TryGetValue(r.server_id, out var s))
                 {
                     s.routesList.Add(r);
+                    serverMap[s.server_id] = s;
+                }
+            });
+            
+            Parallel.ForEach(GateWays, g =>
+            {
+                if (serverMap.TryGetValue(g.server_id, out var s))
+                {
+                    Console.WriteLine("G id: " + g.server_id);
+                    s.gateway = new Gateway();
+                    s.gateway = g;
+                    //s.gatewayList.Add(g);
                     serverMap[s.server_id] = s;
                 }
             });
@@ -146,7 +166,6 @@ namespace backend
             {
                 Console.WriteLine(x.StackTrace);
             }
-            connection.toStringPrint();
             Connections.Add(connection);
         }
 
@@ -176,7 +195,31 @@ namespace backend
             }
             
         }
+        
+        private static void IncomingMessageHandlerGateWay(object sender, MsgHandlerEventArgs e)
+        {
+            Console.WriteLine(e.Message.ToString());
 
+            var json = JsonConvert.DeserializeObject(Encoding.UTF8.GetString(e.Message.Data));
 
+            JToken token = JObject.Parse(json.ToString());
+
+            var data_json = token.SelectToken("data");
+            //var server_json = token.SelectToken("server");
+
+            try
+            {
+                //Gateway gateway = new Gateway();
+                Console.WriteLine(data_json);
+                var gateway = JsonConvert.DeserializeObject<Gateway>(data_json.ToString());
+                GateWays.Add(gateway);
+            }
+            catch (Exception x)
+            {
+                Console.WriteLine(x.StackTrace);
+            }
+            
+        }
+        
     }
 }

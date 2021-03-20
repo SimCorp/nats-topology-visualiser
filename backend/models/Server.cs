@@ -11,6 +11,8 @@ namespace backend.models
             //connections = new HashSet<Connection>();
             connectionsList = new List<Connection>();
             routesList = new List<Route>();
+            //gateway = new Gateway();
+            //gatewayList = new List<Gateway>();
         }
 
         public string server_id { get; set; }
@@ -32,7 +34,8 @@ namespace backend.models
         public long max_payload { get; set; }
         public long max_pending { get; set; }
         //public ICollection<Cluster> clusters { get; set; }
-        //public ICollection<Gateway> gateways { get; set; }
+        public Gateway gateway { get; set; }
+        //public ICollection<Gateway> gatewayList { get; set; }
         //public ICollection<Leaf> leafs { get; set; }
         //public ICollection<Jetstream> jetstreams { get; set; }
         public int tls_timeout { get; set; }
