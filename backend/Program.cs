@@ -5,6 +5,7 @@ using NATS.Client;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
@@ -61,7 +62,7 @@ namespace backend
 
             }
 
-            foreach (var c in Connections)
+            Parallel.ForEach(Connections, c =>
             {
                 if (serverMap.TryGetValue(c.server_id, out var s))
                 {
@@ -69,19 +70,16 @@ namespace backend
                     //Add does not overwrite, so the below code is to overwrite the map entry.
                     serverMap[c.server_id] = s;
                 }
-            }
-            
-            // I don't really understand how routes work - they don't have a matching server_id as far as I can tell
-            // 
-            /*foreach (Route r in Routes)
+            });
+
+            Parallel.ForEach(Routes, r =>
             {
-                Console.WriteLine("remote id: " );
-                if (serverMap.TryGetValue(r.remote_id, out var s))
+                if (serverMap.TryGetValue(r.server_id, out var s))
                 {
                     s.routesList.Add(r);
                     serverMap[s.server_id] = s;
                 }
-            }*/
+            });
 
             CreateHostBuilder(args).Build().Run();
             
@@ -148,7 +146,7 @@ namespace backend
             {
                 Console.WriteLine(x.StackTrace);
             }
-
+            connection.toStringPrint();
             Connections.Add(connection);
         }
 

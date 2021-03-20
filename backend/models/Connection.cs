@@ -17,6 +17,14 @@ namespace backend.models
         public int offset { get; set; }
         public long limit { get; set; }
         public ICollection<connection_node> connections { get; set; }
+
+        public void toStringPrint()
+        {
+            foreach (var connode in connections)
+            {
+                Console.WriteLine("Con id: " + connode.cid);
+            }
+        }
     }
 
     public class connection_node

@@ -1,8 +1,23 @@
 using System;
+using System.Collections.Generic;
+using backend.models;
 
 namespace backend
 {
     public class Route
+    {
+        
+        public Route()
+        {
+            routes = new HashSet<route_node>();
+        }
+       public string server_id { get; set; }
+       public string now { get; set; }
+       public int num_routes { get; set; }
+       public ICollection<route_node> routes { get; set; }
+    }
+
+    public class route_node
     {
         public int rid { get; set; }
         public string remote_id { get; set; }

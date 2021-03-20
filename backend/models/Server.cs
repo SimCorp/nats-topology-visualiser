@@ -54,6 +54,8 @@ namespace backend.models
         public int slow_consumers { get; set; }
         public int subscriptions { get; set; }
         
+        // Connection list has Connection as their elements - each of these connections have a list of the actual 
+        // connections. 
         public ICollection<Connection> connectionsList { get; set; }
         public ICollection<Route> routesList { get; set; }
 
