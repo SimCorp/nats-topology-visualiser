@@ -11,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using backend.models;
+using System.Collections.Concurrent;
 using Connection = NATS.Client.Connection;
 
 namespace backend
@@ -21,18 +22,18 @@ namespace backend
             new Uri("nats://sysadmin:zZn6MvjhbSP8RG9f@nats1.westeurope.cloudapp.azure.com:4222/");
 
         //private static readonly List<Type> types = new List<Type>() { typeof(Server), typeof(Connection) };
-        public static Dictionary<string, Server> serverMap;
+        public static ConcurrentDictionary<string, Server> serverMap;
         public static List<Server> Servers = new List<Server>();
-        public static List<backend.models.Connection> Connections = new List<backend.models.Connection>();
-        public static List<Route> Routes = new List<Route>();
-        public static List<Gateway> GateWays = new List<Gateway>();
+        public static ConcurrentBag<backend.models.Connection> Connections = new ConcurrentBag<backend.models.Connection>();
+        public static ConcurrentBag<Route> Routes = new ConcurrentBag<Route>();
+        public static ConcurrentBag<Gateway> GateWays = new ConcurrentBag<Gateway>();
 
         private static void Main(string[] args)
         {
             var options = ConnectionFactory.GetDefaultOptions();
             options.Url = Nats.OriginalString;
             
-            serverMap = new Dictionary<string, Server>();
+            serverMap = new ConcurrentDictionary<string, Server>();
 
             using (var connection = new ConnectionFactory().CreateConnection(options))
             {
@@ -96,7 +97,6 @@ namespace backend
                     Console.WriteLine("G id: " + g.server_id);
                     s.gateway = new Gateway();
                     s.gateway = g;
-                    //s.gatewayList.Add(g);
                     serverMap[s.server_id] = s;
                 }
             });
@@ -129,7 +129,6 @@ namespace backend
             JToken token = JObject.Parse(json.ToString());
 
             var data_json = token.SelectToken("data");
-            //var server_json = token.SelectToken("server");
 
             Server server = new Server();
 
@@ -141,7 +140,7 @@ namespace backend
             {
                 Console.WriteLine(x.StackTrace);
             }
-            serverMap.Add(server.server_id, server);
+            serverMap.TryAdd(server.server_id, server);
             Servers.Add(server);
         }
 
@@ -154,7 +153,6 @@ namespace backend
             JToken token = JObject.Parse(json.ToString());
 
             var data_json = token.SelectToken("data");
-            //var server_json = token.SelectToken("server");
 
             backend.models.Connection connection = new backend.models.Connection();
 
@@ -180,7 +178,6 @@ namespace backend
             JToken token = JObject.Parse(json.ToString());
 
             var data_json = token.SelectToken("data");
-            //var server_json = token.SelectToken("server");
 
             Route route = new Route();
 
@@ -205,11 +202,9 @@ namespace backend
             JToken token = JObject.Parse(json.ToString());
 
             var data_json = token.SelectToken("data");
-            //var server_json = token.SelectToken("server");
 
             try
             {
-                //Gateway gateway = new Gateway();
                 Console.WriteLine(data_json);
                 var gateway = JsonConvert.DeserializeObject<Gateway>(data_json.ToString());
                 GateWays.Add(gateway);

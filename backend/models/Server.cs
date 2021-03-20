@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.Concurrent;
 
 namespace backend.models
 {
@@ -9,8 +10,8 @@ namespace backend.models
         public Server()
         {
             //connections = new HashSet<Connection>();
-            connectionsList = new List<Connection>();
-            routesList = new List<Route>();
+            connectionsList = new ConcurrentBag<Connection>();
+            routesList = new ConcurrentBag<Route>();
             //gateway = new Gateway();
             //gatewayList = new List<Gateway>();
         }
@@ -59,8 +60,8 @@ namespace backend.models
         
         // Connection list has Connection as their elements - each of these connections have a list of the actual 
         // connections. 
-        public ICollection<Connection> connectionsList { get; set; }
-        public ICollection<Route> routesList { get; set; }
+        public ConcurrentBag<Connection> connectionsList { get; set; }
+        public ConcurrentBag<Route> routesList { get; set; }
 
         //public virtual Server Server { get; set; }
     }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.Concurrent;
 
 namespace backend
 {
@@ -8,13 +9,13 @@ namespace backend
 
         public Leaf() 
         {
-            leafs = new HashSet<leafnode>();
+            leafs = new ConcurrentBag<leafnode>();
         }
 
         public string server_id { get; set; }
         //public DateTime now { get; set; }
         public int leafnodes { get; set; }
-        public ICollection<leafnode> leafs { get; set; }
+        public ConcurrentBag<leafnode> leafs { get; set; }
     }
 
 

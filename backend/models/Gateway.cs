@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using backend.models;
+using System.Collections.Concurrent;
 
 namespace backend
 {
@@ -9,8 +10,8 @@ namespace backend
 
         public Gateway()
         {
-            inbound_gateways = new Dictionary<string, List<ConnectionNodeWrapper>>();
-            outbound_gateways = new Dictionary<string, ConnectionNodeWrapper>();
+            inbound_gateways = new ConcurrentDictionary<string, List<ConnectionNodeWrapper>>();
+            outbound_gateways = new ConcurrentDictionary<string, ConnectionNodeWrapper>();
             /*outbound_gateways = new outboundGateways();
             inbound_gateways = new inboundGateways();*/
         }
@@ -20,19 +21,19 @@ namespace backend
         public string name { get; set; }
         public string host { get; set; }
         public int port { get; set; }
-        public Dictionary<string, List<ConnectionNodeWrapper>> inbound_gateways { get; set; }
-        public Dictionary<string, ConnectionNodeWrapper> outbound_gateways { get; set; }
+        public ConcurrentDictionary<string, List<ConnectionNodeWrapper>> inbound_gateways { get; set; }
+        public ConcurrentDictionary<string, ConnectionNodeWrapper> outbound_gateways { get; set; }
         //public inboundGateways inbound_gateways { get; set; }
 
 
         public class outboundGateways
         {
             public bool configured { get; set; }
-            public ICollection<connection_node> connode { get; set; }
+            public ConcurrentBag<connection_node> connode { get; set; }
 
             public outboundGateways()
             {
-                connode = new List<connection_node>();
+                connode = new ConcurrentBag<connection_node>();
             }
         }
         public class inboundGateways

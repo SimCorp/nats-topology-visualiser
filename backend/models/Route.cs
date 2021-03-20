@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using backend.models;
+using System.Collections.Concurrent;
 
 namespace backend
 {
@@ -9,12 +10,12 @@ namespace backend
         
         public Route()
         {
-            routes = new HashSet<route_node>();
+            routes = new ConcurrentBag<route_node>();
         }
        public string server_id { get; set; }
        public string now { get; set; }
        public int num_routes { get; set; }
-       public ICollection<route_node> routes { get; set; }
+       public ConcurrentBag<route_node> routes { get; set; }
     }
 
     public class route_node

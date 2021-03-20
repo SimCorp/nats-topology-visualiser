@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.Concurrent;
 
 namespace backend.models
 {
@@ -8,7 +9,7 @@ namespace backend.models
 
         public Connection()
         {
-            connections = new HashSet<connection_node>();
+            connections = new ConcurrentBag<connection_node>();
         }
 
         public string server_id { get; set; }
@@ -16,7 +17,7 @@ namespace backend.models
         public int num_connections { get; set; }
         public int offset { get; set; }
         public long limit { get; set; }
-        public ICollection<connection_node> connections { get; set; }
+        public ConcurrentBag<connection_node> connections { get; set; }
 
         public void toStringPrint()
         {
