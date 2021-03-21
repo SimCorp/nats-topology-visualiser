@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using backend.models;
 using System.Collections.Concurrent;
 
 namespace backend
@@ -10,10 +8,8 @@ namespace backend
 
         public Gateway()
         {
-            inbound_gateways = new ConcurrentDictionary<string, List<ConnectionNodeWrapper>>();
-            outbound_gateways = new ConcurrentDictionary<string, ConnectionNodeWrapper>();
-            /*outbound_gateways = new outboundGateways();
-            inbound_gateways = new inboundGateways();*/
+            inbound_gateways = new ConcurrentDictionary<string, List<GatewayNodeWrapper>>();
+            outbound_gateways = new ConcurrentDictionary<string, GatewayNodeWrapper>();
         }
 
         public string server_id { get; set; }
@@ -21,33 +17,10 @@ namespace backend
         public string name { get; set; }
         public string host { get; set; }
         public int port { get; set; }
-        public ConcurrentDictionary<string, List<ConnectionNodeWrapper>> inbound_gateways { get; set; }
-        public ConcurrentDictionary<string, ConnectionNodeWrapper> outbound_gateways { get; set; }
-        //public inboundGateways inbound_gateways { get; set; }
+        public ConcurrentDictionary<string, List<GatewayNodeWrapper>> inbound_gateways { get; set; }
+        public ConcurrentDictionary<string, GatewayNodeWrapper> outbound_gateways { get; set; }
 
-
-        public class outboundGateways
-        {
-            public bool configured { get; set; }
-            public ConcurrentBag<connection_node> connode { get; set; }
-
-            public outboundGateways()
-            {
-                connode = new ConcurrentBag<connection_node>();
-            }
-        }
-        public class inboundGateways
-        {
-            public bool configured { get; set; }
-            public ICollection<connection_node> connode { get; set; }
-
-            public inboundGateways()
-            {
-                connode = new List<connection_node>();
-            }
-        }
-
-        public class connection_node
+        public class GatewayNode
         {
             public int cid { get; set; }
             public string ip { get; set; }
@@ -66,10 +39,10 @@ namespace backend
             
         }
 
-        public class ConnectionNodeWrapper
+        public class GatewayNodeWrapper
         {
             public bool configured { get; set; }
-            public connection_node connection { get; set; }
+            public GatewayNode connection { get; set; }
         }
         
     }

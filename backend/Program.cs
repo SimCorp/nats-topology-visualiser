@@ -75,7 +75,7 @@ namespace backend
             {
                 if (serverMap.TryGetValue(connection.server_id, out var s))
                 {
-                    s.connectionsList.Add(connection);
+                    s.connection = connection;
                     //Add does not overwrite, so the below code is to overwrite the map entry.
                     serverMap[connection.server_id] = s;
                 }
@@ -85,7 +85,7 @@ namespace backend
             {
                 if (serverMap.TryGetValue(route.server_id, out var s))
                 {
-                    s.routesList.Add(route);
+                    s.route = route;
                     serverMap[s.server_id] = s;
                 }
             });

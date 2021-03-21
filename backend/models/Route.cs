@@ -10,15 +10,15 @@ namespace backend
         
         public Route()
         {
-            routes = new ConcurrentBag<route_node>();
+            routes = new ConcurrentBag<RouteNode>();
         }
        public string server_id { get; set; }
        public string now { get; set; }
        public int num_routes { get; set; }
-       public ConcurrentBag<route_node> routes { get; set; }
+       public ConcurrentBag<RouteNode> routes { get; set; }
     }
 
-    public class route_node
+    public class RouteNode
     {
         public int rid { get; set; }
         public string remote_id { get; set; }

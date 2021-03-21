@@ -7,15 +7,6 @@ namespace backend.models
     public class Server
     {
 
-        public Server()
-        {
-            //connections = new HashSet<Connection>();
-            connectionsList = new ConcurrentBag<Connection>();
-            routesList = new ConcurrentBag<Route>();
-            //gateway = new Gateway();
-            //gatewayList = new List<Gateway>();
-        }
-
         public string server_id { get; set; }
         public string server_name { get; set; }
         public string version { get; set; }
@@ -36,6 +27,8 @@ namespace backend.models
         public long max_pending { get; set; }
         //public ICollection<Cluster> clusters { get; set; }
         public Gateway gateway { get; set; }
+        public Route route { get; set; }
+        public Connection connection { get; set; }
         //public ICollection<Gateway> gatewayList { get; set; }
         //public ICollection<Leaf> leafs { get; set; }
         //public ICollection<Jetstream> jetstreams { get; set; }
@@ -60,8 +53,6 @@ namespace backend.models
         
         // Connection list has Connection as their elements - each of these connections have a list of the actual 
         // connections. 
-        public ConcurrentBag<Connection> connectionsList { get; set; }
-        public ConcurrentBag<Route> routesList { get; set; }
 
         //public virtual Server Server { get; set; }
     }
