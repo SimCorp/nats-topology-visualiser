@@ -1,7 +1,10 @@
 ﻿<template>
   <div id="graph">
-    <p id="test">hello</p>
-    <p>{{ JSON.stringify(dataNATS) }}</p>
+    <ul id="example-1">
+      <li v-for="server in dataNATS" :key="server[0]">
+        {{ server.server_name }}
+      </li>
+    </ul>
   </div>
 </template>
 
