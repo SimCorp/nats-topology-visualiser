@@ -1,5 +1,6 @@
 ﻿<template>
   <div id="graph">
+    <p id="test">Color test</p>
     <ul id="example-1">
       <li v-for="server in dataNATS" :key="server[0]">
         {{ server.server_name }}
