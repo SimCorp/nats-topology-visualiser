@@ -1,15 +1,17 @@
 <template>
 <div id="app">
   <h1>Data from NATS</h1>
-  <p>{{ JSON.stringify(dataNATS) }}</p>
+  <Graph :dataNATS="dataNATS"></Graph>
 </div>
 </template>
 
 <script>
 import axios from 'axios'
+import Graph from '@/components/Graph'
 
 export default {
   name: 'App',
+  components: { Graph },
   props: {
     result: Object
   },
@@ -26,4 +28,5 @@ export default {
       })
   }
 }
+
 </script>
