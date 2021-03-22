@@ -9,17 +9,17 @@ namespace backend
 
         public Leaf() 
         {
-            leafs = new ConcurrentBag<leafnode>();
+            leafs = new ConcurrentBag<LeafNode>();
         }
 
         public string server_id { get; set; }
         //public DateTime now { get; set; }
         public int leafnodes { get; set; }
-        public ConcurrentBag<leafnode> leafs { get; set; }
+        public ConcurrentBag<LeafNode> leafs { get; set; }
     }
 
 
-    public class leafnode 
+    public class LeafNode 
     {
         public string account { get; set; }
         public string ip { get; set; }

@@ -21,30 +21,30 @@ namespace backend
 
         [HttpGet]
         [ProducesResponseType(Status200OK)]
-        public ActionResult<IEnumerable<Server>> Get_Varz()
+        public ActionResult<IEnumerable<Server>> GetVarz()
         {   
-            return Program.Servers;
+            return Program.servers;
         }
 
         [HttpGet("{connz}")] //The route to the endpoint. Etc. localhost:5001/connz
         [ProducesResponseType(Status200OK)]
-        public ActionResult<IEnumerable<Connection>> Get_Connz()
+        public ActionResult<IEnumerable<Connection>> GetConnz()
         {   
-            return Program.Connections;
+            return Program.connections;
         }
         
         [HttpGet("{routez}")]
         [ProducesResponseType(Status200OK)]
-        public ActionResult<IEnumerable<Route>> Get_Routez()
+        public ActionResult<IEnumerable<Route>> GetRoutez()
         {   
-            return Program.Routes;
+            return Program.routes;
         }
         
         [HttpGet("{gatewayz}")]
         [ProducesResponseType(Status200OK)]
-        public ActionResult<IEnumerable<Gateway>> Get_Gatewayz()
+        public ActionResult<IEnumerable<Gateway>> GetGatewayz()
         {   
-            return Program.GateWays;
+            return Program.gateways;
         }
 
     }

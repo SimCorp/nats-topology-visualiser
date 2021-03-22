@@ -22,18 +22,18 @@ namespace backend
             new Uri("nats://sysadmin:zZn6MvjhbSP8RG9f@nats1.westeurope.cloudapp.azure.com:4222/");
 
         //private static readonly List<Type> types = new List<Type>() { typeof(Server), typeof(Connection) };
-        public static ConcurrentDictionary<string, Server> serverMap;
-        public static List<Server> Servers = new List<Server>();
-        public static ConcurrentBag<backend.models.Connection> Connections = new ConcurrentBag<backend.models.Connection>();
-        public static ConcurrentBag<Route> Routes = new ConcurrentBag<Route>();
-        public static ConcurrentBag<Gateway> GateWays = new ConcurrentBag<Gateway>();
+        public static ConcurrentDictionary<string, Server> idToServer;
+        public static List<Server> servers = new List<Server>();
+        public static ConcurrentBag<backend.models.Connection> connections = new ConcurrentBag<backend.models.Connection>();
+        public static ConcurrentBag<Route> routes = new ConcurrentBag<Route>();
+        public static ConcurrentBag<Gateway> gateways = new ConcurrentBag<Gateway>();
 
         private static void Main(string[] args)
         {
             var options = ConnectionFactory.GetDefaultOptions();
             options.Url = Nats.OriginalString;
             
-            serverMap = new ConcurrentDictionary<string, Server>();
+            idToServer = new ConcurrentDictionary<string, Server>();
 
             using (var connection = new ConnectionFactory().CreateConnection(options))
             {
@@ -71,33 +71,33 @@ namespace backend
 
             }
 
-            Parallel.ForEach(Connections, connection =>
+            Parallel.ForEach(connections, connection =>
             {
-                if (serverMap.TryGetValue(connection.server_id, out var s))
+                if (idToServer.TryGetValue(connection.server_id, out var s))
                 {
                     s.connection = connection;
                     //Add does not overwrite, so the below code is to overwrite the map entry.
-                    serverMap[connection.server_id] = s;
+                    idToServer[connection.server_id] = s;
                 }
             });
 
-            Parallel.ForEach(Routes, route =>
+            Parallel.ForEach(routes, route =>
             {
-                if (serverMap.TryGetValue(route.server_id, out var s))
+                if (idToServer.TryGetValue(route.server_id, out var s))
                 {
                     s.route = route;
-                    serverMap[s.server_id] = s;
+                    idToServer[s.server_id] = s;
                 }
             });
             
-            Parallel.ForEach(GateWays, gateway =>
+            Parallel.ForEach(gateways, gateway =>
             {
-                if (serverMap.TryGetValue(gateway.server_id, out var s))
+                if (idToServer.TryGetValue(gateway.server_id, out var s))
                 {
                     Console.WriteLine("G id: " + gateway.server_id);
                     s.gateway = new Gateway();
                     s.gateway = gateway;
-                    serverMap[s.server_id] = s;
+                    idToServer[s.server_id] = s;
                 }
             });
 
@@ -140,8 +140,8 @@ namespace backend
             {
                 Console.WriteLine(x.StackTrace);
             }
-            serverMap.TryAdd(server.server_id, server);
-            Servers.Add(server);
+            idToServer.TryAdd(server.server_id, server);
+            servers.Add(server);
         }
 
         private static void IncomingMessageHandlerConnection(object sender, MsgHandlerEventArgs e)
@@ -159,7 +159,7 @@ namespace backend
             try
             {
                 connection = JsonConvert.DeserializeObject<backend.models.Connection>(data_json.ToString());
-                Connections.Add(connection);
+                connections.Add(connection);
             }
             catch (Exception x)
             {
@@ -184,7 +184,7 @@ namespace backend
             try
             {
                 route = JsonConvert.DeserializeObject<Route>(data_json.ToString());
-                Routes.Add(route);
+                routes.Add(route);
             }
             catch (Exception x)
             {
@@ -207,7 +207,7 @@ namespace backend
             {
                 Console.WriteLine(data_json);
                 var gateway = JsonConvert.DeserializeObject<Gateway>(data_json.ToString());
-                GateWays.Add(gateway);
+                gateways.Add(gateway);
             }
             catch (Exception x)
             {
