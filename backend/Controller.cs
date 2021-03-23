@@ -26,21 +26,21 @@ namespace backend
             return Program.servers;
         }
 
-        [HttpGet("{connz}")] //The route to the endpoint. Etc. localhost:5001/connz
+        [HttpGet("/connz")] //The route to the endpoint. Etc. localhost:5001/connz
         [ProducesResponseType(Status200OK)]
         public ActionResult<IEnumerable<Connection>> GetConnz()
         {   
             return Program.connections;
         }
         
-        [HttpGet("{routez}")]
+        [HttpGet("/routez")]
         [ProducesResponseType(Status200OK)]
         public ActionResult<IEnumerable<Route>> GetRoutez()
         {   
             return Program.routes;
         }
         
-        [HttpGet("{gatewayz}")]
+        [HttpGet("/gatewayz")]
         [ProducesResponseType(Status200OK)]
         public ActionResult<IEnumerable<Gateway>> GetGatewayz()
         {   
