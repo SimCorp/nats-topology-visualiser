@@ -1,6 +1,6 @@
 <template>
 <div id="app">
-  <h1>Data from NATS</h1>
+  <h1>Visualizer</h1>
   <Graph :servers="servers" :routes="routes"></Graph>
 </div>
 </template>
