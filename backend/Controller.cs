@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using static Microsoft.AspNetCore.Http.StatusCodes;
+using backend.models;
 
 namespace backend
 {
@@ -20,9 +21,30 @@ namespace backend
 
         [HttpGet]
         [ProducesResponseType(Status200OK)]
-        public ActionResult<IEnumerable<Server>> Get()
+        public ActionResult<IEnumerable<Server>> GetVarz()
         {   
-            return Program.Servers;
+            return Program.servers;
+        }
+
+        [HttpGet("{connz}")] //The route to the endpoint. Etc. localhost:5001/connz
+        [ProducesResponseType(Status200OK)]
+        public ActionResult<IEnumerable<Connection>> GetConnz()
+        {   
+            return Program.connections;
+        }
+        
+        [HttpGet("{routez}")]
+        [ProducesResponseType(Status200OK)]
+        public ActionResult<IEnumerable<Route>> GetRoutez()
+        {   
+            return Program.routes;
+        }
+        
+        [HttpGet("{gatewayz}")]
+        [ProducesResponseType(Status200OK)]
+        public ActionResult<IEnumerable<Gateway>> GetGatewayz()
+        {   
+            return Program.gateways;
         }
 
     }
