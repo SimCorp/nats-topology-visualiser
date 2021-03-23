@@ -1,7 +1,7 @@
 <template>
 <div id="app">
   <h1>Data from NATS</h1>
-  <Graph :dataNATS="dataNATS"></Graph>
+  <Graph :servers="servers" :routes="routes"></Graph>
 </div>
 </template>
 
@@ -13,18 +13,19 @@ export default {
   name: 'App',
   components: { Graph },
   props: {
-    result: Object
-  },
-  data () {
-    return {
-      dataNATS: null // JSON object containing our NATS data
-    }
+    servers: Object,
+    routes: Object
   },
   mounted () {
     axios
       .get('https://localhost:5001/')
       .then(response => {
-        this.dataNATS = response.data
+        this.servers = response.data
+      })
+    axios
+      .get('https://localhost:5001/routez')
+      .then(response => {
+        this.routes = response.data
       })
   }
 }
