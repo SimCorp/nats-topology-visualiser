@@ -11,11 +11,11 @@ namespace backend
     [Route("[controller]")]
     public class Controller : ControllerBase
     {
-        //private readonly ISuperheroRepository _repository;
+        private readonly DataStorage _dataStorage;
 
-        public Controller()
+        public Controller(DataStorage dataStorage)
         {
-            //_repository = repository;
+            _dataStorage = dataStorage;
         }
 
 
@@ -23,28 +23,28 @@ namespace backend
         [ProducesResponseType(Status200OK)]
         public ActionResult<IEnumerable<Server>> GetVarz()
         {   
-            return Program.servers;
+            return _dataStorage.servers;
         }
 
         [HttpGet("/connz")] //The route to the endpoint. Etc. localhost:5001/connz
         [ProducesResponseType(Status200OK)]
         public ActionResult<IEnumerable<Connection>> GetConnz()
         {   
-            return Program.connections;
+            return _dataStorage.connections;
         }
         
         [HttpGet("/routez")]
         [ProducesResponseType(Status200OK)]
         public ActionResult<IEnumerable<Route>> GetRoutez()
         {   
-            return Program.routes;
+            return _dataStorage.routes;
         }
         
         [HttpGet("/gatewayz")]
         [ProducesResponseType(Status200OK)]
         public ActionResult<IEnumerable<Gateway>> GetGatewayz()
         {   
-            return Program.gateways;
+            return _dataStorage.gateways;
         }
 
         [HttpGet("/leafz")]

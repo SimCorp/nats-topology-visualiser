@@ -23,7 +23,12 @@ namespace backend
         {
             //services.AddDbContext<SuperheroContext>(o => o.UseSqlite("Filename=superheroes.db"));
             //services.AddScoped<ISuperheroContext, SuperheroContext>();
-            //services.AddScoped<ISuperheroRepository, SuperheroRepository>();
+            
+            //DataStorage dataStorage = new DataStorage();
+            //dataStorage.servers.Add(new models.Server());
+
+            //services.AddSingleton<DataStorage>(dataStorage);
+            //services.AddTransient<IDataStorage, DataStorage>();
             services.AddControllers();
             services.AddRouting(options => options.LowercaseUrls = true);
 

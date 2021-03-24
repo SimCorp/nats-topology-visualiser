@@ -15,11 +15,19 @@ using backend.models;
 using backend.helpers;
 using System.Collections.Concurrent;
 using Connection = NATS.Client.Connection;
+<<<<<<< HEAD
 using Env = System.Environment;
+=======
+using Microsoft.AspNetCore.Session;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+
+>>>>>>> 124075b (Refactor Program.cs into appropriate classes)
 namespace backend
 {
-    class Program
+    public class Program
     {
+<<<<<<< HEAD
         public static ConcurrentDictionary<string, Server> idToServer;
         public static List<Server> servers = new List<Server>();
         public static ConcurrentBag<backend.models.Connection> connections = new ConcurrentBag<backend.models.Connection>();
@@ -27,9 +35,13 @@ namespace backend
         public static ConcurrentBag<Gateway> gateways = new ConcurrentBag<Gateway>();
         public static ConcurrentBag<Leaf> leafs = new ConcurrentBag<Leaf>();
 
+=======
+>>>>>>> 124075b (Refactor Program.cs into appropriate classes)
 
+        public static Logic logic;
         private static void Main(string[] args)
         {
+<<<<<<< HEAD
             SetEnv();
 
             var options = ConnectionFactory.GetDefaultOptions();
@@ -119,96 +131,31 @@ namespace backend
             });
 
             CreateHostBuilder(args).Build().Run();
+=======
+            logic = new Logic(new DataStorage());
+            logic.Startup();
+
+            var host = CreateHostBuilder(args).Build();
+
+            host.Run();
+>>>>>>> 124075b (Refactor Program.cs into appropriate classes)
         }
 
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); });
+                .ConfigureWebHostDefaults(webBuilder => 
+                { 
+                    webBuilder.UseStartup<Startup>(); 
+                })
+                .ConfigureServices(services =>
+                {
+                    services.AddSingleton(logic.dataStorage);
+                });
 
 
-        private static void IncomingMessageHandlerRawJson(object sender, MsgHandlerEventArgs e)
-        {
-            var json = JsonConvert.DeserializeObject(Encoding.UTF8.GetString(e.Message.Data));
-
-            Console.WriteLine(e.Message.ArrivalSubscription.Subject);
-
-            Console.WriteLine(json.ToString());
-        }
-
-        private static void IncomingMessageHandlerServer(object sender, MsgHandlerEventArgs e)
-        {
-            Console.WriteLine(e.Message.ToString());
-
-            var json = JsonConvert.DeserializeObject(Encoding.UTF8.GetString(e.Message.Data));
-
-            JToken token = JObject.Parse(json.ToString());
-
-            var data_json = token.SelectToken("data");
-
-            Server server = new Server();
-
-            try
-            {
-                server = JsonConvert.DeserializeObject<Server>(data_json.ToString());
-            }
-            catch (Exception x)
-            {
-                Console.WriteLine(x.StackTrace);
-            }
-            idToServer.TryAdd(server.server_id, server);
-            servers.Add(server);
-        }
-
-        private static void IncomingMessageHandlerConnection(object sender, MsgHandlerEventArgs e)
-        {
-            Console.WriteLine(e.Message.ToString());
-
-            var json = JsonConvert.DeserializeObject(Encoding.UTF8.GetString(e.Message.Data));
-
-            JToken token = JObject.Parse(json.ToString());
-
-            var data_json = token.SelectToken("data");
-
-            backend.models.Connection connection = new backend.models.Connection();
-
-            try
-            {
-                connection = JsonConvert.DeserializeObject<backend.models.Connection>(data_json.ToString());
-                connections.Add(connection);
-            }
-            catch (Exception x)
-            {
-                Console.WriteLine(x.StackTrace);
-            }
-        }
-
-
-
-        private static void IncomingMessageHandlerRoute(object sender, MsgHandlerEventArgs e)
-        {
-            Console.WriteLine(e.Message.ToString());
-
-            var json = JsonConvert.DeserializeObject(Encoding.UTF8.GetString(e.Message.Data));
-
-            JToken token = JObject.Parse(json.ToString());
-
-            var data_json = token.SelectToken("data");
-
-            Route route = new Route();
-
-            try
-            {
-                route = JsonConvert.DeserializeObject<Route>(data_json.ToString());
-                routes.Add(route);
-            }
-            catch (Exception x)
-            {
-                Console.WriteLine(x.StackTrace);
-            }
-            
-        }
         
+<<<<<<< HEAD
         private static void IncomingMessageHandlerGateWay(object sender, MsgHandlerEventArgs e)
         {
             Console.WriteLine(e.Message.ToString());
@@ -252,6 +199,8 @@ namespace backend
             }
             
         }
+=======
+>>>>>>> 124075b (Refactor Program.cs into appropriate classes)
         
         private static void SetEnv() 
         {
