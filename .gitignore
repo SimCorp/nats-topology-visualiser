@@ -26,3 +26,5 @@ pnpm-debug.log*
 # .NET build files
 bin
 obj
+
+/tests/backend.Tests/nats-server
