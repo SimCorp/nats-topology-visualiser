@@ -25,4 +25,11 @@
     <ProjectReference Include="..\..\backend\backend.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="nats-server">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+
 </Project>
