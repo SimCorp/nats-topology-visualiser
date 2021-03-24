@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Text;
 using System.Threading;
 using NATS.Client;
@@ -11,17 +12,14 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using backend.models;
+using backend.helpers;
 using System.Collections.Concurrent;
 using Connection = NATS.Client.Connection;
-
+using Env = System.Environment;
 namespace backend
 {
     class Program
     {
-        private static readonly Uri Nats =
-            new Uri("nats://sysadmin:zZn6MvjhbSP8RG9f@nats1.westeurope.cloudapp.azure.com:4222/");
-
-        //private static readonly List<Type> types = new List<Type>() { typeof(Server), typeof(Connection) };
         public static ConcurrentDictionary<string, Server> idToServer;
         public static List<Server> servers = new List<Server>();
         public static ConcurrentBag<backend.models.Connection> connections = new ConcurrentBag<backend.models.Connection>();
@@ -30,9 +28,10 @@ namespace backend
 
         private static void Main(string[] args)
         {
+            SetEnv();
+
             var options = ConnectionFactory.GetDefaultOptions();
-            options.Url = Nats.OriginalString;
-            
+            options.Url = Env.GetEnvironmentVariable("NATS_URL");
             idToServer = new ConcurrentDictionary<string, Server>();
 
             using (var connection = new ConnectionFactory().CreateConnection(options))
@@ -102,7 +101,6 @@ namespace backend
             });
 
             CreateHostBuilder(args).Build().Run();
-            
         }
 
 
@@ -216,5 +214,16 @@ namespace backend
             
         }
         
+        private static void SetEnv() 
+        {
+            var root = Directory.GetCurrentDirectory();
+            var dotenv = Path.Combine(root, ".env");
+            DotEnv.Load(dotenv);
+            
+            var config =
+                new ConfigurationBuilder()
+                    .AddEnvironmentVariables()
+                    .Build();
+        }
     }
 }
