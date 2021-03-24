@@ -13,208 +13,40 @@ using Microsoft.Extensions.Logging;
 using backend.models;
 using System.Collections.Concurrent;
 using Connection = NATS.Client.Connection;
+using Microsoft.AspNetCore.Session;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace backend
 {
-    class Program
+    public class Program
     {
-        private static readonly Uri Nats =
-            new Uri("nats://sysadmin:zZn6MvjhbSP8RG9f@nats1.westeurope.cloudapp.azure.com:4222/");
 
-        //private static readonly List<Type> types = new List<Type>() { typeof(Server), typeof(Connection) };
-        public static ConcurrentDictionary<string, Server> idToServer;
-        public static List<Server> servers = new List<Server>();
-        public static ConcurrentBag<backend.models.Connection> connections = new ConcurrentBag<backend.models.Connection>();
-        public static ConcurrentBag<Route> routes = new ConcurrentBag<Route>();
-        public static ConcurrentBag<Gateway> gateways = new ConcurrentBag<Gateway>();
-
+        public static Logic logic;
         private static void Main(string[] args)
         {
-            var options = ConnectionFactory.GetDefaultOptions();
-            options.Url = Nats.OriginalString;
-            
-            idToServer = new ConcurrentDictionary<string, Server>();
+            logic = new Logic(new DataStorage());
+            logic.Startup();
 
-            using (var connection = new ConnectionFactory().CreateConnection(options))
-            {
-                Console.WriteLine(connection.State);
+            var host = CreateHostBuilder(args).Build();
 
-                var inbox = connection.NewInbox();
-
-                using (var subscription = connection.SubscribeAsync(inbox, IncomingMessageHandlerServer))
-                {
-                    subscription.Start();
-                    connection.Publish("$SYS.REQ.SERVER.PING.VARZ", inbox, new byte[0]);
-                    Thread.Sleep(TimeSpan.FromSeconds(2));
-                }
-
-                using (var subscription = connection.SubscribeAsync(inbox, IncomingMessageHandlerConnection))
-                {
-                    subscription.Start();
-                    connection.Publish("$SYS.REQ.SERVER.PING.CONNZ", inbox, new byte[0]);
-                    Thread.Sleep(TimeSpan.FromSeconds(2));
-                }
-
-                using (var subscription = connection.SubscribeAsync(inbox, IncomingMessageHandlerRoute))
-                {
-                    subscription.Start();
-                    connection.Publish("$SYS.REQ.SERVER.PING.ROUTEZ", inbox, new byte[0]);
-                    Thread.Sleep(TimeSpan.FromSeconds(2));
-                }
-                
-                using (var subscription = connection.SubscribeAsync(inbox, IncomingMessageHandlerGateWay))
-                {
-                    subscription.Start();
-                    connection.Publish("$SYS.REQ.SERVER.PING.GATEWAYZ", inbox, new byte[0]);
-                    Thread.Sleep(TimeSpan.FromSeconds(2));
-                }
-
-            }
-
-            Parallel.ForEach(connections, connection =>
-            {
-                if (idToServer.TryGetValue(connection.server_id, out var s))
-                {
-                    s.connection = connection;
-                    //Add does not overwrite, so the below code is to overwrite the map entry.
-                    idToServer[connection.server_id] = s;
-                }
-            });
-
-            Parallel.ForEach(routes, route =>
-            {
-                if (idToServer.TryGetValue(route.server_id, out var s))
-                {
-                    s.route = route;
-                    idToServer[s.server_id] = s;
-                }
-            });
-            
-            Parallel.ForEach(gateways, gateway =>
-            {
-                if (idToServer.TryGetValue(gateway.server_id, out var s))
-                {
-                    Console.WriteLine("G id: " + gateway.server_id);
-                    s.gateway = new Gateway();
-                    s.gateway = gateway;
-                    idToServer[s.server_id] = s;
-                }
-            });
-
-            CreateHostBuilder(args).Build().Run();
-            
+            host.Run();
         }
 
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); });
+                .ConfigureWebHostDefaults(webBuilder => 
+                { 
+                    webBuilder.UseStartup<Startup>(); 
+                })
+                .ConfigureServices(services =>
+                {
+                    services.AddSingleton(logic.dataStorage);
+                });
 
 
-        private static void IncomingMessageHandlerRawJson(object sender, MsgHandlerEventArgs e)
-        {
-            var json = JsonConvert.DeserializeObject(Encoding.UTF8.GetString(e.Message.Data));
-
-            Console.WriteLine(e.Message.ArrivalSubscription.Subject);
-
-            Console.WriteLine(json.ToString());
-        }
-
-        private static void IncomingMessageHandlerServer(object sender, MsgHandlerEventArgs e)
-        {
-            Console.WriteLine(e.Message.ToString());
-
-            var json = JsonConvert.DeserializeObject(Encoding.UTF8.GetString(e.Message.Data));
-
-            JToken token = JObject.Parse(json.ToString());
-
-            var data_json = token.SelectToken("data");
-
-            Server server = new Server();
-
-            try
-            {
-                server = JsonConvert.DeserializeObject<Server>(data_json.ToString());
-            }
-            catch (Exception x)
-            {
-                Console.WriteLine(x.StackTrace);
-            }
-            idToServer.TryAdd(server.server_id, server);
-            servers.Add(server);
-        }
-
-        private static void IncomingMessageHandlerConnection(object sender, MsgHandlerEventArgs e)
-        {
-            Console.WriteLine(e.Message.ToString());
-
-            var json = JsonConvert.DeserializeObject(Encoding.UTF8.GetString(e.Message.Data));
-
-            JToken token = JObject.Parse(json.ToString());
-
-            var data_json = token.SelectToken("data");
-
-            backend.models.Connection connection = new backend.models.Connection();
-
-            try
-            {
-                connection = JsonConvert.DeserializeObject<backend.models.Connection>(data_json.ToString());
-                connections.Add(connection);
-            }
-            catch (Exception x)
-            {
-                Console.WriteLine(x.StackTrace);
-            }
-        }
-
-
-
-        private static void IncomingMessageHandlerRoute(object sender, MsgHandlerEventArgs e)
-        {
-            Console.WriteLine(e.Message.ToString());
-
-            var json = JsonConvert.DeserializeObject(Encoding.UTF8.GetString(e.Message.Data));
-
-            JToken token = JObject.Parse(json.ToString());
-
-            var data_json = token.SelectToken("data");
-
-            Route route = new Route();
-
-            try
-            {
-                route = JsonConvert.DeserializeObject<Route>(data_json.ToString());
-                routes.Add(route);
-            }
-            catch (Exception x)
-            {
-                Console.WriteLine(x.StackTrace);
-            }
-            
-        }
         
-        private static void IncomingMessageHandlerGateWay(object sender, MsgHandlerEventArgs e)
-        {
-            Console.WriteLine(e.Message.ToString());
-
-            var json = JsonConvert.DeserializeObject(Encoding.UTF8.GetString(e.Message.Data));
-
-            JToken token = JObject.Parse(json.ToString());
-
-            var data_json = token.SelectToken("data");
-
-            try
-            {
-                Console.WriteLine(data_json);
-                var gateway = JsonConvert.DeserializeObject<Gateway>(data_json.ToString());
-                gateways.Add(gateway);
-            }
-            catch (Exception x)
-            {
-                Console.WriteLine(x.StackTrace);
-            }
-            
-        }
         
     }
 }
