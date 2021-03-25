@@ -4,16 +4,20 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import * as d3 from 'd3'
+import axios from 'axios'
 
 export default {
   name: 'Graph',
   props: {
-    servers: Object,
-    routes: Object
+    servers: Array,
+    routes: Array
   },
-  mounted () {
+  async mounted () {
+    const response = await axios.get('https://localhost:5001/')
+    // this.$emit('update:servers', response.data)
+    this.servers = response.data
     const width = 1000
     const height = 800
 
@@ -26,6 +30,7 @@ export default {
       .selectAll('nodes')
       .data(this.servers)
       .enter()
+    console.log(node)
 
     const circles = node.append('circle')
       .attr('cx', () => { return Math.random() * width })
