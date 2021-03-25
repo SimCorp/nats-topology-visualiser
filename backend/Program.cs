@@ -27,6 +27,8 @@ namespace backend
         public static ConcurrentBag<backend.models.Connection> connections = new ConcurrentBag<backend.models.Connection>();
         public static ConcurrentBag<Route> routes = new ConcurrentBag<Route>();
         public static ConcurrentBag<Gateway> gateways = new ConcurrentBag<Gateway>();
+        public static ConcurrentBag<Leaf> leafs = new ConcurrentBag<Leaf>();
+
 
         private static void Main(string[] args)
         {
@@ -69,6 +71,13 @@ namespace backend
                     Thread.Sleep(TimeSpan.FromSeconds(2));
                 }
 
+                using (var subscription = connection.SubscribeAsync(inbox, IncomingMessageHandlerLeaf))
+                {
+                    subscription.Start();
+                    connection.Publish("$SYS.REQ.SERVER.PING.LEAFZ", inbox, new byte[0]);
+                    Thread.Sleep(TimeSpan.FromSeconds(2));
+                }
+
             }
 
             Parallel.ForEach(connections, connection =>
@@ -89,7 +98,7 @@ namespace backend
                     idToServer[s.server_id] = s;
                 }
             });
-            
+
             Parallel.ForEach(gateways, gateway =>
             {
                 if (idToServer.TryGetValue(gateway.server_id, out var s))
@@ -97,6 +106,15 @@ namespace backend
                     Console.WriteLine("G id: " + gateway.server_id);
                     s.gateway = new Gateway();
                     s.gateway = gateway;
+                    idToServer[s.server_id] = s;
+                }
+            });
+
+            Parallel.ForEach(leafs, leaf =>
+            {
+                if (idToServer.TryGetValue(leaf.server_id, out var s))
+                {
+                    s.leaf = leaf;
                     idToServer[s.server_id] = s;
                 }
             });
@@ -208,6 +226,27 @@ namespace backend
                 Console.WriteLine(data_json);
                 var gateway = JsonConvert.DeserializeObject<Gateway>(data_json.ToString());
                 gateways.Add(gateway);
+            }
+            catch (Exception x)
+            {
+                Console.WriteLine(x.StackTrace);
+            }
+            
+        }
+
+        private static void IncomingMessageHandlerLeaf(object sender, MsgHandlerEventArgs e)
+        {
+            var json = JsonConvert.DeserializeObject(Encoding.UTF8.GetString(e.Message.Data));
+
+            JToken token = JObject.Parse(json.ToString());
+
+            var data_json = token.SelectToken("data");
+
+            try
+            {
+                Console.WriteLine(data_json);
+                var leaf = JsonConvert.DeserializeObject<Leaf>(data_json.ToString());
+                leafs.Add(leaf);
             }
             catch (Exception x)
             {

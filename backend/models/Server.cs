@@ -30,8 +30,9 @@ namespace backend.models
         public Route route { get; set; }
         public Connection connection { get; set; }
         //public ICollection<Gateway> gatewayList { get; set; }
-        //public ICollection<Leaf> leafs { get; set; }
+        // public ICollection<Leaf> leafs { get; set; }
         //public ICollection<Jetstream> jetstreams { get; set; }
+        public Leaf leaf { get; set; }
         public int tls_timeout { get; set; }
         public long write_deadline { get; set; }
         //public DateTime start { get; set; } //TODO DateTime does not work here
