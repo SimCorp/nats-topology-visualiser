@@ -18,6 +18,27 @@ function calulateViewBoxValue (width: number, height: number, viewBoxScalar: num
   return viewBoxValue
 }
 
+const drag = (simulation: any) => {
+  function dragstarted (event: any, d: any) {
+    if (!event.active) simulation.alphaTarget(0.3).restart()
+    d.fx = d.x
+    d.fy = d.y
+  }
+  function dragged (event: any, d: any) {
+    d.fx = event.x
+    d.fy = event.y
+  }
+  function dragended (event: any, d: any) {
+    if (!event.active) simulation.alphaTarget(0)
+    d.fx = null
+    d.fy = null
+  }
+  return d3.drag()
+    .on('start', dragstarted)
+    .on('drag', dragged)
+    .on('end', dragended)
+}
+
 export default {
   name: 'Graph',
   props: {
@@ -34,7 +55,7 @@ export default {
     const routes = routezResponse.data
 
     // Process data
-    const [processedServers, processedRoutes] = processData([servers, routes])
+    const { processedServers, processedRoutes } = processData({ servers, routes })
 
     // d3 canvas
     const nodes = processedServers.map(d => Object.create(d))
@@ -52,6 +73,17 @@ export default {
       .attr('height', height)
       .attr('viewBox', calulateViewBoxValue(width, height, viewBoxScalar))
 
+    const link = svg.append('g')
+      .attr('stroke-opacity', 0.6)
+      .selectAll('line')
+      .data(links)
+      .join('line')
+      .attr('stroke', d => d.ntv_error ? '#f00' : '#999')
+      .attr('stroke-width', 2)
+
+    link.append('title')
+      .text(d => d.ntv_error ? 'Something\'s Wrong' : '')
+
     const node = svg.append('g')
       .attr('stroke', '#888')
       .attr('stroke-width', 3)
@@ -61,18 +93,16 @@ export default {
       .attr('cx', () => { return Math.random() * width })
       .attr('cy', () => { return Math.random() * height })
       .attr('r', 5)
-      .attr('fill', '#000')
-
-    const link = svg.append('g')
-      .attr('stroke', '#999')
-      .attr('stroke-opacity', 0.6)
-      .selectAll('line')
-      .data(links)
-      .join('line')
-      .attr('stroke-width', 2)
+      .attr('fill', d => d.ntv_error ? '#f00' : '#000')
+      .call(drag(simulation))
+      .on('click', (d, i) => {
+        console.log(i.server_id)
+        console.log(d)
+        console.log(i)
+      })
 
     node.append('title')
-      .text(d => d.server_id)
+      .text(d => (d.ntv_error ? '[Crashed?] \n' : '') + 'NAME:' + d.server_name + '\nID:' + d.server_id)
 
     simulation.on('tick', () => {
       link
