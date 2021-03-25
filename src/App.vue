@@ -1,33 +1,16 @@
 <template>
 <div id="app">
   <h1>Visualizer</h1>
-  <Graph :servers="servers" :routes="routes"></Graph>
+    <Graph/>
 </div>
 </template>
 
-<script>
-import axios from 'axios'
-import Graph from '@/components/Graph'
+<script lang="ts">
+import Graph from '@/components/Graph.vue'
 
 export default {
   name: 'App',
-  components: { Graph },
-  props: {
-    servers: Object,
-    routes: Object
-  },
-  mounted () {
-    axios
-      .get('https://localhost:5001/')
-      .then(response => {
-        this.servers = response.data
-      })
-    axios
-      .get('https://localhost:5001/routez')
-      .then(response => {
-        this.routes = response.data
-      })
-  }
+  components: { Graph }
 }
 
 </script>
