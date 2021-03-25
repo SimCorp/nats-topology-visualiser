@@ -47,5 +47,12 @@ namespace backend
             return Program.gateways;
         }
 
+        [HttpGet("/leafz")]
+        [ProducesResponseType(Status200OK)]
+        public ActionResult<IEnumerable<Leaf>> GetLeafz()
+        {   
+            return Program.leafs;
+        }
+
     }
 }
