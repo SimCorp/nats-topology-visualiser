@@ -7,17 +7,25 @@
 <script lang='ts'>
 import * as d3 from 'd3'
 import axios from 'axios'
+import processData from '../helpers/ProcessData'
+
+function calulateViewBoxValue (width: number, height: number, viewBoxScalar: number) {
+  const viewBoxTop = -width / 2
+  const viewBoxLeft = -height / 2
+  const viewBoxRight = width
+  const viewBoxBottom = height
+  const viewBoxValue = `${viewBoxTop * viewBoxScalar}, ${viewBoxLeft * viewBoxScalar}, ${viewBoxRight * viewBoxScalar}, ${viewBoxBottom * viewBoxScalar}`
+  return viewBoxValue
+}
 
 export default {
   name: 'Graph',
   props: {
-
   },
   async mounted () {
-    /* eslint-disable @typescript-eslint/camelcase */
     const width = 1000
     const height = 800
-    const viewboxdims = 0.5
+    const viewBoxScalar = 0.5
 
     const varzResponse = await axios.get('https://localhost:5001/')
     const servers = varzResponse.data
@@ -26,28 +34,7 @@ export default {
     const routes = routezResponse.data
 
     // Process data
-
-    const processedServers = servers
-    // Hacky patch for a missing node from varz nodes
-    processedServers.push({
-      server_id: 'NCJSE2JXMGGWA2UTKDPEZSY56B6BS3QCMLWE7KDE5MSOQDQA5FBL3TQO'
-    })
-
-    interface Link {
-      source: string;
-      target: string;
-    }
-    const processedRoutes = []
-    routes.forEach((server: any) => {
-      const source: string = server.server_id
-      server.routes.forEach((route: any) => {
-        const target: string = route.remote_id
-        processedRoutes.push({
-          source: source,
-          target: target
-        })
-      })
-    })
+    const [processedServers, processedRoutes] = processData([servers, routes])
 
     // d3 canvas
     const nodes = processedServers.map(d => Object.create(d))
@@ -63,7 +50,7 @@ export default {
       .append('svg')
       .attr('width', width)
       .attr('height', height)
-      .attr('viewBox', `${-width / 2 * viewboxdims}, ${-height / 2 * viewboxdims}, ${width * viewboxdims}, ${height * viewboxdims}`)
+      .attr('viewBox', calulateViewBoxValue(width, height, viewBoxScalar))
 
     const node = svg.append('g')
       .attr('stroke', '#888')
@@ -100,6 +87,7 @@ export default {
     })
   }
 }
+
 </script>
 
 <style scoped>
