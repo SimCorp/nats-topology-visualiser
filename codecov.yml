@@ -18,4 +18,4 @@ parsers:
 comment:
   layout: "reach,diff,flags,files,footer"
   behavior: default
-  require_changes: false
+  require_changes: no
