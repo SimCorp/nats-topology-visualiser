@@ -54,15 +54,18 @@ export default {
     const routezResponse = await axios.get('https://localhost:5001/routez')
     const routes = routezResponse.data
 
-    // Process data
-    const { processedServers, processedRoutes } = processData({ servers, routes })
+    const processedServers = servers
+    const processedRoutes = routes
+
+    console.log(processedRoutes)
+    console.log(processedServers)
 
     // d3 canvas
     const nodes = processedServers.map(d => Object.create(d))
     const links = processedRoutes.map(d => Object.create(d))
 
     const simulation = d3.forceSimulation(nodes)
-      .force('link', d3.forceLink(links).id(d => d.server_id))
+      .force('link', d3.forceLink(links).id(d => d.server.server_id))
       .force('charge', d3.forceManyBody())
       .force('x', d3.forceX())
       .force('y', d3.forceY())
@@ -96,13 +99,13 @@ export default {
       .attr('fill', d => d.ntv_error ? '#f00' : '#000')
       .call(drag(simulation))
       .on('click', (d, i) => {
-        console.log(i.server_id)
+        console.log(i.server.server_id)
         console.log(d)
         console.log(i)
       })
 
     node.append('title')
-      .text(d => (d.ntv_error ? '[Crashed?] \n' : '') + 'NAME:' + d.server_name + '\nID:' + d.server_id)
+      .text(d => (d.ntv_error ? '[Crashed?] \n' : '') + 'NAME:' + d.server_name + '\nID:' + d.server.server_id)
 
     simulation.on('tick', () => {
       link

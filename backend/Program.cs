@@ -21,7 +21,7 @@ namespace backend
     class Program
     {
         public static ConcurrentDictionary<string, Server> idToServer;
-        public static List<Server> servers = new List<Server>();
+        public static ConcurrentBag<Server> servers = new ConcurrentBag<Server>();
         public static ConcurrentBag<backend.models.Connection> connections = new ConcurrentBag<backend.models.Connection>();
         public static ConcurrentBag<Route> routes = new ConcurrentBag<Route>();
         public static ConcurrentBag<Gateway> gateways = new ConcurrentBag<Gateway>();
@@ -117,6 +117,8 @@ namespace backend
                     idToServer[s.server_id] = s;
                 }
             });
+
+            Controller.processData();
 
             CreateHostBuilder(args).Build().Run();
         }
