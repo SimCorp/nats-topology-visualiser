@@ -27,4 +27,8 @@ pnpm-debug.log*
 bin
 obj
 
+
+
+# Testing
+*.json
 /tests/backend.Tests/nats-server
