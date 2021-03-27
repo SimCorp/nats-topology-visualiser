@@ -51,7 +51,7 @@ namespace backend
         [ProducesResponseType(Status200OK)]
         public ActionResult<IEnumerable<Leaf>> GetLeafz()
         {   
-            return Program.leafs;
+            return _dataStorage.leafs;
         }
 
     }

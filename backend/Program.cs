@@ -16,17 +16,24 @@ using backend.helpers;
 using System.Collections.Concurrent;
 using Connection = NATS.Client.Connection;
 <<<<<<< HEAD
+<<<<<<< HEAD
 using Env = System.Environment;
 =======
+=======
+>>>>>>> 1bb92b0ef76a8072405a057efb58c8f8617f0b4a
 using Microsoft.AspNetCore.Session;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
+<<<<<<< HEAD
 >>>>>>> 124075b (Refactor Program.cs into appropriate classes)
+=======
+>>>>>>> 1bb92b0ef76a8072405a057efb58c8f8617f0b4a
 namespace backend
 {
     public class Program
     {
+<<<<<<< HEAD
 <<<<<<< HEAD
         public static ConcurrentDictionary<string, Server> idToServer;
         public static List<Server> servers = new List<Server>();
@@ -37,10 +44,13 @@ namespace backend
 
 =======
 >>>>>>> 124075b (Refactor Program.cs into appropriate classes)
+=======
+>>>>>>> 1bb92b0ef76a8072405a057efb58c8f8617f0b4a
 
         public static Logic logic;
         private static void Main(string[] args)
         {
+<<<<<<< HEAD
 <<<<<<< HEAD
             SetEnv();
 
@@ -139,6 +149,14 @@ namespace backend
 
             host.Run();
 >>>>>>> 124075b (Refactor Program.cs into appropriate classes)
+=======
+            logic = new Logic(new DataStorage());
+            logic.Startup();
+
+            var host = CreateHostBuilder(args).Build();
+
+            host.Run();
+>>>>>>> 1bb92b0ef76a8072405a057efb58c8f8617f0b4a
         }
 
 
@@ -152,6 +170,7 @@ namespace backend
                 {
                     services.AddSingleton(logic.dataStorage);
                 });
+<<<<<<< HEAD
 
 
         
@@ -213,5 +232,11 @@ namespace backend
                     .AddEnvironmentVariables()
                     .Build();
         }
+=======
+
+
+        
+        
+>>>>>>> 1bb92b0ef76a8072405a057efb58c8f8617f0b4a
     }
 }

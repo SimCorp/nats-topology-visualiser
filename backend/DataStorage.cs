@@ -17,6 +17,7 @@ namespace backend
         public ConcurrentBag<backend.models.Connection> connections;
         public ConcurrentBag<Route> routes;
         public ConcurrentBag<Gateway> gateways;
+        public ConcurrentBag<Leaf> leafs;
 
 
         public DataStorage() {
@@ -30,6 +31,8 @@ namespace backend
             routes = new ConcurrentBag<Route>();
 
             gateways = new ConcurrentBag<Gateway>();
+
+            leafs = new ConcurrentBag<Leaf>();
         }
 
     }

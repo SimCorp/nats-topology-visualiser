@@ -13,28 +13,44 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Connection = NATS.Client.Connection;
+<<<<<<< HEAD
 using System.IO;
 using backend.helpers;
 
 using Env = System.Environment;
+=======
+>>>>>>> 1bb92b0ef76a8072405a057efb58c8f8617f0b4a
 
 namespace backend
 {
     public class Logic
     {
+<<<<<<< HEAD
+=======
+        private static readonly Uri Nats =
+            new Uri("nats://sysadmin:zZn6MvjhbSP8RG9f@nats1.westeurope.cloudapp.azure.com:4222/");
+
+>>>>>>> 1bb92b0ef76a8072405a057efb58c8f8617f0b4a
         public DataStorage dataStorage;
 
         public Logic(DataStorage dataStorage) {
             this.dataStorage = dataStorage;
+<<<<<<< HEAD
 
             SetEnv();
+=======
+>>>>>>> 1bb92b0ef76a8072405a057efb58c8f8617f0b4a
         }
 
 
         public void Startup()
         {
             var options = ConnectionFactory.GetDefaultOptions();
+<<<<<<< HEAD
             options.Url = Env.GetEnvironmentVariable("NATS_URL");
+=======
+            options.Url = Nats.OriginalString;
+>>>>>>> 1bb92b0ef76a8072405a057efb58c8f8617f0b4a
         
             MessageHandler messageHandler = new MessageHandler(dataStorage);
 
@@ -107,6 +123,7 @@ namespace backend
 
 
 
+<<<<<<< HEAD
         private static void SetEnv() 
         {
             var root = Directory.GetCurrentDirectory();
@@ -119,6 +136,8 @@ namespace backend
                     .Build();
         }
 
+=======
+>>>>>>> 1bb92b0ef76a8072405a057efb58c8f8617f0b4a
 
 
     }
