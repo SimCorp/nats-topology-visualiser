@@ -29,14 +29,7 @@ pnpm-debug.log*
 bin
 obj
 
-<<<<<<< HEAD
 # Testing
 /tests/backend.Tests/nats-server
 *.json
-=======
 
-
-# Testing
-*.json
-/tests/backend.Tests/nats-server
->>>>>>> 1bb92b0ef76a8072405a057efb58c8f8617f0b4a
