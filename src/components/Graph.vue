@@ -88,7 +88,7 @@ export default {
       .attr('stroke', '#888')
       .attr('stroke-width', 3)
       .selectAll('circle')
-      .data(nodes)
+      .data(nodes, d => d.server_id)
       .join('circle')
       .attr('cx', () => { return Math.random() * width })
       .attr('cy', () => { return Math.random() * height })
