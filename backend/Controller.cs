@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using static Microsoft.AspNetCore.Http.StatusCodes;
 using System.Collections.Concurrent;
 using backend.models;
+using System.Linq;
 
 namespace backend
 {
@@ -14,15 +15,33 @@ namespace backend
     {
 
         private static ConcurrentBag<Link> links = new ConcurrentBag<Link>();
-        private static ConcurrentBag<ServerErrorWrapper> processedServers = new ConcurrentBag<ServerErrorWrapper>();
+        private static ConcurrentBag<Node> processedServers = new ConcurrentBag<Node>();
         private static HashSet<string> missingServerIds = new HashSet<string>();
 
 
-        [HttpGet]
+        [HttpGet("/nodes")]
         [ProducesResponseType(Status200OK)]
-        public ActionResult<IEnumerable<ServerErrorWrapper>> GetVarz()
+        public ActionResult<IEnumerable<Node>> GetNodes()
         {   
             return processedServers;
+        }
+
+        [HttpGet("/varz")]
+        [ProducesResponseType(Status200OK)]
+        public ActionResult<IEnumerable<Server>> GetVarz()
+        {   
+            return Program.servers;
+        }
+
+        // TODO use to get info about server, when it is clicked in UI
+        [HttpGet("/varz/{serverId}")]
+        [ProducesResponseType(Status200OK)]
+        public ActionResult<Server> GetVarz([FromRoute] string serverId)
+        {   
+            var query = from server in Program.servers.AsParallel()
+                where server.server_id == serverId
+                select server;
+            return query.FirstOrDefault();
         }
 
         [HttpGet("/connz")] //The route to the endpoint. Etc. localhost:5001/connz
@@ -32,11 +51,18 @@ namespace backend
             return Program.connections;
         }
         
-        [HttpGet("/routez")]
+        [HttpGet("/links")]
         [ProducesResponseType(Status200OK)]
-        public ActionResult<IEnumerable<Link>> GetRoutez()
+        public ActionResult<IEnumerable<Link>> GetLinks()
         {   
             return links;
+        }
+
+        [HttpGet("/routez")]
+        [ProducesResponseType(Status200OK)]
+        public ActionResult<IEnumerable<Route>> GetRoutez()
+        {   
+            return Program.routes;
         }
         
         [HttpGet("/gatewayz")]
@@ -56,12 +82,13 @@ namespace backend
         public static void processData() 
         {
             Parallel.ForEach(Program.servers, server => {
-                processedServers.Add(new ServerErrorWrapper(server));
+                processedServers.Add(new Node {server_id = server.server_id, server_name = server.server_name, ntv_error = false });
             });
 
-            Parallel.ForEach(Program.routes, server => {
+            // Information about routes are also on server, no request to routez necessary
+            Parallel.ForEach(Program.servers, server => {
                 var source = server.server_id;
-                Parallel.ForEach(server.routes, route => {
+                Parallel.ForEach(server.route.routes, route => {
                     var target = route.remote_id;
                     links.Add(new Link(source, target));
                 });
@@ -88,7 +115,7 @@ namespace backend
             // TODO dynamically handle these types of errors
             foreach(var serverId in missingServerIds)
             {
-                processedServers.Add(new ServerErrorWrapper(new Server{server_id = serverId}, true));
+                processedServers.Add(new Node{server_id = serverId, ntv_error = true});
             }
 
 
@@ -98,10 +125,10 @@ namespace backend
 
     public class Link
     {
-        public string source {get;}
-        public string target {get;}
+        public string source { get; }
+        public string target { get; }
 
-        public bool ntv_error {get; set;}
+        public bool ntv_error { get; set; }
 
         public Link(string source, string target, bool ntv_error = false)
         {
@@ -111,16 +138,10 @@ namespace backend
         }
     }
 
-    public class ServerErrorWrapper
+    public class Node 
     {
-        public Server server {get;}
-        public bool ntv_error {get;}
-
-        public ServerErrorWrapper(Server server, bool ntv_error = false)
-        {
-            this.server = server;
-            this.ntv_error = ntv_error;
-        }
-
+        public string server_id { get; set; }
+        public string server_name { get; set; }
+        public bool ntv_error { get; set; }
     }
 }
