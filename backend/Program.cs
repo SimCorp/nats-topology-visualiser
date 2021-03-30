@@ -118,7 +118,7 @@ namespace backend
                 }
             });
 
-            Controller.processData();
+            Controller.ProcessData();
 
             CreateHostBuilder(args).Build().Run();
         }
