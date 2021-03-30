@@ -7,11 +7,6 @@ namespace backend
 {
     public class Route
     {
-        
-        public Route()
-        {
-            routes = new ConcurrentBag<RouteNode>();
-        }
        public string server_id { get; set; }
        public string now { get; set; }
        public int num_routes { get; set; }

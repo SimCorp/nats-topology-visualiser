@@ -13,7 +13,7 @@ namespace backend.models
         }
 
         public string server_id { get; set; }
-        //public DateTime now { get; set; }
+        public string now { get; set; }
         public int num_connections { get; set; }
         public int offset { get; set; }
         public long limit { get; set; }

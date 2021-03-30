@@ -6,14 +6,8 @@ namespace backend
 {
     public class Leaf
     {
-
-        public Leaf() 
-        {
-            leafs = new ConcurrentBag<LeafNode>();
-        }
-
         public string server_id { get; set; }
-        //public DateTime now { get; set; }
+        public string now { get; set; }
         public int leafnodes { get; set; }
         public ConcurrentBag<LeafNode> leafs { get; set; }
     }
