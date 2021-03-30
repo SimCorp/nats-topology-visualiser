@@ -10,10 +10,15 @@ on:
 
 # A workflow run is made up of one or more jobs.
 jobs:
-  test:
+  docker:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
+    - name: build docker image
+      working-directory:  ./tests/backend.Tests
+      run: |
+        docker build -t test-image:latest .
+        docker run -d --network="host" -p 4222:4222 test-image:latest
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
       with:

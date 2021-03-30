@@ -64,6 +64,7 @@ namespace backend.Tests
             MessageHandler messageHandler = new MessageHandler(dataStorage);
 
 
+<<<<<<< HEAD
             ProcessStartInfo startInfo = new ProcessStartInfo();
             startInfo.FileName = "nats-server";
             startInfo.CreateNoWindow = false;
@@ -72,6 +73,18 @@ namespace backend.Tests
             // Call WaitForExit and then the using statement will close.
             using (Process exeProcess = Process.Start(startInfo))
             {
+=======
+            //ProcessStartInfo startInfo = new ProcessStartInfo();
+            //startInfo.FileName = "nats-server";
+            //startInfo.Arguments = "-p 4224 -a localhost -c server1.config";
+            //startInfo.CreateNoWindow = false;
+
+            //Uri Nats = new Uri("nats://localhost:4222");
+            Uri Nats = new Uri("localhost:4222");
+
+            //using (Process exeProcess = Process.Start(startInfo))
+            //{
+>>>>>>> be719f5 (test1)
                 var options = ConnectionFactory.GetDefaultOptions();
                 options.Url = Nats.OriginalString;
 
@@ -88,8 +101,24 @@ namespace backend.Tests
                     }
                 }
 
+<<<<<<< HEAD
                 exeProcess.Kill();
             }
+=======
+              //  exeProcess.Kill();
+            //}
+
+            Console.WriteLine(messageHandler.dataStorage.servers.Count);
+
+            //Assert.Equal(1, dataStorage.servers.Count);
+            Assert.Equal("2.2.0", messageHandler.dataStorage.servers[0].version);
+            Assert.Equal(1, messageHandler.dataStorage.servers[0].proto);
+            
+
+
+
+
+>>>>>>> be719f5 (test1)
         }
 
     }
