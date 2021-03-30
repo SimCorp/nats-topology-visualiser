@@ -1,29 +1,16 @@
 <template>
 <div id="app">
-  <h1>Data from NATS</h1>
-  <p>{{ JSON.stringify(dataNATS) }}</p>
+  <h1>Visualizer</h1>
+    <Graph/>
 </div>
 </template>
 
-<script>
-import axios from 'axios'
+<script lang="ts">
+import Graph from '@/components/Graph.vue'
 
 export default {
   name: 'App',
-  props: {
-    result: Object
-  },
-  data () {
-    return {
-      dataNATS: null // JSON object containing our NATS data
-    }
-  },
-  mounted () {
-    axios
-      .get('https://localhost:5001/')
-      .then(response => {
-        this.dataNATS = response.data
-      })
-  }
+  components: { Graph }
 }
+
 </script>

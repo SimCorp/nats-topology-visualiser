@@ -3,16 +3,18 @@
 NATS Topology Visualiser is a visualization and monitoring tool for the open-source messaging system [NATS](https://github.com/nats-io).
 
 ## Development
-### Dependancies
+### Dependencies
 
 - [.Net 5](https://dotnet.microsoft.com/download/dotnet/5.0)
 - [Node.js and npm](https://nodejs.org/en/download/)
 
-Install all further dependencies with `npm i -D`
+### Setup
+
+1. setup node packages by running `npm ci`
 
 ### Usage
 
-1. Start backend with `dotnet run` from the sub directory `/backend/`
+1. Compile and start backend with `npm run backend`
 
 2. Serve front-end with `npm run serve` from the root directory `/`
 

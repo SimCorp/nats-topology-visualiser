@@ -1,15 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.Concurrent;
 
-namespace backend
+namespace backend.models
 {
     public class Server
     {
-
-        public Server()
-        {
-            //connections = new HashSet<Connection>();
-        }
 
         public string server_id { get; set; }
         public string server_name { get; set; }
@@ -30,9 +26,13 @@ namespace backend
         public long max_payload { get; set; }
         public long max_pending { get; set; }
         //public ICollection<Cluster> clusters { get; set; }
-        //public ICollection<Gateway> gateways { get; set; }
-        //public ICollection<Leaf> leafs { get; set; }
+        public Gateway gateway { get; set; }
+        public Route route { get; set; }
+        public Connection connection { get; set; }
+        //public ICollection<Gateway> gatewayList { get; set; }
+        // public ICollection<Leaf> leafs { get; set; }
         //public ICollection<Jetstream> jetstreams { get; set; }
+        public Leaf leaf { get; set; }
         public int tls_timeout { get; set; }
         public long write_deadline { get; set; }
         //public DateTime start { get; set; } //TODO DateTime does not work here
@@ -52,7 +52,8 @@ namespace backend
         public int slow_consumers { get; set; }
         public int subscriptions { get; set; }
         
-        //public ICollection<Connection> connections { get; set; }
+        // Connection list has Connection as their elements - each of these connections have a list of the actual 
+        // connections. 
 
         //public virtual Server Server { get; set; }
     }
