@@ -79,7 +79,7 @@ namespace backend
             return Program.leafs;
         }
 
-        public static void processData() 
+        public static void ProcessData() 
         {
             Parallel.ForEach(Program.servers, server => {
                 processedServers.Add(new Node {server_id = server.server_id, server_name = server.server_name, ntv_error = false });
