@@ -64,16 +64,6 @@ namespace backend.Tests
             MessageHandler messageHandler = new MessageHandler(dataStorage);
 
 
-<<<<<<< HEAD
-            ProcessStartInfo startInfo = new ProcessStartInfo();
-            startInfo.FileName = "nats-server";
-            startInfo.CreateNoWindow = false;
-
-            // Start the process with the info we specified.
-            // Call WaitForExit and then the using statement will close.
-            using (Process exeProcess = Process.Start(startInfo))
-            {
-=======
             //ProcessStartInfo startInfo = new ProcessStartInfo();
             //startInfo.FileName = "nats-server";
             //startInfo.Arguments = "-p 4224 -a localhost -c server1.config";
@@ -84,7 +74,6 @@ namespace backend.Tests
 
             //using (Process exeProcess = Process.Start(startInfo))
             //{
->>>>>>> be719f5 (test1)
                 var options = ConnectionFactory.GetDefaultOptions();
                 options.Url = Nats.OriginalString;
 
@@ -101,10 +90,6 @@ namespace backend.Tests
                     }
                 }
 
-<<<<<<< HEAD
-                exeProcess.Kill();
-            }
-=======
               //  exeProcess.Kill();
             //}
 
@@ -118,7 +103,6 @@ namespace backend.Tests
 
 
 
->>>>>>> be719f5 (test1)
         }
 
     }
