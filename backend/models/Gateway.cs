@@ -23,11 +23,11 @@ namespace backend
             public string rtt { get; set; }
             public string uptime { get; set; }
             public string idle { get; set; }
-            public long pending_bytes { get; set; }
-            public long in_msgs { get; set; }
-            public long out_msgs { get; set; }
-            public long in_bytes { get; set; }
-            public long out_bytes { get; set; }
+            public int pending_bytes { get; set; }
+            public int in_msgs { get; set; }
+            public int out_msgs { get; set; }
+            public int in_bytes { get; set; }
+            public int out_bytes { get; set; }
             public int subscriptions { get; set; }
             public string name { get; set; }
             
