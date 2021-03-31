@@ -82,10 +82,15 @@ namespace backend
         public static void ProcessData() 
         {
             Parallel.ForEach(Program.servers, server => {
-                processedServers.Add(new Node {server_id = server.server_id, server_name = server.server_name, ntv_error = false });
+                processedServers.Add(new Node {
+                    server_id = server.server_id, 
+                    server_name = server.server_name, 
+                    ntv_error = false 
+                });
             });
 
             // Information about routes are also on server, no request to routez necessary
+            // Maybe info on routes is more up-to-date?
             Parallel.ForEach(Program.servers, server => {
                 var source = server.server_id;
                 Parallel.ForEach(server.route.routes, route => {
@@ -96,13 +101,6 @@ namespace backend
 
             foreach (var link in links) 
             {
-                // This may not be necessary
-                if (!Program.idToServer.ContainsKey(link.source))
-                {
-                    missingServerIds.Add(link.source);
-                    link.ntv_error = true;
-                    links.Add(link);
-                }
                 if (!Program.idToServer.ContainsKey(link.target))
                 {
                     missingServerIds.Add(link.target);

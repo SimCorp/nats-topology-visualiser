@@ -60,49 +60,58 @@ export default {
     const nodes = processedServers.map(d => Object.create(d))
     const links = processedRoutes.map(d => Object.create(d))
 
+    // Physics for moving the nodes together
     const simulation = d3.forceSimulation(nodes)
       .force('link', d3.forceLink(links).id(d => d.server_id))
       .force('charge', d3.forceManyBody())
       .force('x', d3.forceX())
       .force('y', d3.forceY())
 
+    // SVG canvas
     const svg = d3.select('#visualizer')
       .append('svg')
       .attr('width', width)
       .attr('height', height)
       .attr('viewBox', calulateViewBoxValue(width, height, viewBoxScalar))
 
-    const link = svg.append('g')
+    // Connections between nodes
+    const link = svg.append('g') // Add element g (g for group)
       .attr('stroke-opacity', 0.6)
-      .selectAll('line')
-      .data(links)
+      .selectAll('line') // Select all of type 'line'
+      .data(links) // Insert the list of links
       .join('line')
-      .attr('stroke', d => d.ntv_error ? '#f00' : '#999')
+      .attr('stroke', d => d.ntv_error ? '#f00' : '#999') // Set line to red, if it has an error
       .attr('stroke-width', 2)
 
-    link.append('title')
+    link.append('title') // Set title (hover text) for erronious link
       .text(d => d.ntv_error ? 'Something\'s Wrong' : '')
 
-    const node = svg.append('g')
+    // The nodes
+    const node = svg.append('g') // Add element g (g for group)
       .attr('stroke', '#888')
       .attr('stroke-width', 3)
-      .selectAll('circle')
+      .selectAll('circle') // Select all of type 'circle'
       .data(nodes)
       .join('circle')
-      .attr('cx', () => { return Math.random() * width })
+      // Set the placement and radius for each node
+      .attr('cx', () => { return Math.random() * width }) // Random because, then the simulation can move them arround
       .attr('cy', () => { return Math.random() * height })
       .attr('r', 5)
-      .attr('fill', d => d.ntv_error ? '#f00' : '#000')
-      .call(drag(simulation))
-      .on('click', (d, i) => {
+      .attr('fill', d => d.ntv_error ? '#f00' : '#000') // Make node red if it has error
+      .call(drag(simulation)) // Handle dragging of the nodes
+      .on('click', (d, i) => { // Log the value of the chosen node on click
         axios.get('https://localhost:5001/varz/' + i.server_id).then(a => {
+          console.log(d)
+          console.log(i)
           console.log(a.data)
         })
       })
 
+    // Set a title on the node, which is shown when hovered
     node.append('title')
       .text(d => (d.ntv_error ? '[Crashed?] \n' : '') + 'NAME:' + d.server_name + '\nID:' + d.server_id)
 
+    // What it does whenever the canvas updates
     simulation.on('tick', () => {
       link
         .attr('x1', d => d.source.x)
