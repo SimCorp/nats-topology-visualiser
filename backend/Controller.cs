@@ -1,10 +1,9 @@
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using static Microsoft.AspNetCore.Http.StatusCodes;
-using System.Collections.Concurrent;
 using backend.models;
 using System.Linq;
+using backend.drawables;
 
 namespace backend
 {
@@ -79,27 +78,5 @@ namespace backend
         {   
             return Program.instances[0].leafs;
         }
-    }
-
-    public class Link
-    {
-        public string source { get; }
-        public string target { get; }
-
-        public bool ntv_error { get; set; }
-
-        public Link(string source, string target, bool ntv_error = false)
-        {
-            this.source = source;
-            this.target = target;
-            this.ntv_error = ntv_error;
-        }
-    }
-
-    public class Node 
-    {
-        public string server_id { get; set; }
-        public string server_name { get; set; }
-        public bool ntv_error { get; set; }
     }
 }

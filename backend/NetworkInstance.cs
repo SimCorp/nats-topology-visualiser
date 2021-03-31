@@ -8,6 +8,7 @@ using NATS.Client;
 using System.Text;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using backend.drawables;
 
 namespace backend
 {
