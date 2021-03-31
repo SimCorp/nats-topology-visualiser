@@ -14,23 +14,29 @@ namespace backend
     public class Controller : ControllerBase
     {
 
-        private static ConcurrentBag<Link> links = new ConcurrentBag<Link>();
-        private static ConcurrentBag<Node> processedServers = new ConcurrentBag<Node>();
-        private static HashSet<string> missingServerIds = new HashSet<string>();
-
-
         [HttpGet("/nodes")]
         [ProducesResponseType(Status200OK)]
         public ActionResult<IEnumerable<Node>> GetNodes()
         {   
-            return processedServers;
+            return Program.instances[0].processedServers;
+        }
+
+        [HttpGet("/links")]
+        [ProducesResponseType(Status200OK)]
+        public ActionResult<IEnumerable<Link>> GetLinks()
+        {   
+            return Program.instances[0].links;
         }
 
         [HttpGet("/varz")]
         [ProducesResponseType(Status200OK)]
         public ActionResult<IEnumerable<Server>> GetVarz()
         {   
-            return Program.servers;
+            var instance = (from entry in Program.instances
+                where entry.id == 0
+                select entry).FirstOrDefault();
+
+            return instance.servers;
         }
 
         // TODO use to get info about server, when it is clicked in UI
@@ -38,7 +44,9 @@ namespace backend
         [ProducesResponseType(Status200OK)]
         public ActionResult<Server> GetVarz([FromRoute] string serverId)
         {   
-            var query = from server in Program.servers.AsParallel()
+            var instance = Program.instances[0];
+
+            var query = from server in instance.servers.AsParallel()
                 where server.server_id == serverId
                 select server;
             return query.FirstOrDefault();
@@ -48,77 +56,29 @@ namespace backend
         [ProducesResponseType(Status200OK)]
         public ActionResult<IEnumerable<Connection>> GetConnz()
         {   
-            return Program.connections;
-        }
-        
-        [HttpGet("/links")]
-        [ProducesResponseType(Status200OK)]
-        public ActionResult<IEnumerable<Link>> GetLinks()
-        {   
-            return links;
+            return Program.instances[0].connections;
         }
 
         [HttpGet("/routez")]
         [ProducesResponseType(Status200OK)]
         public ActionResult<IEnumerable<Route>> GetRoutez()
         {   
-            return Program.routes;
+            return Program.instances[0].routes;
         }
         
         [HttpGet("/gatewayz")]
         [ProducesResponseType(Status200OK)]
         public ActionResult<IEnumerable<Gateway>> GetGatewayz()
         {   
-            return Program.gateways;
+            return Program.instances[0].gateways;
         }
 
         [HttpGet("/leafz")]
         [ProducesResponseType(Status200OK)]
         public ActionResult<IEnumerable<Leaf>> GetLeafz()
         {   
-            return Program.leafs;
+            return Program.instances[0].leafs;
         }
-
-        public static void ProcessData() 
-        {
-            Parallel.ForEach(Program.servers, server => {
-                processedServers.Add(new Node {
-                    server_id = server.server_id, 
-                    server_name = server.server_name, 
-                    ntv_error = false 
-                });
-            });
-
-            // Information about routes are also on server, no request to routez necessary
-            // Maybe info on routes is more up-to-date?
-            Parallel.ForEach(Program.servers, server => {
-                var source = server.server_id;
-                Parallel.ForEach(server.route.routes, route => {
-                    var target = route.remote_id;
-                    links.Add(new Link(source, target));
-                });
-            });
-
-            foreach (var link in links) 
-            {
-                if (!Program.idToServer.ContainsKey(link.target))
-                {
-                    missingServerIds.Add(link.target);
-                    link.ntv_error = true;
-                    links.Add(link);
-                }
-            }
-
-            // Patch for a missing node from varz
-            // TODO dynamically handle these types of errors
-            foreach(var serverId in missingServerIds)
-            {
-                processedServers.Add(new Node{server_id = serverId, ntv_error = true});
-            }
-
-
-        }
-
     }
 
     public class Link
