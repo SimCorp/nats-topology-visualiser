@@ -5,23 +5,20 @@ using System.Threading;
 using NATS.Client;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using backend.models;
 using backend.helpers;
 using System.Collections.Concurrent;
-using Connection = NATS.Client.Connection;
 using Env = System.Environment;
 namespace backend
 {
     class Program
     {
         public static ConcurrentDictionary<string, Server> idToServer;
-        public static List<Server> servers = new List<Server>();
+        public static ConcurrentBag<Server> servers = new ConcurrentBag<Server>();
         public static ConcurrentBag<backend.models.Connection> connections = new ConcurrentBag<backend.models.Connection>();
         public static ConcurrentBag<Route> routes = new ConcurrentBag<Route>();
         public static ConcurrentBag<Gateway> gateways = new ConcurrentBag<Gateway>();
@@ -117,6 +114,8 @@ namespace backend
                     idToServer[s.server_id] = s;
                 }
             });
+
+            Controller.ProcessData();
 
             CreateHostBuilder(args).Build().Run();
         }
