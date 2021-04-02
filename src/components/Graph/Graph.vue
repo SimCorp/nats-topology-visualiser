@@ -24,29 +24,22 @@ function calulateViewBoxValue (width: number, height: number, viewBoxScalar: num
 const drag = (simulation: d3.Simulation<Node, Link>) => {
   function dragstarted (event: D3DragEvent<SVGElement, SimulationNodeDatum, Node>, d: DraggableNode) {
     if (!event.active) simulation.alphaTarget(0.3).restart()
-    // const node = d as DraggableNode
-    // node.fx = node.x
-    // node.fy = node.y
     d.fx = d.x
     d.fy = d.y
   }
   function dragged (event: D3DragEvent<SVGElement, SimulationNodeDatum, Node>, d: DraggableNode) {
-    // const node = d as DraggableNode
-    // node.fx = event.x
-    // node.fy = event.y
     d.fx = event.x
     d.fy = event.y
   }
   function dragended (event: D3DragEvent<SVGElement, SimulationNodeDatum, Node>, d: DraggableNode) {
     if (!event.active) simulation.alphaTarget(0)
-    // const node = d as DraggableNode
     d.fx = null
     d.fy = null
   }
   return d3.drag()
-    .on('start', dragstarted)
-    .on('drag', dragged)
-    .on('end', dragended)
+    .on('start', dragstarted as unknown as null)
+    .on('drag', dragged as unknown as null)
+    .on('end', dragended as unknown as null)
 }
 
 export default {
@@ -66,7 +59,7 @@ export default {
 
     // Physics for moving the nodes together
     const simulation: d3.Simulation<Node, Link> = d3.forceSimulation(nodes)
-      .force('link', d3.forceLink(links).id(d => d.server_id))
+      .force('link', d3.forceLink(links).id(d => (d as Node).server_id))
       .force('charge', d3.forceManyBody())
       .force('x', d3.forceX())
       .force('y', d3.forceY())
@@ -102,7 +95,7 @@ export default {
       .attr('cy', () => { return Math.random() * height })
       .attr('r', 5)
       .attr('fill', d => d.ntv_error ? '#f00' : '#000') // Make node red if it has error
-      .call(drag(simulation)) // Handle dragging of the nodes
+      .call(drag(simulation) as d3.DragBehavior<Element, unknown, unknown> & ((this: Element, event: unknown, d: unknown) => void)) // Handle dragging of the nodes
       .on('click', (d, i) => { // Log the value of the chosen node on click
         axios.get('https://localhost:5001/varz/' + i.server_id).then(a => {
           console.log(d)
