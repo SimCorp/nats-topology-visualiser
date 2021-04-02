@@ -7,6 +7,10 @@
 <script lang='ts'>
 import * as d3 from 'd3'
 import axios from 'axios'
+import Link from './Link'
+import Node from './Node'
+import DraggableNode from './DraggableNode'
+import { D3DragEvent, SimulationNodeDatum } from 'd3'
 
 function calulateViewBoxValue (width: number, height: number, viewBoxScalar: number) {
   const viewBoxTop = -width / 2
@@ -17,18 +21,25 @@ function calulateViewBoxValue (width: number, height: number, viewBoxScalar: num
   return viewBoxValue
 }
 
-const drag = (simulation: any) => {
-  function dragstarted (event: any, d: any) {
+const drag = (simulation: d3.Simulation<Node, Link>) => {
+  function dragstarted (event: D3DragEvent<SVGElement, SimulationNodeDatum, Node>, d: DraggableNode) {
     if (!event.active) simulation.alphaTarget(0.3).restart()
+    // const node = d as DraggableNode
+    // node.fx = node.x
+    // node.fy = node.y
     d.fx = d.x
     d.fy = d.y
   }
-  function dragged (event: any, d: any) {
+  function dragged (event: D3DragEvent<SVGElement, SimulationNodeDatum, Node>, d: DraggableNode) {
+    // const node = d as DraggableNode
+    // node.fx = event.x
+    // node.fy = event.y
     d.fx = event.x
     d.fy = event.y
   }
-  function dragended (event: any, d: any) {
+  function dragended (event: D3DragEvent<SVGElement, SimulationNodeDatum, Node>, d: DraggableNode) {
     if (!event.active) simulation.alphaTarget(0)
+    // const node = d as DraggableNode
     d.fx = null
     d.fy = null
   }
@@ -42,26 +53,19 @@ export default {
   name: 'Graph',
   props: {
   },
-  async mounted () {
+  async mounted (): Promise<void> {
     const width = 1000
     const height = 800
     const viewBoxScalar = 0.5
 
     const varzResponse = await axios.get('https://localhost:5001/nodes')
-    const processedServers = varzResponse.data
+    const nodes: Node[] = varzResponse.data
 
     const routezResponse = await axios.get('https://localhost:5001/links')
-    const processedRoutes = routezResponse.data
-
-    console.log(processedRoutes)
-    console.log(processedServers)
-
-    // d3 canvas
-    const nodes = processedServers.map(d => Object.create(d))
-    const links = processedRoutes.map(d => Object.create(d))
+    const links: Link[] = routezResponse.data
 
     // Physics for moving the nodes together
-    const simulation = d3.forceSimulation(nodes)
+    const simulation: d3.Simulation<Node, Link> = d3.forceSimulation(nodes)
       .force('link', d3.forceLink(links).id(d => d.server_id))
       .force('charge', d3.forceManyBody())
       .force('x', d3.forceX())
