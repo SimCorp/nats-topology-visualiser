@@ -16,13 +16,14 @@ namespace backend
     {
 
         private static ConcurrentBag<Link> links = new ConcurrentBag<Link>();
-        private static ConcurrentBag<Node> processedServers = new ConcurrentBag<Node>();
+        private static ConcurrentBag<ServerNode> processedServers = new ConcurrentBag<ServerNode>();
+        private static ConcurrentBag<ClusterNode> processedClusters = new ConcurrentBag<ClusterNode>();
         private static HashSet<string> missingServerIds = new HashSet<string>();
 
 
         [HttpGet("/nodes")]
         [ProducesResponseType(Status200OK)]
-        public ActionResult<IEnumerable<Node>> GetNodes()
+        public ActionResult<IEnumerable<ServerNode>> GetNodes()
         {   
             return processedServers;
         }
@@ -82,13 +83,56 @@ namespace backend
 
         public static void ProcessData() 
         {
+            // Add serverNodes to processedServers
             Parallel.ForEach(Program.servers, server => {
-                processedServers.Add(new Node {
+                processedServers.Add(new ServerNode {
                     server_id = server.server_id, 
                     server_name = server.server_name, 
-                    ntv_error = false 
+                    ntv_error = false,
+                    clients = new ConcurrentBag<ConnectionNode>()
                 });
             });
+
+            // Add connections to servers
+            Parallel.ForEach(Program.connections, server => {
+                Parallel.ForEach(server.connections, connection => {
+                    var processedServer = processedServers.Where(p => p.server_id == server.server_id).Select(p => p).FirstOrDefault();
+                    if (processedServer != null) 
+                    {
+                        processedServer.clients.Add(new ConnectionNode{ip = connection.ip, port = connection.port});
+                    }
+                });
+            });
+
+            var alreadyProcessedServers = new ConcurrentBag<string>();
+
+
+
+
+            //     var processedServer = processedServers.Where(p => p.server_id == gateway.server_id).Select(p => p).FirstOrDefault();
+            //     if (!(processedServer is null)) 
+            //     {
+            //         if (processedClusters.ContainsKey(gateway.name))
+            //         {
+            //             processedClusters[gateway.name].servers.Add(processedServer);
+            //         }
+            //         else
+            //         {
+            //             processedClusters.TryAdd(
+            //                 gateway.name,
+            //                 new ClusterNode {
+            //                     name = gateway.name, 
+            //                     servers = new ConcurrentBag<ServerNode>(
+            //                         new []{processedServer}
+            //                     )
+            //                 }
+            //             );
+            //         }
+            //     }
+                
+            // });
+            // processedClustersAsList = (List<ClusterNode>)processedClusters.Values;
+
 
             // Information about routes are also on server, no request to routez necessary
             // Maybe info on routes is more up-to-date?
@@ -114,7 +158,7 @@ namespace backend
             // TODO dynamically handle these types of errors
             foreach(var serverId in missingServerIds)
             {
-                processedServers.Add(new Node{server_id = serverId, ntv_error = true});
+                processedServers.Add(new ServerNode{server_id = serverId, ntv_error = true});
             }
 
 
