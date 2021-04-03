@@ -143,29 +143,15 @@ namespace backend
                 processedClusters.Add(cluster);
             }
 
-            //     var processedServer = processedServers.Where(p => p.server_id == gateway.server_id).Select(p => p).FirstOrDefault();
-            //     if (!(processedServer is null)) 
-            //     {
-            //         if (processedClusters.ContainsKey(gateway.name))
-            //         {
-            //             processedClusters[gateway.name].servers.Add(processedServer);
-            //         }
-            //         else
-            //         {
-            //             processedClusters.TryAdd(
-            //                 gateway.name,
-            //                 new ClusterNode {
-            //                     name = gateway.name, 
-            //                     servers = new ConcurrentBag<ServerNode>(
-            //                         new []{processedServer}
-            //                     )
-            //                 }
-            //             );
-            //         }
-            //     }
-                
-            // });
-            // processedClustersAsList = (List<ClusterNode>)processedClusters.Values;
+            foreach (var gateway in Program.gateways)
+            {
+                foreach (var cluster in processedClusters)
+                {
+                    if (!cluster.ContainsServer(gateway.server_id)) continue;
+                    if (gateway.name is null) continue;
+                    cluster.name = gateway.name;
+                }
+            }
 
 
             // Information about routes are also on server, no request to routez necessary
