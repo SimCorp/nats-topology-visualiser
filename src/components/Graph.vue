@@ -53,8 +53,8 @@ export default {
     const routezResponse = await axios.get('https://localhost:5001/links')
     const processedRoutes = routezResponse.data
 
-    console.log(processedRoutes)
-    console.log(processedServers)
+    // console.log(processedRoutes)
+    // console.log(processedServers)
 
     // d3 canvas
     const nodes = processedServers.map(d => Object.create(d))

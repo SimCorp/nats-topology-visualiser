@@ -28,6 +28,13 @@ namespace backend
             return processedServers;
         }
 
+        [HttpGet("/clusters")]
+        [ProducesResponseType(Status200OK)]
+        public ActionResult<IEnumerable<ClusterNode>> GetClusters()
+        {   
+            return processedClusters;
+        }
+
         [HttpGet("/varz")]
         [ProducesResponseType(Status200OK)]
         public ActionResult<IEnumerable<Server>> GetVarz()
@@ -104,10 +111,37 @@ namespace backend
                 });
             });
 
-            var alreadyProcessedServers = new ConcurrentBag<string>();
+            // TODO crashed node is not in cluster, decide whether it should be.
+            var markedServers = new HashSet<string>();
+            var id = 0;
+            foreach (var server in Program.routes)
+            {
+                if (markedServers.Contains(server.server_id)) continue; // Probably only once for each cluster
 
+                var cluster = new ClusterNode {
+                    name = "cluster nr:" + id,
+                    servers = new ConcurrentBag<ServerNode>()
+                };
+                id++;
 
+                ServerNode processedServer = processedServers.Where(p => p.server_id == server.server_id).Select(p => p).FirstOrDefault();
+                if (processedServer is null) continue;
+                cluster.servers.Add(processedServer);
+                markedServers.Add(server.server_id);
 
+                foreach (var route in server.routes)
+                {
+                    if (markedServers.Contains(route.remote_id)) continue;
+                    markedServers.Add(route.remote_id);
+
+                    processedServer = processedServers.Where(p => p.server_id == route.remote_id).Select(p => p).FirstOrDefault();
+                    if (processedServer is null) continue;
+                    cluster.servers.Add(processedServer);
+                    markedServers.Add(server.server_id);
+                };
+
+                processedClusters.Add(cluster);
+            }
 
             //     var processedServer = processedServers.Where(p => p.server_id == gateway.server_id).Select(p => p).FirstOrDefault();
             //     if (!(processedServer is null)) 

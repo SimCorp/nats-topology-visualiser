@@ -2,7 +2,7 @@ using System.Collections.Concurrent;
 
 namespace backend.drawables
 {
-   public class ServerNode 
+    public class ServerNode 
     {
         public string server_id { get; set; }
         public string server_name { get; set; }
