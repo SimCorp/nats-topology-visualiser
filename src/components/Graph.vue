@@ -1,6 +1,6 @@
 ﻿<template>
   <div id='graph'>
-    <Searchbar v-on:input="searchFilter"></Searchbar>
+    <Searchbar id="search" v-on:input="searchFilter"></Searchbar>
     <div id='visualizer'></div>
   </div>
 </template>
@@ -55,11 +55,16 @@ export default {
     // Runs every time an input is given to the search bar - searchText is the input
     searchFilter (searchText) {
       this.searchText = searchText
-      this.drawGraph(this.servers, this.routes)
+
+      if (this.searchText === '') {
+        this.drawGraph(this.servers, this.routes, false)
+      } else {
+        this.drawGraph(this.servers, this.routes, true)
+      }
     },
     // Checks whether the current server name contains the given search text/input
     isSearchMatch (serverName) {
-      if (serverName === null || this.searchText === '') {
+      if (serverName === null) {
         return false
       }
       return serverName.toLowerCase().includes(this.searchText.toLowerCase()) // Boolean statement
@@ -73,7 +78,7 @@ export default {
       this.routes = routezResponse.data
     },
     // Draws graph from given data
-    drawGraph (servers, routes) {
+    drawGraph (servers, routes, isSearch) {
       // Clear canvas
       this.svg.selectAll('*').remove()
 
@@ -99,6 +104,7 @@ export default {
         .join('line')
         .attr('stroke', d => d.ntv_error ? '#f00' : '#999') // Set line to red, if it has an error
         .attr('stroke-width', 2)
+        .style('opacity', isSearch ? 0.2 : 1.0)
 
       link.append('title') // Set title (hover text) for erronious link
         .text(d => d.ntv_error ? 'Something\'s Wrong' : '')
@@ -113,8 +119,9 @@ export default {
         // Set the placement and radius for each node
         .attr('cx', () => { return Math.random() * width }) // Random because, then the simulation can move them around
         .attr('cy', () => { return Math.random() * height })
-        .attr('r', d => this.isSearchMatch(d.server_name) ? 10 : 5)
+        .attr('r', 5)
         .attr('fill', d => d.ntv_error ? '#f00' : '#000') // Make node red if it has error
+        .style('opacity', d => this.isSearchMatch(d.server_name) || (d.server_name === null && !isSearch) ? 1.0 : 0.2)
         .call(drag(simulation)) // Handle dragging of the nodes
         .on('click', (d, i) => { // Log the value of the chosen node on click
           axios.get('https://localhost:5001/varz/' + i.server_id).then(a => {
@@ -156,7 +163,7 @@ export default {
       .attr('height', height)
       .attr('viewBox', calulateViewBoxValue(width, height, viewBoxScalar))
 
-    this.drawGraph(this.servers, this.routes)
+    this.drawGraph(this.servers, this.routes, false)
   }
 }
 
