@@ -1,7 +1,7 @@
 <template>
 <div id="app">
-  <h1 id="header">Visualizer</h1>
-    <Graph/>
+  <h1>Visualizer</h1>
+  <Graph/>
 </div>
 </template>
 
