@@ -95,7 +95,7 @@ export default {
       .attr('cy', () => { return Math.random() * height })
       .attr('r', 5)
       .attr('fill', d => d.ntv_error ? '#f00' : '#000') // Make node red if it has error
-      .call(() => drag(simulation)) // Handle dragging of the nodes
+      .call(drag(simulation) as d3.DragBehavior<Element, unknown, unknown> & ((this: Element, event: unknown, d: unknown) => void)) // Handle dragging of the nodes
       .on('click', (d, i) => { // Log the value of the chosen node on click
         axios.get('https://localhost:5001/varz/' + i.server_id).then(a => {
           console.log(d)
