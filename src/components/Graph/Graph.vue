@@ -9,15 +9,23 @@
 import * as d3 from 'd3'
 import axios from 'axios'
 import Searchbar from '@/components/Searchbar.vue'
+import RouteDatum from './RouteDatum'
+import ServerDatum from './ServerDatum'
+import { D3DragEvent, SimulationNodeDatum, Selection, SubjectPosition } from 'd3'
 
 export default {
   name: 'Graph',
   components: { Searchbar },
-  data () {
+  data (): { 
+    searchText: string; 
+    servers: ServerDatum[]; 
+    routes: RouteDatum[];
+    svg: Selection<SVGSVGElement, unknown, HTMLElement, HTMLElement> | null;
+  } {
     return {
       searchText: '',
-      servers: null,
-      routes: null,
+      servers: [],
+      routes: [],
       svg: null
     }
   },
@@ -40,7 +48,7 @@ export default {
   },
   methods: {
     // Runs every time an input is given to the search bar - searchText is the input
-    searchFilter (searchText) {
+    searchFilter (searchText: string) {
       this.searchText = searchText
 
       if (this.searchText === '') {
@@ -50,7 +58,7 @@ export default {
       }
     },
     // Checks whether the current server name contains the given search text/input
-    isSearchMatch (serverName) {
+    isSearchMatch (serverName: string) {
       if (serverName === null) {
         return false
       }
@@ -65,23 +73,23 @@ export default {
       this.routes = routezResponse.data
     },
     // Draws graph from given data
-    drawGraph (servers, routes, isSearch) {
+    drawGraph (servers: ServerDatum[], routes: RouteDatum[], isSearch: boolean) {
       // Clear canvas
-      this.svg.selectAll('*').remove()
+      this.svg?.selectAll('*').remove()
 
       // Set data to new variables (in case they get modified)
-      const nodes = servers
-      const links = routes
+      const nodes: ServerDatum[] = servers
+      const links: RouteDatum[] = routes
 
       // Physics for moving the nodes together
-      const simulation = d3.forceSimulation(nodes)
-        .force('link', d3.forceLink(links).id(d => d.server_id))
+      const simulation: d3.Simulation<ServerDatum, RouteDatum> = d3.forceSimulation(nodes)
+        .force('link', d3.forceLink<ServerDatum, RouteDatum>(links).id(d => d.server_id))
         .force('charge', d3.forceManyBody())
         .force('x', d3.forceX())
         .force('y', d3.forceY())
 
       // Connections between nodes
-      const link = this.svg.append('g') // Add element g (g for group)
+      const link = this.svg?.append('g') // Add element g (g for group)
         .attr('stroke-opacity', 0.6)
         .selectAll('line') // Select all of type 'line'
         .data(links) // Insert the list of links
@@ -90,11 +98,11 @@ export default {
         .attr('stroke-width', 2)
         .style('opacity', isSearch ? 0.2 : 1.0)
 
-      link.append('title') // Set title (hover text) for erronious link
+      link?.append('title') // Set title (hover text) for erronious link
         .text(d => d.ntv_error ? 'Something\'s Wrong' : '')
 
       // The nodes
-      const node = this.svg.append('g') // Add element g (g for group)
+      const node = this.svg?.append('g') // Add element g (g for group)
         .attr('stroke', '#888')
         .attr('stroke-width', 3)
         .selectAll('circle') // Select all of type 'circle'
@@ -116,19 +124,17 @@ export default {
         })
 
       // Set a title on the node, which is shown when hovered
-      node.append('title')
+      node?.append('title')
         .text(d => (d.ntv_error ? '[Crashed?] \n' : '') + 'NAME:' + d.server_name + '\nID:' + d.server_id)
 
       // What it does whenever the canvas updates
       simulation.on('tick', () => {
-        link
-          .attr('x1', d => d.source.x)
+        link?.attr('x1', d => d.source.x)
           .attr('y1', d => d.source.y)
           .attr('x2', d => d.target.x)
           .attr('y2', d => d.target.y)
 
-        node
-          .attr('cx', d => d.x)
+        node?.attr('cx', d => d.x)
           .attr('cy', d => d.y)
       })
     }
@@ -144,22 +150,22 @@ function calculateViewBoxValue (width: number, height: number, viewBoxScalar: nu
   return viewBoxValue
 }
 
-const drag = (simulation: any) => {
-  function dragstarted (event: any, d: any) {
+function drag (simulation: d3.Simulation<ServerDatum, RouteDatum>): d3.DragBehavior<Element, ServerDatum, ServerDatum | SubjectPosition> & ((this: Element, event: any, d: ServerDatum) => void) {
+  function dragstarted (event: D3DragEvent<SVGElement, SimulationNodeDatum, ServerDatum>, d: ServerDatum) { 
     if (!event.active) simulation.alphaTarget(0.3).restart()
     d.fx = d.x
     d.fy = d.y
   }
-  function dragged (event: any, d: any) {
+  function dragged (event: D3DragEvent<SVGElement, SimulationNodeDatum, ServerDatum>, d: ServerDatum) {
     d.fx = event.x
     d.fy = event.y
   }
-  function dragended (event: any, d: any) {
+  function dragended (event: D3DragEvent<SVGElement, SimulationNodeDatum, Node>, d: ServerDatum) {
     if (!event.active) simulation.alphaTarget(0)
     d.fx = null
     d.fy = null
   }
-  return d3.drag()
+  return d3.drag<Element, ServerDatum>()
     .on('start', dragstarted)
     .on('drag', dragged)
     .on('end', dragended)
