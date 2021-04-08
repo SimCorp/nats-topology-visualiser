@@ -53,13 +53,15 @@ export default {
     const routezResponse = await axios.get('https://localhost:5001/links')
     const processedRoutes = routezResponse.data
 
+    const clusterzResponse = await axios.get('https://localhost:5001/clusters')
+    const processedClusters = clusterzResponse.data
     // console.log(processedRoutes)
     // console.log(processedServers)
 
     // d3 canvas
     const nodes = processedServers.map(d => Object.create(d))
     const links = processedRoutes.map(d => Object.create(d))
-
+    const clusters = processedClusters.map(d => Object.create(d))
     // Physics for moving the nodes together
     const simulation = d3.forceSimulation(nodes)
       .force('link', d3.forceLink(links).id(d => d.server_id))
@@ -110,9 +112,30 @@ export default {
     // Set a title on the node, which is shown when hovered
     node.append('title')
       .text(d => (d.ntv_error ? '[Crashed?] \n' : '') + 'NAME:' + d.server_name + '\nID:' + d.server_id)
+    // cluster visualisation
+    const cluste = svg.append('g')
+      .attr('stroke', '#234')
+      .attr('stroke-width', 3)
+      .selectAll('circle') // Select all of type 'circle'
+      .data(clusters)
+      .join('circle')
+      .attr('cx', () => { return Math.random() * width }) // Random because, then the simulation can move them arround
+      .attr('cy', () => { return Math.random() * height })
+      .attr('r', 5)
 
-    // What it does whenever the canvas updates
-    simulation.on('tick', () => {
+    let datatest: [number, number] [] = [[0, 0], [5, 7], [3, -4]]
+    const mydata = [datatest, datatest]
+    datatest = datatest.map(d => Object.create(d))
+    const hulls = svg.append('g')
+      .attr('stroke', '#579')
+      .selectAll('path')
+      .data(clusters)
+      .enter()
+      .append('path')
+      .attr('d', e => d3.line()(datatest))
+      .style('fill', 'none')
+
+    simulation.on('tick', () => { // What it does whenever the canvas updates
       link
         .attr('x1', d => d.source.x)
         .attr('y1', d => d.source.y)
@@ -122,6 +145,13 @@ export default {
       node
         .attr('cx', d => d.x)
         .attr('cy', d => d.y)
+      hulls // convex nodes paths drawn
+        .attr('d', e => {
+          const coordinodes = nodes.map(w => { return [w.x, w.y] })
+          const hull: [number, number] [] | null = d3.polygonHull(coordinodes)
+          hull.push(hull[0]) // TODO nullcheck exception needs to be made (raised if coordinodes.length =< 2)
+          return d3.line()(hull || [])
+        })
     })
   }
 }
