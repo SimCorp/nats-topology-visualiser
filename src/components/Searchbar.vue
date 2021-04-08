@@ -10,6 +10,8 @@ export default {
     searchQuery: String
   },
   methods: {
+    // This method runs every time an input is given to the search bar
+    // Emits the search text so other components can access it
     onSearch () {
       this.$emit('input', document.getElementById('search-bar').value)
     }
