@@ -1,0 +1,23 @@
+name: Code Coverage
+
+on:
+  pull_request:
+
+
+jobs:
+  codecov:
+    name: CodeCov report
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        dotnet: ['5.0']
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Test code
+        run: dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
+      - name: Upload code
+        run: |
+          ls
+          bash <(curl -s https://codecov.io/bash) -t ${{ secrets.CODECOV_TOKEN }} -B ${{ github.event.inputs.branch }} -f "~/tests/backend.Tests/coverage.opencover.xml"
