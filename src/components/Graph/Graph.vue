@@ -21,7 +21,7 @@ function calulateViewBoxValue (width: number, height: number, viewBoxScalar: num
   return viewBoxValue
 }
 
-const drag = (simulation: d3.Simulation<Node, Link>) => {
+function drag (simulation: d3.Simulation<Node, Link>): d3.DragBehavior<Element, unknown, unknown> & ((this: Element, event: any, d: unknown) => void) {
   function dragstarted (event: D3DragEvent<SVGElement, SimulationNodeDatum, Node>, d: DraggableNode) {
     if (!event.active) simulation.alphaTarget(0.3).restart()
     d.fx = d.x
@@ -95,7 +95,7 @@ export default {
       .attr('cy', () => { return Math.random() * height })
       .attr('r', 5)
       .attr('fill', d => d.ntv_error ? '#f00' : '#000') // Make node red if it has error
-      .call(drag(simulation) as d3.DragBehavior<Element, unknown, unknown> & ((this: Element, event: unknown, d: unknown) => void)) // Handle dragging of the nodes
+      .call(drag(simulation)) // Handle dragging of the nodes
       .on('click', (d, i) => { // Log the value of the chosen node on click
         axios.get('https://localhost:5001/varz/' + i.server_id).then(a => {
           console.log(d)
