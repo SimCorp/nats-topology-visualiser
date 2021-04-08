@@ -10,7 +10,7 @@ import * as d3 from 'd3'
 import axios from 'axios'
 import Searchbar from '@/components/Searchbar.vue'
 
-function calulateViewBoxValue (width: number, height: number, viewBoxScalar: number) {
+function calculateViewBoxValue (width: number, height: number, viewBoxScalar: number) {
   const viewBoxTop = -width / 2
   const viewBoxLeft = -height / 2
   const viewBoxRight = width
@@ -152,16 +152,21 @@ export default {
   async mounted () {
     await this.getData()
 
-    const width = 1000
-    const height = 800
+    const width = 1400
+    const height = 600
     const viewBoxScalar = 0.5
 
     // SVG canvas
     this.svg = d3.select('#visualizer')
-      .append('svg')
-      .attr('width', width)
-      .attr('height', height)
-      .attr('viewBox', calulateViewBoxValue(width, height, viewBoxScalar))
+      .append("div")
+      // Container class to make it responsive.
+      .classed("svg-container", true)
+      .append("svg")
+      // Responsive SVG needs these 2 attributes and no width and height attr.
+      .attr("preserveAspectRatio", "xMinYMin meet")
+      .attr("viewBox", calculateViewBoxValue(width, height, viewBoxScalar))
+      // Class to make it responsive.
+      .classed("svg-content-responsive", true)
 
     this.drawGraph(this.servers, this.routes, false)
   }
