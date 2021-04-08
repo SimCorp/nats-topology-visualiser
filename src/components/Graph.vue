@@ -52,16 +52,19 @@ export default {
     }
   },
   methods: {
+    // Runs every time an input is given to the search bar - searchText is the input
     searchFilter (searchText) {
       this.searchText = searchText
       this.drawGraph(this.servers, this.routes)
     },
+    // Checks whether the current server name contains the given search text/input
     isSearchMatch (serverName) {
       if (serverName === null || this.searchText === '') {
         return false
       }
-      return serverName.toLowerCase().includes(this.searchText.toLowerCase())
+      return serverName.toLowerCase().includes(this.searchText.toLowerCase()) // Boolean statement
     },
+    // Fetches data from backend and updates data variables
     async getData () {
       const varzResponse = await axios.get('https://localhost:5001/nodes')
       this.servers = varzResponse.data
@@ -69,18 +72,17 @@ export default {
       const routezResponse = await axios.get('https://localhost:5001/links')
       this.routes = routezResponse.data
     },
+    // Draws graph from given data
     drawGraph (servers, routes) {
+      // Clear canvas
+      this.svg.selectAll('*').remove()
+
       const width = 1000
       const height = 800
 
-      this.svg.selectAll('*').remove()
-
-      console.log(servers)
-      console.log(routes)
-
-      // d3 canvas
-      const nodes = servers.map(d => Object.create(d))
-      const links = routes.map(d => Object.create(d))
+      // Set data to new variables (in case they get modified)
+      const nodes = servers
+      const links = routes
 
       // Physics for moving the nodes together
       const simulation = d3.forceSimulation(nodes)
@@ -109,7 +111,7 @@ export default {
         .data(nodes)
         .join('circle')
         // Set the placement and radius for each node
-        .attr('cx', () => { return Math.random() * width }) // Random because, then the simulation can move them arround
+        .attr('cx', () => { return Math.random() * width }) // Random because, then the simulation can move them around
         .attr('cy', () => { return Math.random() * height })
         .attr('r', d => this.isSearchMatch(d.server_name) ? 10 : 5)
         .attr('fill', d => d.ntv_error ? '#f00' : '#000') // Make node red if it has error
