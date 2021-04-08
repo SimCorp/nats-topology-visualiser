@@ -11,7 +11,6 @@ import axios from 'axios'
 import Searchbar from '@/components/Searchbar.vue'
 import RouteDatum from './RouteDatum'
 import ServerDatum from './ServerDatum'
-import ClusterDatum from './ClusterDatum'
 import { D3DragEvent, SimulationNodeDatum, Selection, SubjectPosition } from 'd3'
 
 export default {
@@ -21,14 +20,12 @@ export default {
     searchText: string; 
     servers: ServerDatum[]; 
     routes: RouteDatum[];
-    clusters: ClusterDatum[];
     svg: Selection<SVGSVGElement, unknown, HTMLElement, HTMLElement> | null;
   } {
     return {
       searchText: '',
       servers: [],
       routes: [],
-      clusters: [],
       svg: null
     }
   },
@@ -47,15 +44,18 @@ export default {
       .attr('preserveAspectRatio', 'xMinYMin meet')
       .attr('viewBox', calculateViewBoxValue(width, height, viewBoxScalar))
 
-    this.drawGraph(false)
+    this.drawGraph(this.servers, this.routes, false)
   },
   methods: {
     // Runs every time an input is given to the search bar - searchText is the input
     searchFilter (searchText: string) {
       this.searchText = searchText
 
-      this.drawGraph(this.searchText !== '')
-
+      if (this.searchText === '') {
+        this.drawGraph(this.servers, this.routes, false)
+      } else {
+        this.drawGraph(this.servers, this.routes, true)
+      }
     },
     // Checks whether the current server name contains the given search text/input
     isSearchMatch (serverName: string) {
@@ -71,37 +71,15 @@ export default {
 
       const routezResponse = await axios.get('https://localhost:5001/links')
       this.routes = routezResponse.data
-
-      const clusterz = await axios.get('https://localhost:5001/clusters')
-      this.clusters = clusterz.data
     },
     // Draws graph from given data
-    drawGraph (isSearch: boolean) {
+    drawGraph (servers: ServerDatum[], routes: RouteDatum[], isSearch: boolean) {
       // Clear canvas
       this.svg?.selectAll('*').remove()
 
       // Set data to new variables (in case they get modified)
-      const nodes = this.servers
-      const links = this.routes
-      const hulls = this.clusters
-
-      // A convex hull (enclosing path) for clusters
-      const hull = this.svg?.append('g')
-        .selectAll('path')
-        .data(hulls)
-        .enter()
-        .append('path')
-        .attr('d', '')
-        .attr('opacity', 0.7)
-        .attr('stroke', '#ddd')
-        .attr('stroke-width', '13px')
-        .attr('stroke-linejoin', 'round')
-        .attr('stroke-width', 20)
-        .style('fill', '#ddd')
-        
-      hull?.append('title')
-        .text(d => d.name)
-
+      const nodes: ServerDatum[] = servers
+      const links: RouteDatum[] = routes
 
       // Physics for moving the nodes together
       const simulation: d3.Simulation<ServerDatum, RouteDatum> = d3.forceSimulation(nodes)
@@ -158,33 +136,9 @@ export default {
 
         node?.attr('cx', d => d.x)
           .attr('cy', d => d.y)
-
-        hull?.attr('d', d => {
-          // TODO: Find a more efficient method (pre process groupings of nodes according to clusters)
-          const nodesOfCluster = d.servers.map(serverDatum => {
-            return nodes.filter(serverNode => (serverDatum.server_id === serverNode.server_id))
-          })
-          // Create SVG path from coordinates
-          const nodesCoords: [number, number][] = nodesOfCluster.map(node => {
-            return [node[0].x, node[0].y]
-          })
-          const hullCoords: [number, number][] | null = d3.polygonHull(nodesCoords)
-          return svgPath(hullCoords || nodesCoords) // Polygonhull returns null for 2 or fewer nodes. 
-        })
       })
     }
   }
-}
-
-function svgPath (coordinates: [number, number][]): string {
-  // Create closed SVG path from coordinates
-  const initialValue = ''
-  const hullPath: string = coordinates?.reduce((str, coords, index, array) =>
-    index === 0
-      ? `${str} M ${coords[0]},${coords[1]}` // Initially use MoveTo command 'M'
-      : `${str} L ${coords[0]},${coords[1]}` // otherwise use LineTo command 'L'
-  , initialValue) + ' Z' // End with ClosePath command 'Z'
-  return hullPath
 }
 
 function calculateViewBoxValue (width: number, height: number, viewBoxScalar: number) {
