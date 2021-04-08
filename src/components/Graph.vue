@@ -10,36 +10,6 @@ import * as d3 from 'd3'
 import axios from 'axios'
 import Searchbar from '@/components/Searchbar.vue'
 
-function calculateViewBoxValue (width: number, height: number, viewBoxScalar: number) {
-  const viewBoxTop = -width / 2
-  const viewBoxLeft = -height / 2
-  const viewBoxRight = width
-  const viewBoxBottom = height
-  const viewBoxValue = `${viewBoxTop * viewBoxScalar}, ${viewBoxLeft * viewBoxScalar}, ${viewBoxRight * viewBoxScalar}, ${viewBoxBottom * viewBoxScalar}`
-  return viewBoxValue
-}
-
-const drag = (simulation: any) => {
-  function dragstarted (event: any, d: any) {
-    if (!event.active) simulation.alphaTarget(0.3).restart()
-    d.fx = d.x
-    d.fy = d.y
-  }
-  function dragged (event: any, d: any) {
-    d.fx = event.x
-    d.fy = event.y
-  }
-  function dragended (event: any, d: any) {
-    if (!event.active) simulation.alphaTarget(0)
-    d.fx = null
-    d.fy = null
-  }
-  return d3.drag()
-    .on('start', dragstarted)
-    .on('drag', dragged)
-    .on('end', dragended)
-}
-
 export default {
   name: 'Graph',
   components: { Searchbar },
@@ -50,6 +20,23 @@ export default {
       routes: null,
       svg: null
     }
+  },
+  async mounted () {
+    await this.getData()
+
+    const width = window.innerWidth
+    const height = window.innerHeight
+    const viewBoxScalar = 0.5
+
+    // SVG canvas
+    this.svg = d3.select('#visualizer')
+      .append('div')
+      .append('svg')
+      // Responsive SVG needs these 2 attributes
+      .attr('preserveAspectRatio', 'xMinYMin meet')
+      .attr('viewBox', calculateViewBoxValue(width, height, viewBoxScalar))
+
+    this.drawGraph(this.servers, this.routes, false)
   },
   methods: {
     // Runs every time an input is given to the search bar - searchText is the input
@@ -81,9 +68,6 @@ export default {
     drawGraph (servers, routes, isSearch) {
       // Clear canvas
       this.svg.selectAll('*').remove()
-
-      const width = 1000
-      const height = 800
 
       // Set data to new variables (in case they get modified)
       const nodes = servers
@@ -117,8 +101,8 @@ export default {
         .data(nodes)
         .join('circle')
         // Set the placement and radius for each node
-        .attr('cx', () => { return Math.random() * width }) // Random because, then the simulation can move them around
-        .attr('cy', () => { return Math.random() * height })
+        .attr('cx', () => { return Math.random() }) // Random because, then the simulation can move them around
+        .attr('cy', () => { return Math.random() })
         .attr('r', 5)
         .attr('fill', d => d.ntv_error ? '#f00' : '#000') // Make node red if it has error
         .style('opacity', d => this.isSearchMatch(d.server_name) || (d.server_name === null && !isSearch) ? 1.0 : 0.2)
@@ -148,32 +132,47 @@ export default {
           .attr('cy', d => d.y)
       })
     }
-  },
-  async mounted () {
-    await this.getData()
-
-    const width = 1400
-    const height = 600
-    const viewBoxScalar = 0.5
-
-    // SVG canvas
-    this.svg = d3.select('#visualizer')
-      .append("div")
-      // Container class to make it responsive.
-      .classed("svg-container", true)
-      .append("svg")
-      // Responsive SVG needs these 2 attributes and no width and height attr.
-      .attr("preserveAspectRatio", "xMinYMin meet")
-      .attr("viewBox", calculateViewBoxValue(width, height, viewBoxScalar))
-      // Class to make it responsive.
-      .classed("svg-content-responsive", true)
-
-    this.drawGraph(this.servers, this.routes, false)
   }
+}
+
+function calculateViewBoxValue (width: number, height: number, viewBoxScalar: number) {
+  const viewBoxTop = -width / 2
+  const viewBoxLeft = -height / 2
+  const viewBoxRight = width
+  const viewBoxBottom = height
+  const viewBoxValue = `${viewBoxTop * viewBoxScalar}, ${viewBoxLeft * viewBoxScalar}, ${viewBoxRight * viewBoxScalar}, ${viewBoxBottom * viewBoxScalar}`
+  return viewBoxValue
+}
+
+const drag = (simulation: any) => {
+  function dragstarted (event: any, d: any) {
+    if (!event.active) simulation.alphaTarget(0.3).restart()
+    d.fx = d.x
+    d.fy = d.y
+  }
+  function dragged (event: any, d: any) {
+    d.fx = event.x
+    d.fy = event.y
+  }
+  function dragended (event: any, d: any) {
+    if (!event.active) simulation.alphaTarget(0)
+    d.fx = null
+    d.fy = null
+  }
+  return d3.drag()
+    .on('start', dragstarted)
+    .on('drag', dragged)
+    .on('end', dragended)
 }
 
 </script>
 
-<style scoped>
-
+<style>
+/* Puts the canvas behind all other HTML elements */
+svg {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: -1;
+}
 </style>
