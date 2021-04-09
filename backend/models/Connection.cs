@@ -9,7 +9,7 @@ namespace backend.models
 
         public Connection()
         {
-            connections = new ConcurrentBag<ConnectionNode>();
+            connections = new ConcurrentBag<ConnectionEntry>();
         }
 
         public string server_id { get; set; }
@@ -17,7 +17,7 @@ namespace backend.models
         public int num_connections { get; set; }
         public int offset { get; set; }
         public long limit { get; set; }
-        public ConcurrentBag<ConnectionNode> connections { get; set; }
+        public ConcurrentBag<ConnectionEntry> connections { get; set; }
 
         public void toStringPrint()
         {
@@ -28,7 +28,7 @@ namespace backend.models
         }
     }
 
-    public class ConnectionNode
+    public class ConnectionEntry
     {
         public int cid { get; set; }
         public string ip { get; set; }
