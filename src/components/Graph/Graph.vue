@@ -54,11 +54,8 @@ export default {
     searchFilter (searchText: string) {
       this.searchText = searchText
 
-      if (this.searchText === '') {
-        this.drawGraph(false)
-      } else {
-        this.drawGraph(true)
-      }
+      this.drawGraph(this.searchText !== '')
+
     },
     // Checks whether the current server name contains the given search text/input
     isSearchMatch (serverName: string) {
@@ -99,6 +96,7 @@ export default {
         .attr('stroke', '#ddd')
         .attr('stroke-width', '13px')
         .attr('stroke-linejoin', 'round')
+        .attr('stroke-width', 20)
         .style('fill', '#ddd')
         
       hull?.append('title')
