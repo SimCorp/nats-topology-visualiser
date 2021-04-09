@@ -16,15 +16,23 @@ namespace backend
     {
 
         private static ConcurrentBag<Link> links = new ConcurrentBag<Link>();
-        private static ConcurrentBag<Node> processedServers = new ConcurrentBag<Node>();
+        private static ConcurrentBag<ServerNode> processedServers = new ConcurrentBag<ServerNode>();
+        private static ConcurrentBag<ClusterNode> processedClusters = new ConcurrentBag<ClusterNode>();
         private static HashSet<string> missingServerIds = new HashSet<string>();
 
 
         [HttpGet("/nodes")]
         [ProducesResponseType(Status200OK)]
-        public ActionResult<IEnumerable<Node>> GetNodes()
+        public ActionResult<IEnumerable<ServerNode>> GetNodes()
         {   
             return processedServers;
+        }
+
+        [HttpGet("/clusters")]
+        [ProducesResponseType(Status200OK)]
+        public ActionResult<IEnumerable<ClusterNode>> GetClusters()
+        {   
+            return processedClusters;
         }
 
         [HttpGet("/varz")]
@@ -82,14 +90,68 @@ namespace backend
 
         public static void ProcessData() 
         {
-            Parallel.ForEach(Program.servers, server => {
-                processedServers.Add(new Node {
-                    server_id = server.server_id, 
-                    server_name = server.server_name, 
-                    ntv_error = false 
-                });
-            });
+            
+            ProcessServers();
+            ProcessClusters();
+            ProcessLinks();
 
+            // Patch for a missing node from varz
+            // TODO dynamically handle these types of errors
+            foreach(var serverId in missingServerIds)
+            {
+                processedServers.Add(new ServerNode{server_id = serverId, ntv_error = true});
+            }
+
+
+        }
+
+        public static void ProcessClusters()
+        {
+            // TODO crashed node is not in cluster, decide whether it should be.
+            var markedServers = new HashSet<string>();
+            var id = 0;
+            foreach (var server in Program.routes)
+            {
+                if (markedServers.Contains(server.server_id)) continue; // Probably only once for each cluster
+
+                var cluster = new ClusterNode {
+                    name = "cluster nr:" + id,
+                    servers = new ConcurrentBag<ServerNode>()
+                };
+                id++;
+
+                ServerNode processedServer = processedServers.Where(p => p.server_id == server.server_id).Select(p => p).FirstOrDefault();
+                if (processedServer is null) continue;
+                cluster.servers.Add(processedServer);
+                markedServers.Add(server.server_id);
+
+                foreach (var route in server.routes)
+                {
+                    if (markedServers.Contains(route.remote_id)) continue;
+                    markedServers.Add(route.remote_id);
+
+                    processedServer = processedServers.Where(p => p.server_id == route.remote_id).Select(p => p).FirstOrDefault();
+                    if (processedServer is null) continue;
+                    cluster.servers.Add(processedServer);
+                    markedServers.Add(server.server_id);
+                };
+
+                processedClusters.Add(cluster);
+            }
+
+            foreach (var gateway in Program.gateways)
+            {
+                foreach (var cluster in processedClusters)
+                {
+                    if (!cluster.ContainsServer(gateway.server_id)) continue;
+                    if (gateway.name is null) continue;
+                    cluster.name = gateway.name;
+                }
+            }
+        }
+
+        public static void ProcessLinks()
+        {
             // Information about routes are also on server, no request to routez necessary
             // Maybe info on routes is more up-to-date?
             Parallel.ForEach(Program.servers, server => {
@@ -109,15 +171,30 @@ namespace backend
                     links.Add(link);
                 }
             }
+        }
 
-            // Patch for a missing node from varz
-            // TODO dynamically handle these types of errors
-            foreach(var serverId in missingServerIds)
-            {
-                processedServers.Add(new Node{server_id = serverId, ntv_error = true});
-            }
+        public static void ProcessServers()
+        {
+            // Add serverNodes to processedServers
+            Parallel.ForEach(Program.servers, server => {
+                processedServers.Add(new ServerNode {
+                    server_id = server.server_id, 
+                    server_name = server.server_name, 
+                    ntv_error = false,
+                    clients = new ConcurrentBag<ConnectionNode>()
+                });
+            });
 
-
+            // Add connections to servers
+            Parallel.ForEach(Program.connections, server => {
+                Parallel.ForEach(server.connections, connection => {
+                    var processedServer = processedServers.Where(p => p.server_id == server.server_id).Select(p => p).FirstOrDefault();
+                    if (processedServer != null) 
+                    {
+                        processedServer.clients.Add(new ConnectionNode{ip = connection.ip, port = connection.port});
+                    }
+                });
+            });
         }
 
     }
