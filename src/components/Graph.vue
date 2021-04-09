@@ -139,17 +139,6 @@ export default {
     node.append('title')
       .text(d => (d.ntv_error ? '[Crashed?] \n' : '') + 'NAME:' + d.server_name + '\nID:' + d.server_id)
 
-    // Cluster visualisation
-    // const cluster = svg.append('g')
-    //   .attr('stroke', '#234')
-    //   .attr('stroke-width', 3)
-    //   .selectAll('circle') // Select all of type 'circle'
-    //   .data(clusters)
-    //   .join('circle')
-    //   .attr('cx', () => { return Math.random() * 50 + 100 })
-    //   .attr('cy', () => { return Math.random() * 50 + 100 })
-    //   .attr('r', 5)
-
     simulation.on('tick', () => { // What it does whenever the canvas updates
       link
         .attr('x1', d => d.source.x)
@@ -164,16 +153,15 @@ export default {
       // Set svg path attribute, that encloses nodes
       hull
         .attr('d', d => {
-          // TODO: get different node collections based on cluster
-          // Create SVG path from coordinates
+          // TODO: Find a more efficient method (pre process groupings of nodes according to clusters)
           const nodesOfCluster = d.servers.map(serverDatum => {
             return nodes.filter(serverNode => (serverDatum.server_id === serverNode.server_id))
           })
+          // Create SVG path from coordinates
           const nodesCoords = nodesOfCluster.map(node => {
             return [node[0].x, node[0].y]
           })
           const hullCoords: [number, number][] = d3.polygonHull(nodesCoords) ? d3.polygonHull(nodesCoords) : nodesCoords
-          // console.log(d3.polygonCentroid(hullCoords))
           return svgPath(hullCoords || [])
         })
     })
