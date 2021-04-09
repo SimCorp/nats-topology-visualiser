@@ -17,11 +17,10 @@ function calulateViewBoxValue (width: number, height: number, viewBoxScalar: num
   return viewBoxValue
 }
 
-function polygonHullSVGPath (coordinates: [number, number][]): string {
-  const hullCoords: [number, number] [] | null = d3.polygonHull(coordinates)
+function svgPath (coordinates: [number, number][]): string {
+  // Create closed SVG path from coordinates
   const initialValue = ''
-  // Create SVG path from coordinates
-  const hullPath: string = hullCoords?.reduce((str, coords, index, array) =>
+  const hullPath: string = coordinates?.reduce((str, coords, index, array) =>
     index === 0
       ? `${str} M ${coords[0]},${coords[1]}` // Initially use MoveTo command 'M'
       : `${str} L ${coords[0]},${coords[1]}` // otherwise use LineTo command 'L'
@@ -94,11 +93,14 @@ export default {
       .enter()
       .append('path')
       .attr('d', '')
-      .attr('opacity', '0.2')
+      .attr('opacity', 0.7)
       .attr('stroke', '#ddd')
       .attr('stroke-width', '13px')
       .attr('stroke-linejoin', 'round')
       .style('fill', '#ddd')
+
+    const hullTitles = hull.append('title')
+      .text(d => d.name)
 
     // Connections between nodes
     const link = svg.append('g') // Add element g (g for group)
@@ -137,15 +139,15 @@ export default {
     node.append('title')
       .text(d => (d.ntv_error ? '[Crashed?] \n' : '') + 'NAME:' + d.server_name + '\nID:' + d.server_id)
 
-    // cluster visualisation
+    // Cluster visualisation
     const cluster = svg.append('g')
       .attr('stroke', '#234')
       .attr('stroke-width', 3)
       .selectAll('circle') // Select all of type 'circle'
       .data(clusters)
       .join('circle')
-      .attr('cx', () => { return Math.random() + 100 })
-      .attr('cy', () => { return Math.random() + 100 })
+      .attr('cx', () => { return Math.random() * 50 + 100 })
+      .attr('cy', () => { return Math.random() * 50 + 100 })
       .attr('r', 5)
 
     simulation.on('tick', () => { // What it does whenever the canvas updates
@@ -159,13 +161,20 @@ export default {
         .attr('cx', d => d.x)
         .attr('cy', d => d.y)
 
-      // Give the hull an svg path that encloses nodes
+      // Set svg path attribute, that encloses nodes
       hull
         .attr('d', d => {
           // TODO: get different node collections based on cluster
           // Create SVG path from coordinates
-          const nodesCoords = nodes.map(w => [w.x, w.y])
-          return polygonHullSVGPath(nodesCoords)
+          const nodesOfCluster = d.servers.map(serverDatum => {
+            return nodes.filter(serverNode => (serverDatum.server_id === serverNode.server_id))
+          })
+          const nodesCoords = nodesOfCluster.map(node => {
+            return [node[0].x, node[0].y]
+          })
+          const hullCoords: [number, number][] = d3.polygonHull(nodesCoords) ? d3.polygonHull(nodesCoords) : nodesCoords
+          // console.log(d3.polygonCentroid(hullCoords))
+          return svgPath(hullCoords || [])
         })
     })
   }
