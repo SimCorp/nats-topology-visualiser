@@ -17,6 +17,18 @@ function calulateViewBoxValue (width: number, height: number, viewBoxScalar: num
   return viewBoxValue
 }
 
+function polygonHullSVGPath (coordinates: [number, number][]): string {
+  const hullCoords: [number, number] [] | null = d3.polygonHull(coordinates)
+  const initialValue = ''
+  // Create SVG path from coordinates
+  const hullPath: string = hullCoords?.reduce((str, coords, index, array) =>
+    index === 0
+      ? `${str} M ${coords[0]},${coords[1]}` // Initially use MoveTo command 'M'
+      : `${str} L ${coords[0]},${coords[1]}` // otherwise use LineTo command 'L'
+  , initialValue) + ' Z' // End with ClosePath command 'Z'
+  return hullPath
+}
+
 const drag = (simulation: any) => {
   function dragstarted (event: any, d: any) {
     if (!event.active) simulation.alphaTarget(0.3).restart()
@@ -151,16 +163,9 @@ export default {
       hull
         .attr('d', d => {
           // TODO: get different node collections based on cluster
-          const nodesCoords = nodes.map(w => [w.x, w.y])
-          const hullCoords: [number, number] [] | null = d3.polygonHull(nodesCoords)
-          const initialValue = ''
           // Create SVG path from coordinates
-          const hullPath: string = hullCoords?.reduce((str, coords, index, array) =>
-            index === 0
-              ? `${str} M ${coords[0]},${coords[1]}` // Initially use MoveTo command 'M'
-              : `${str} L ${coords[0]},${coords[1]}` // otherwise use LineTo command 'L'
-          , initialValue) + ' Z' // End with ClosePath command 'Z'
-          return hullPath
+          const nodesCoords = nodes.map(w => [w.x, w.y])
+          return polygonHullSVGPath(nodesCoords)
         })
     })
   }
