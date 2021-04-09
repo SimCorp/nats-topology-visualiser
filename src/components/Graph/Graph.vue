@@ -100,6 +100,7 @@ export default {
         .attr('stroke-width', '13px')
         .attr('stroke-linejoin', 'round')
         .style('fill', '#ddd')
+        
       hull?.append('title')
         .text(d => d.name)
 
