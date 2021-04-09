@@ -16,15 +16,23 @@ namespace backend
     {
 
         private static ConcurrentBag<Link> links = new ConcurrentBag<Link>();
-        private static ConcurrentBag<Node> processedServers = new ConcurrentBag<Node>();
+        private static ConcurrentBag<ServerNode> processedServers = new ConcurrentBag<ServerNode>();
+        private static ConcurrentBag<ClusterNode> processedClusters = new ConcurrentBag<ClusterNode>();
         private static HashSet<string> missingServerIds = new HashSet<string>();
 
 
         [HttpGet("/nodes")]
         [ProducesResponseType(Status200OK)]
-        public ActionResult<IEnumerable<Node>> GetNodes()
+        public ActionResult<IEnumerable<ServerNode>> GetNodes()
         {   
             return processedServers;
+        }
+
+        [HttpGet("/clusters")]
+        [ProducesResponseType(Status200OK)]
+        public ActionResult<IEnumerable<ClusterNode>> GetClusters()
+        {   
+            return processedClusters;
         }
 
         [HttpGet("/varz")]
@@ -82,7 +90,6 @@ namespace backend
 
         public static void ProcessData() 
         {
-<<<<<<< HEAD
             
             ProcessServers();
             ProcessClusters();
@@ -145,16 +152,6 @@ namespace backend
 
         public static void ProcessLinks()
         {
-=======
-            Parallel.ForEach(Program.servers, server => {
-                processedServers.Add(new Node {
-                    server_id = server.server_id, 
-                    server_name = server.server_name, 
-                    ntv_error = false 
-                });
-            });
-
->>>>>>> Refactor logic to backend (#36)
             // Information about routes are also on server, no request to routez necessary
             // Maybe info on routes is more up-to-date?
             Parallel.ForEach(Program.servers, server => {
@@ -174,9 +171,7 @@ namespace backend
                     links.Add(link);
                 }
             }
-<<<<<<< HEAD
         }
-
         public static void ProcessServers()
         {
             // Add serverNodes to processedServers
@@ -199,17 +194,6 @@ namespace backend
                     }
                 });
             });
-=======
-
-            // Patch for a missing node from varz
-            // TODO dynamically handle these types of errors
-            foreach(var serverId in missingServerIds)
-            {
-                processedServers.Add(new Node{server_id = serverId, ntv_error = true});
-            }
-
-
->>>>>>> Refactor logic to backend (#36)
         }
 
     }
