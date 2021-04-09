@@ -140,15 +140,15 @@ export default {
       .text(d => (d.ntv_error ? '[Crashed?] \n' : '') + 'NAME:' + d.server_name + '\nID:' + d.server_id)
 
     // Cluster visualisation
-    const cluster = svg.append('g')
-      .attr('stroke', '#234')
-      .attr('stroke-width', 3)
-      .selectAll('circle') // Select all of type 'circle'
-      .data(clusters)
-      .join('circle')
-      .attr('cx', () => { return Math.random() * 50 + 100 })
-      .attr('cy', () => { return Math.random() * 50 + 100 })
-      .attr('r', 5)
+    // const cluster = svg.append('g')
+    //   .attr('stroke', '#234')
+    //   .attr('stroke-width', 3)
+    //   .selectAll('circle') // Select all of type 'circle'
+    //   .data(clusters)
+    //   .join('circle')
+    //   .attr('cx', () => { return Math.random() * 50 + 100 })
+    //   .attr('cy', () => { return Math.random() * 50 + 100 })
+    //   .attr('r', 5)
 
     simulation.on('tick', () => { // What it does whenever the canvas updates
       link
