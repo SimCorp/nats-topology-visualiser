@@ -1,8 +1,11 @@
 name: Code Coverage
 
 on:
+  push:
+    branches:
+      - develop
+      - main
   pull_request:
-
 
 jobs:
   codecov:
@@ -15,9 +18,10 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+        with:
+          fetch-depth: 2
       - name: Test code
         run: dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
       - name: Upload code
-        run: |
-          ls
-          bash <(curl -s https://codecov.io/bash) -t ${{ secrets.CODECOV_TOKEN }} -B ${{ github.event.inputs.branch }} -f "~/tests/backend.Tests/coverage.opencover.xml"
+        run:
+          bash <(curl -s https://codecov.io/bash) -t ${{ secrets.CODECOV_TOKEN }} -B ${{ github.event.inputs.branch }} -C $(git rev-parse HEAD) -f "~/tests/backend.Tests/coverage.opencover.xml"
