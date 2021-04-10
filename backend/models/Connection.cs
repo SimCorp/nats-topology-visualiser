@@ -37,12 +37,12 @@ namespace backend.models
         public DateTime last_activity { get; set; }
         public string rtt { get; set; }
         public string uptime { get; set; }
-        public int pending_byten { get; set; }
-        public int in_msgs { get; set; }
-        public int out_msgs { get; set; }
-        public int in_bytes { get; set; }
-        public int out_bytes { get; set; }
-        public int subscriptions { get; set; }
+        public long pending_byten { get; set; }
+        public long in_msgs { get; set; }
+        public long out_msgs { get; set; }
+        public long in_bytes { get; set; }
+        public long out_bytes { get; set; }
+        public long subscriptions { get; set; }
         public string lang { get; set; }
         public string version { get; set; } 
 
