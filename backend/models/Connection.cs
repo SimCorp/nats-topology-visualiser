@@ -9,15 +9,15 @@ namespace backend.models
 
         public Connection()
         {
-            connections = new ConcurrentBag<ConnectionNode>();
+            connections = new ConcurrentBag<ConnectionEntry>();
         }
 
         public string server_id { get; set; }
-        //public DateTime now { get; set; }
+        public string now { get; set; }
         public int num_connections { get; set; }
         public int offset { get; set; }
         public long limit { get; set; }
-        public ConcurrentBag<ConnectionNode> connections { get; set; }
+        public ConcurrentBag<ConnectionEntry> connections { get; set; }
 
         public void toStringPrint()
         {
@@ -28,7 +28,7 @@ namespace backend.models
         }
     }
 
-    public class ConnectionNode
+    public class ConnectionEntry
     {
         public int cid { get; set; }
         public string ip { get; set; }
@@ -37,12 +37,12 @@ namespace backend.models
         public DateTime last_activity { get; set; }
         public string rtt { get; set; }
         public string uptime { get; set; }
-        public int pending_byten { get; set; }
-        public int in_msgs { get; set; }
-        public int out_msgs { get; set; }
-        public int in_bytes { get; set; }
-        public int out_bytes { get; set; }
-        public int subscriptions { get; set; }
+        public long pending_byten { get; set; }
+        public long in_msgs { get; set; }
+        public long out_msgs { get; set; }
+        public long in_bytes { get; set; }
+        public long out_bytes { get; set; }
+        public long subscriptions { get; set; }
         public string lang { get; set; }
         public string version { get; set; } 
 

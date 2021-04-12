@@ -5,13 +5,6 @@ namespace backend
 {
     public class Gateway
     {
-
-        public Gateway()
-        {
-            inbound_gateways = new ConcurrentDictionary<string, List<GatewayNodeWrapper>>();
-            outbound_gateways = new ConcurrentDictionary<string, GatewayNodeWrapper>();
-        }
-
         public string server_id { get; set; }
         public string now { get; set; }
         public string name { get; set; }
@@ -30,10 +23,11 @@ namespace backend
             public string rtt { get; set; }
             public string uptime { get; set; }
             public string idle { get; set; }
-            public int pending_bytes { get; set; }
-            public int in_msgs { get; set; }
-            public int in_bytes { get; set; }
-            public int out_bytes { get; set; }
+            public long pending_bytes { get; set; }
+            public long in_msgs { get; set; }
+            public long out_msgs { get; set; }
+            public long in_bytes { get; set; }
+            public long out_bytes { get; set; }
             public int subscriptions { get; set; }
             public string name { get; set; }
             
