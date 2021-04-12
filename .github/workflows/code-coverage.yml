@@ -19,11 +19,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
         with:
-          fetch-depth: 2
+          fetch-depth: 0
       - name: Set current commit sha as env var
         run: echo COMMIT_SHA=$(git rev-parse HEAD) >> $GITHUB_ENV
       - name: Test code
         run: dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
       - name: Upload code
         run:
-          bash <(curl -s https://codecov.io/bash) -t ${{ secrets.CODECOV_TOKEN }} -B ${{ github.event.inputs.branch }}
+          bash <(curl -s https://codecov.io/bash) -t ${{ secrets.CODECOV_TOKEN }}
