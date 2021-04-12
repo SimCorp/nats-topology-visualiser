@@ -1,11 +1,15 @@
 codecov:
   branch: develop
-  require_ci_to_pass: yes
+  max_report_age: off
+  require_ci_to_pass: no
 
 coverage:
   precision: 2
   round: down
   range: "70...100"
+  status: # Used when blocking PRs that don't meet a particular coverage threshold.
+    patch: on
+    project: on
 
 parsers:
   gcov:
@@ -18,4 +22,4 @@ parsers:
 comment:
   layout: "reach,diff,flags,files,footer"
   behavior: default
-  require_changes: false
+  require_changes: no
