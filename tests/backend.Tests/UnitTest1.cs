@@ -32,5 +32,19 @@ namespace backend.Tests
 
             Assert.Equal("JOHN", Environment.GetEnvironmentVariable("TESTVAR"));
         }
+
+        [Fact]
+        public void EnvTestDoesntTake()
+        {
+            FileStream fs = new FileStream("test.txt", FileMode.Append, FileAccess.Write);
+            StreamWriter textWriter = new StreamWriter(fs);
+
+            textWriter.WriteLine("TESTVAR2=JO=HN");
+            textWriter.Close();
+
+            DotEnv.Load("test.txt");
+
+            Assert.Null(Environment.GetEnvironmentVariable("TESTVAR2"));
+        }
     }
 }
