@@ -18,7 +18,7 @@ namespace backend
         private static ConcurrentBag<Link> links = new ConcurrentBag<Link>();
         private static ConcurrentBag<ServerNode> processedServers = new ConcurrentBag<ServerNode>();
         private static ConcurrentBag<ClusterNode> processedClusters = new ConcurrentBag<ClusterNode>();
-        private static HashSet<string> missingServerIds = new HashSet<string>();
+        private static Dictionary<string, List<string>> serverToMissingServer = new Dictionary<string, List<string>>();
 
 
         [HttpGet("/nodes")]
@@ -97,9 +97,22 @@ namespace backend
 
             // Patch for a missing node from varz
             // TODO dynamically handle these types of errors
-            foreach(var serverId in missingServerIds)
+            foreach(var entry in serverToMissingServer)
             {
-                processedServers.Add(new ServerNode{server_id = serverId, ntv_error = true});
+                var source = entry.Key;
+                foreach (var target in entry.Value)
+                {
+                    var node = new ServerNode{
+                        server_id = target, 
+                        ntv_error = true
+                    };
+                    var cluster = processedClusters.Where(c => c.ContainsServer(source)).Select(c => c).FirstOrDefault();
+                    if (cluster is null) continue;
+                    if (cluster.ContainsServer(target)) continue;
+                    processedServers.Add(node);
+                    cluster.servers.Add(node);
+                }
+                
             }
 
 
@@ -166,9 +179,20 @@ namespace backend
             {
                 if (!Program.idToServer.ContainsKey(link.target))
                 {
-                    missingServerIds.Add(link.target);
                     link.ntv_error = true;
                     links.Add(link);
+                    if (serverToMissingServer.ContainsKey(link.source))
+                    {
+                        serverToMissingServer[link.source].Add(link.target);
+                    }
+                    else
+                    {
+                    var list = new List<string>();
+                    list.Add(link.target);
+                    serverToMissingServer.Add(link.source, list);
+                    
+                    
+                    }
                 }
             }
         }
