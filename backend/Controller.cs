@@ -45,6 +45,14 @@ namespace backend
             return timeOfRequest;
         }
 
+        [HttpGet("/gatewayLinks")]
+        [ProducesResponseType(Status200OK)]
+        public ActionResult<IEnumerable<Link>> GetGatewayLinks()
+        {   
+            var gatewayLinks = new List<Link> { new Link ("bb1", "bb2", true), new Link("ehkd1", "ehkd2", false)};
+            return gatewayLinks;
+        }
+
         [HttpGet("/varz")]
         [ProducesResponseType(Status200OK)]
         public ActionResult<IEnumerable<Server>> GetVarz()

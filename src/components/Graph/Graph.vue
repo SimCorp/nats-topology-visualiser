@@ -90,6 +90,34 @@ export default {
       const links = this.routes
       const hulls = this.clusters
 
+      const serverToClusterLinks = hulls.reduce((acc, clusterDatum, idx, array) => {
+        const serverToClusterLinkForOneCluster = clusterDatum.servers.map(serverDatum => {
+          return {
+            source: serverDatum,
+            target: clusterDatum
+          }
+        })
+        
+        return acc.concat(serverToClusterLinkForOneCluster)
+      }, [])
+
+
+      const serverIdToNode = new Map();
+      nodes.forEach(node => {
+        serverIdToNode.set(node.server_id, node)
+      })
+
+      const clusterIdToCluster = new Map();
+      hulls.forEach(cluster => {
+        clusterIdToCluster.set(cluster.name, cluster)
+      })
+
+      hulls.forEach(cluster => {
+        cluster.servers.forEach(server => {
+          serverIdToNode.get(server.server_id)['ntv_cluster'] = cluster.name
+        })
+      })
+
       // A convex hull (enclosing path) for clusters
       const hull = this.svg?.append('g')
         .selectAll('path')
@@ -107,13 +135,24 @@ export default {
       hull?.append('title')
         .text(d => d.name)
 
-
       // Physics for moving the nodes together
-      const simulation: d3.Simulation<ServerDatum, RouteDatum> = d3.forceSimulation(nodes)
-        .force('link', d3.forceLink<ServerDatum, RouteDatum>(links).id(d => d.server_id))
+      const allNodes = nodes.concat(hulls)
+
+      const simulation: d3.Simulation<ServerDatum, RouteDatum> = d3.forceSimulation(allNodes)
+        // .force('link', d3.forceLink<ServerDatum, RouteDatum>(links).id(d => d.server_id))
         .force('charge', d3.forceManyBody())
         .force('x', d3.forceX())
         .force('y', d3.forceY())
+
+      const cluster = this.svg?.append('g') // Add element g (g for group)
+        .selectAll('circle') // Select all of type 'circle'
+        .data(hulls)
+        .join('circle')
+        // Set the placement and radius for each node
+        .attr('cx', () => { return Math.random() * 300 - 150 }) // Random because, then the simulation can move them around
+        .attr('cy', () => { return Math.random() * 300 - 150 })
+        .attr('r', 10)
+        .call(drag(simulation)) // Handle dragging of the nodes
 
       // Connections between nodes
       const link = this.svg?.append('g') // Add element g (g for group)
@@ -156,12 +195,23 @@ export default {
 
       // What it does whenever the canvas updates
       simulation.on('tick', () => {
+
         link?.attr('x1', d => d.source.x)
           .attr('y1', d => d.source.y)
           .attr('x2', d => d.target.x)
           .attr('y2', d => d.target.y)
 
+        const k = 0.1;
+        nodes.forEach(serverNode => {
+          const cluster = clusterIdToCluster.get(serverNode.ntv_cluster)
+          serverNode.y += (cluster.y - serverNode.y) * k;
+          serverNode.x += (cluster.x - serverNode.x) * k;
+        })
+
         node?.attr('cx', d => d.x)
+          .attr('cy', d => d.y)
+
+        cluster?.attr('cx', d => d.x)
           .attr('cy', d => d.y)
 
         hull?.attr('d', d => {
