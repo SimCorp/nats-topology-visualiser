@@ -195,9 +195,6 @@ export default {
             return [node[0].x, node[0].y]
           })
           const hullCoords: [number, number][] | null = d3.polygonHull(nodesCoords)
-<<<<<<< HEAD
-          return svgPath(hullCoords || nodesCoords) // Polygonhull returns null for 2 or fewer nodes.
-=======
 
           const centroid = d3.polygonCentroid(hullCoords || [])
           gateways.forEach(gateway => {
@@ -212,7 +209,6 @@ export default {
           })
 
           return svgPath(hullCoords || nodesCoords) // Polygonhull returns null for 2 or fewer nodes. 
->>>>>>> Add gateways
         })
 
         gatewayLink?.attr('x1', d => d.sourcex)
