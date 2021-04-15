@@ -96,34 +96,6 @@ export default {
       const hulls = this.clusters
       const gateways = this.gatewayLinks
 
-      // const serverToClusterLinks = hulls.reduce((acc, clusterDatum, idx, array) => {
-      //   const serverToClusterLinkForOneCluster = clusterDatum.servers.map(serverDatum => {
-      //     return {
-      //       source: serverDatum,
-      //       target: clusterDatum
-      //     }
-      //   })
-        
-      //   return acc.concat(serverToClusterLinkForOneCluster)
-      // }, [])
-
-
-      // const serverIdToNode = new Map();
-      // nodes.forEach(node => {
-      //   serverIdToNode.set(node.server_id, node)
-      // })
-
-      // const clusterIdToCluster = new Map();
-      // hulls.forEach(cluster => {
-      //   clusterIdToCluster.set(cluster.name, cluster)
-      // })
-
-      // hulls.forEach(cluster => {
-      //   cluster.servers.forEach(server => {
-      //     serverIdToNode.get(server.server_id)['ntv_cluster'] = cluster.name
-      //   })
-      // })
-
       // Gateways
       const gatewayLink = this.svg?.append('g') // Add element g (g for group)
         .attr('stroke-opacity', 0.6)
@@ -159,16 +131,6 @@ export default {
         .force('charge', d3.forceManyBody())
         .force('x', d3.forceX())
         .force('y', d3.forceY())
-
-      // const cluster = this.svg?.append('g') // Add element g (g for group)
-      //   .selectAll('circle') // Select all of type 'circle'
-      //   .data(hulls)
-      //   .join('circle')
-      //   // Set the placement and radius for each node
-      //   .attr('cx', () => { return Math.random() }) // Random because, then the simulation can move them around
-      //   .attr('cy', () => { return Math.random() })
-      //   .attr('r', 10)
-      //   .call(drag(simulation)) // Handle dragging of the nodes
 
       // Connections between nodes
       const link = this.svg?.append('g') // Add element g (g for group)
@@ -211,13 +173,6 @@ export default {
 
       // What it does whenever the canvas updates
       simulation.on('tick', () => {
-
-        // const k = 0.1;
-        // nodes.forEach(serverNode => {
-        //   const cluster = clusterIdToCluster.get(serverNode.ntv_cluster)
-        //   serverNode.y += (cluster.y - serverNode.y) * k;
-        //   serverNode.x += (cluster.x - serverNode.x) * k;
-        // })
 
         node?.attr('cx', d => d.x)
           .attr('cy', d => d.y)
