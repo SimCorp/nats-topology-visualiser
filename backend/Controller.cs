@@ -20,14 +20,24 @@ namespace backend
         private static ConcurrentBag<ServerNode> processedServers = new ConcurrentBag<ServerNode>();
         private static ConcurrentBag<ClusterNode> processedClusters = new ConcurrentBag<ClusterNode>();
         private static Dictionary<string, List<string>> serverToMissingServer = new Dictionary<string, List<string>>();
-        private static String timeOfRequest;
+        private static HashSet<string> missingServerIds = new HashSet<string>();
+        private static Dictionary<string, HashSet<string>> clustersAdjacencyList = new Dictionary<string, HashSet<string>>();
+        private static HashSet<string> foundServers = new HashSet<string>();
 
+        private static String timeOfRequest;
 
         [HttpGet("/nodes")]
         [ProducesResponseType(Status200OK)]
         public ActionResult<IEnumerable<ServerNode>> GetNodes()
         {   
             return processedServers;
+        }
+
+        [HttpGet("/clusterconnections")]
+        [ProducesResponseType(Status200OK)]
+        public ActionResult<Dictionary<string, HashSet<string>>> GetClusterConnections()
+        {   
+            return clustersAdjacencyList;
         }
 
         [HttpGet("/clusters")]
@@ -132,8 +142,6 @@ namespace backend
                 }
                 
             }
-
-
         }
 
         public static void ProcessClusters()
@@ -170,14 +178,90 @@ namespace backend
                 processedClusters.Add(cluster);
             }
 
+            var errorClusters = new List<ClusterNode>();
+
             foreach (var gateway in Program.gateways)
             {
+                foreach (var inbound in gateway.inbound_gateways)
+                {
+                    var clusterName = inbound.Key;
+                    foreach (var server in inbound.Value)
+                    {
+                        if (!foundServers.Contains(server.connection.name))
+                        {
+                            var clusterToAddTo = errorClusters.Where(c => c.name == clusterName).Select(c => c).FirstOrDefault();
+                            
+
+                            var node = new ServerNode {
+                                server_id = server.connection.name,
+                                server_name = "Unknown name",
+                                ntv_error = true,
+                                clients = new ConcurrentBag<ConnectionNode>()
+                            };
+
+                            if (clusterToAddTo is null)
+                            {
+                                var newCluster = new ClusterNode {
+                                    name = clusterName,
+                                    servers = new ConcurrentBag<ServerNode>()
+                                };
+                                newCluster.servers.Add(node);
+                                errorClusters.Add(newCluster);
+                            }
+                            else 
+                            {
+                                clusterToAddTo.servers.Add(node);
+                            }
+
+                            processedServers.Add(node);
+                            foundServers.Add(server.connection.name);
+                        }
+                    }
+                }
+
+                foreach (var outbound in gateway.outbound_gateways)
+                {
+                    var clusterName = outbound.Key;
+                    if (!foundServers.Contains(outbound.Value.connection.name))
+                    {
+                        var clusterToAddTo = errorClusters.Where(c => c.name == clusterName).Select(c => c).FirstOrDefault();
+                            
+                            var node = new ServerNode {
+                                server_id = outbound.Value.connection.name,
+                                server_name = "Unknown name",
+                                ntv_error = true,
+                                clients = new ConcurrentBag<ConnectionNode>()
+                            };
+
+                            if (clusterToAddTo is null)
+                            {
+                                var newCluster = new ClusterNode {
+                                    name = clusterName,
+                                    servers = new ConcurrentBag<ServerNode>()
+                                };
+                                newCluster.servers.Add(node);
+                                errorClusters.Add(newCluster);
+                            }
+                            else 
+                            {
+                                clusterToAddTo.servers.Add(node);
+                            }
+                            processedServers.Add(node);
+                            foundServers.Add(outbound.Value.connection.name);
+                    }
+                }
+
                 foreach (var cluster in processedClusters)
                 {
                     if (!cluster.ContainsServer(gateway.server_id)) continue;
                     if (gateway.name is null) continue;
                     cluster.name = gateway.name;
                 }
+            }
+
+            foreach (var cluster in errorClusters)
+            {
+                processedClusters.Add(cluster);
             }
         }
 
@@ -205,11 +289,9 @@ namespace backend
                     }
                     else
                     {
-                    var list = new List<string>();
-                    list.Add(link.target);
-                    serverToMissingServer.Add(link.source, list);
-                    
-                    
+                        var list = new List<string>();
+                        list.Add(link.target);
+                        serverToMissingServer.Add(link.source, list);
                     }
                 }
             }
@@ -217,14 +299,15 @@ namespace backend
         public static void ProcessServers()
         {
             // Add serverNodes to processedServers
-            Parallel.ForEach(Program.servers, server => {
+            foreach (var server in Program.servers) {
+                foundServers.Add(server.server_id);
                 processedServers.Add(new ServerNode {
                     server_id = server.server_id, 
                     server_name = server.server_name, 
                     ntv_error = false,
                     clients = new ConcurrentBag<ConnectionNode>()
                 });
-            });
+            }
 
             // Add connections to servers
             Parallel.ForEach(Program.connections, server => {
