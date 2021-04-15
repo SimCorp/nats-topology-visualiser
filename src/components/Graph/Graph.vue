@@ -22,6 +22,7 @@ export default {
     servers: ServerDatum[];
     routes: RouteDatum[];
     clusters: ClusterDatum[];
+    gatewayLinks: {source:string, target:string, ntv_error: boolean}[];
     svg: Selection<SVGSVGElement, unknown, HTMLElement, HTMLElement> | null;
   } {
     return {
@@ -29,6 +30,7 @@ export default {
       servers: [],
       routes: [],
       clusters: [],
+      gatewayLinks: [],
       svg: null
     }
   },
@@ -79,6 +81,9 @@ export default {
 
       const clusterz = await axios.get('https://localhost:5001/clusters')
       this.clusters = clusterz.data
+
+      const gatewayLinks = await axios.get('https://localhost:5001/gatewayLinks')
+      this.gatewayLinks = gatewayLinks.data
     },
     // Draws graph from given data
     drawGraph (isSearch: boolean) {
@@ -89,34 +94,45 @@ export default {
       const nodes = this.servers
       const links = this.routes
       const hulls = this.clusters
+      const gateways = this.gatewayLinks
 
-      const serverToClusterLinks = hulls.reduce((acc, clusterDatum, idx, array) => {
-        const serverToClusterLinkForOneCluster = clusterDatum.servers.map(serverDatum => {
-          return {
-            source: serverDatum,
-            target: clusterDatum
-          }
-        })
+      // const serverToClusterLinks = hulls.reduce((acc, clusterDatum, idx, array) => {
+      //   const serverToClusterLinkForOneCluster = clusterDatum.servers.map(serverDatum => {
+      //     return {
+      //       source: serverDatum,
+      //       target: clusterDatum
+      //     }
+      //   })
         
-        return acc.concat(serverToClusterLinkForOneCluster)
-      }, [])
+      //   return acc.concat(serverToClusterLinkForOneCluster)
+      // }, [])
 
 
-      const serverIdToNode = new Map();
-      nodes.forEach(node => {
-        serverIdToNode.set(node.server_id, node)
-      })
+      // const serverIdToNode = new Map();
+      // nodes.forEach(node => {
+      //   serverIdToNode.set(node.server_id, node)
+      // })
 
-      const clusterIdToCluster = new Map();
-      hulls.forEach(cluster => {
-        clusterIdToCluster.set(cluster.name, cluster)
-      })
+      // const clusterIdToCluster = new Map();
+      // hulls.forEach(cluster => {
+      //   clusterIdToCluster.set(cluster.name, cluster)
+      // })
 
-      hulls.forEach(cluster => {
-        cluster.servers.forEach(server => {
-          serverIdToNode.get(server.server_id)['ntv_cluster'] = cluster.name
-        })
-      })
+      // hulls.forEach(cluster => {
+      //   cluster.servers.forEach(server => {
+      //     serverIdToNode.get(server.server_id)['ntv_cluster'] = cluster.name
+      //   })
+      // })
+
+      // Gateways
+      const gatewayLink = this.svg?.append('g') // Add element g (g for group)
+        .attr('stroke-opacity', 0.6)
+        .selectAll('line') // Select all of type 'line'
+        .data(gateways) // Insert the list of links
+        .join('line')
+        .attr('stroke', d => d.ntv_error ? '#f00' : '#999') // Set line to red, if it has an error
+        .attr('stroke-width', 2)
+        .style('opacity', isSearch ? 0.2 : 1.0)
 
       // A convex hull (enclosing path) for clusters
       const hull = this.svg?.append('g')
@@ -136,23 +152,23 @@ export default {
         .text(d => d.name)
 
       // Physics for moving the nodes together
-      const allNodes = nodes.concat(hulls)
+      // const allNodes = nodes.concat(hulls)
 
-      const simulation: d3.Simulation<ServerDatum, RouteDatum> = d3.forceSimulation(allNodes)
-        // .force('link', d3.forceLink<ServerDatum, RouteDatum>(links).id(d => d.server_id))
+      const simulation: d3.Simulation<ServerDatum, RouteDatum> = d3.forceSimulation(nodes)
+        .force('link', d3.forceLink<ServerDatum, RouteDatum>(links).id(d => d.server_id))
         .force('charge', d3.forceManyBody())
         .force('x', d3.forceX())
         .force('y', d3.forceY())
 
-      const cluster = this.svg?.append('g') // Add element g (g for group)
-        .selectAll('circle') // Select all of type 'circle'
-        .data(hulls)
-        .join('circle')
-        // Set the placement and radius for each node
-        .attr('cx', () => { return Math.random() * 300 - 150 }) // Random because, then the simulation can move them around
-        .attr('cy', () => { return Math.random() * 300 - 150 })
-        .attr('r', 10)
-        .call(drag(simulation)) // Handle dragging of the nodes
+      // const cluster = this.svg?.append('g') // Add element g (g for group)
+      //   .selectAll('circle') // Select all of type 'circle'
+      //   .data(hulls)
+      //   .join('circle')
+      //   // Set the placement and radius for each node
+      //   .attr('cx', () => { return Math.random() }) // Random because, then the simulation can move them around
+      //   .attr('cy', () => { return Math.random() })
+      //   .attr('r', 10)
+      //   .call(drag(simulation)) // Handle dragging of the nodes
 
       // Connections between nodes
       const link = this.svg?.append('g') // Add element g (g for group)
@@ -196,23 +212,23 @@ export default {
       // What it does whenever the canvas updates
       simulation.on('tick', () => {
 
+        // const k = 0.1;
+        // nodes.forEach(serverNode => {
+        //   const cluster = clusterIdToCluster.get(serverNode.ntv_cluster)
+        //   serverNode.y += (cluster.y - serverNode.y) * k;
+        //   serverNode.x += (cluster.x - serverNode.x) * k;
+        // })
+
+        node?.attr('cx', d => d.x)
+          .attr('cy', d => d.y)
+
         link?.attr('x1', d => d.source.x)
           .attr('y1', d => d.source.y)
           .attr('x2', d => d.target.x)
           .attr('y2', d => d.target.y)
 
-        const k = 0.1;
-        nodes.forEach(serverNode => {
-          const cluster = clusterIdToCluster.get(serverNode.ntv_cluster)
-          serverNode.y += (cluster.y - serverNode.y) * k;
-          serverNode.x += (cluster.x - serverNode.x) * k;
-        })
-
-        node?.attr('cx', d => d.x)
-          .attr('cy', d => d.y)
-
-        cluster?.attr('cx', d => d.x)
-          .attr('cy', d => d.y)
+        // cluster?.attr('cx', d => d.x)
+        //   .attr('cy', d => d.y)
 
         hull?.attr('d', d => {
           // TODO: Find a more efficient method (pre process groupings of nodes according to clusters)
@@ -224,8 +240,30 @@ export default {
             return [node[0].x, node[0].y]
           })
           const hullCoords: [number, number][] | null = d3.polygonHull(nodesCoords)
+<<<<<<< HEAD
           return svgPath(hullCoords || nodesCoords) // Polygonhull returns null for 2 or fewer nodes.
+=======
+
+          const centroid = d3.polygonCentroid(hullCoords || [])
+          gateways.forEach(gateway => {
+            if (gateway.source === d.name) {
+              gateway['sourcex'] = centroid[0]
+              gateway['sourcey'] = centroid[1]
+            }
+            if (gateway.target === d.name) {
+              gateway['targetx'] = centroid[0]
+              gateway['targety'] = centroid[1]
+            }
+          })
+
+          return svgPath(hullCoords || nodesCoords) // Polygonhull returns null for 2 or fewer nodes. 
+>>>>>>> Add gateways
         })
+
+        gatewayLink?.attr('x1', d => d.sourcex)
+          .attr('y1', d => d.sourcey)
+          .attr('x2', d => d.targetx)
+          .attr('y2', d => d.targety)
       })
     }
   }
