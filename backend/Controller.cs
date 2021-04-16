@@ -23,6 +23,7 @@ namespace backend
         private static HashSet<string> missingServerIds = new HashSet<string>();
         private static Dictionary<string, HashSet<string>> clustersAdjacencyList = new Dictionary<string, HashSet<string>>();
         private static HashSet<string> foundServers = new HashSet<string>();
+        private static Dictionary<string, string> serverToCluster = new Dictionary<string, string>();
 
         private static String timeOfRequest;
 
@@ -140,7 +141,13 @@ namespace backend
                     processedServers.Add(node);
                     cluster.servers.Add(node);
                 }
-                
+            }
+
+            foreach(var cluster in processedClusters) {
+                foreach (var server in cluster.servers)
+                {
+                    server.ntv_cluster = cluster.name;
+                }
             }
         }
 
