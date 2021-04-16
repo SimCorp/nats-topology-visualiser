@@ -1,13 +1,9 @@
 <template>
-  <b-container class="column">
-    <div id="app" class="column">
-      <h1>Visualizer</h1>
-      <Graph/>
-    </div>
-    <div>
-      <Statusbar/>
-    </div>
-  </b-container>
+  <div id="app">
+    <h1>Visualizer</h1>
+    <Graph/>
+    <Statusbar/>
+  </div>
 </template>
 
 <script lang="ts">
