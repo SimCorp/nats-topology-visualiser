@@ -96,6 +96,22 @@ export default {
       const hulls = this.clusters
       const gateways = this.gatewayLinks
 
+        // Cluster Map
+      const clusterNameToCluster = new Map<string, ClusterDatum>()
+      this.clusters.forEach(cluster => {
+        clusterNameToCluster.set(cluster.name, cluster)
+      })
+      console.log(clusterNameToCluster)
+
+      const allNodes: (ServerDatum | ClusterDatum)[] = nodes.concat(hulls)
+
+      // Physics for moving the nodes together
+      const simulation: d3.Simulation<ServerDatum, RouteDatum> = d3.forceSimulation(allNodes)
+        .force('link', d3.forceLink<ServerDatum, RouteDatum>(links).id(d => d.server_id))
+        .force('charge', d3.forceManyBody())
+        .force('x', d3.forceX())
+        .force('y', d3.forceY())
+
       // Gateways
       const gatewayLink = this.svg?.append('g') // Add element g (g for group)
         .attr('stroke-opacity', 0.6)
@@ -123,14 +139,16 @@ export default {
       hull?.append('title')
         .text(d => d.name)
 
-      // Physics for moving the nodes together
-      // const allNodes = nodes.concat(hulls)
-
-      const simulation: d3.Simulation<ServerDatum, RouteDatum> = d3.forceSimulation(nodes)
-        .force('link', d3.forceLink<ServerDatum, RouteDatum>(links).id(d => d.server_id))
-        .force('charge', d3.forceManyBody())
-        .force('x', d3.forceX())
-        .force('y', d3.forceY())
+      // Cluster nodes
+      const cluster = this.svg?.append('g') // Add element g (g for group)
+        .selectAll('circle') // Select all of type 'circle'
+        .data(hulls)
+        .join('circle')
+        // Set the placement and radius for each node
+        .attr('cx', () => { return Math.random() * 300 - 150 }) // Random because, then the simulation can move them around
+        .attr('cy', () => { return Math.random() * 300 - 150 })
+        .attr('r', 1)
+        .call(drag(simulation)) // Handle dragging of the nodes
 
       // Connections between nodes
       const link = this.svg?.append('g') // Add element g (g for group)
@@ -171,6 +189,8 @@ export default {
       node?.append('title')
         .text(d => (d.ntv_error ? '[Crashed?] \n' : '') + 'NAME:' + d.server_name + '\nID:' + d.server_id)
 
+      console.log(nodes)
+
       // What it does whenever the canvas updates
       simulation.on('tick', () => {
 
@@ -182,8 +202,15 @@ export default {
           .attr('x2', d => d.target.x)
           .attr('y2', d => d.target.y)
 
-        // cluster?.attr('cx', d => d.x)
-        //   .attr('cy', d => d.y)
+        const k = simulation.alpha() * 0.3;
+        nodes.forEach(serverNode => {
+          const cluster = clusterNameToCluster.get(serverNode.ntv_cluster)
+          serverNode.y += (cluster.y - serverNode.y) * k;
+          serverNode.x += (cluster.x - serverNode.x) * k;
+        })
+
+        cluster?.attr('cx', d => d.x)
+          .attr('cy', d => d.y)
 
         hull?.attr('d', d => {
           // TODO: Find a more efficient method (pre process groupings of nodes according to clusters)
