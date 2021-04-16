@@ -28,5 +28,13 @@ export default {
 </script>
 
 <style scoped>
-
+#status-bar {
+  text-align: center;
+  width: 350px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  margin-left: 20px;
+  margin-bottom: 20px;
+}
 </style>
