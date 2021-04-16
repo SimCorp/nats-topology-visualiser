@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using static Microsoft.AspNetCore.Http.StatusCodes;
@@ -19,6 +20,7 @@ namespace backend
         private static ConcurrentBag<ServerNode> processedServers = new ConcurrentBag<ServerNode>();
         private static ConcurrentBag<ClusterNode> processedClusters = new ConcurrentBag<ClusterNode>();
         private static Dictionary<string, List<string>> serverToMissingServer = new Dictionary<string, List<string>>();
+        private static String timeOfRequest;
 
 
         [HttpGet("/nodes")]
@@ -33,6 +35,14 @@ namespace backend
         public ActionResult<IEnumerable<ClusterNode>> GetClusters()
         {   
             return processedClusters;
+        }
+        
+        [HttpGet("/timeOfRequest")]
+        [ProducesResponseType(Status200OK)]
+        public ActionResult<String> GetTimeOfRequest()
+        {
+            timeOfRequest = Program.dateOfNatsRequest.ToString("h:mm tt yyyy MMMM dd");
+            return timeOfRequest;
         }
 
         [HttpGet("/varz")]

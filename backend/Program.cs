@@ -23,6 +23,7 @@ namespace backend
         public static ConcurrentBag<Route> routes = new ConcurrentBag<Route>();
         public static ConcurrentBag<Gateway> gateways = new ConcurrentBag<Gateway>();
         public static ConcurrentBag<Leaf> leafs = new ConcurrentBag<Leaf>();
+        public static DateTime dateOfNatsRequest;
 
 
         private static void Main(string[] args)
@@ -32,6 +33,8 @@ namespace backend
             var options = ConnectionFactory.GetDefaultOptions();
             options.Url = Env.GetEnvironmentVariable("NATS_URL");
             idToServer = new ConcurrentDictionary<string, Server>();
+            
+            dateOfNatsRequest = DateTime.Now;
 
             using (var connection = new ConnectionFactory().CreateConnection(options))
             {
@@ -114,7 +117,7 @@ namespace backend
                     idToServer[s.server_id] = s;
                 }
             });
-
+            
             Controller.ProcessData();
 
             CreateHostBuilder(args).Build().Run();
