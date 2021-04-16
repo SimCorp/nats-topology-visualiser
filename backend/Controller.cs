@@ -41,7 +41,7 @@ namespace backend
         [ProducesResponseType(Status200OK)]
         public ActionResult<String> GetTimeOfRequest()
         {
-            timeOfRequest = Program.dateOfNatsRequest.ToString("h:mm tt yyyy MMMM dd");
+            timeOfRequest = Program.dateOfNatsRequest.ToString("hh:mm tt - dd MMMM yyyy");
             return timeOfRequest;
         }
 
