@@ -1,9 +1,9 @@
 <template>
-  <div id="app">
-    <h1>Visualizer</h1>
-    <Graph/>
-    <Statusbar/>
-  </div>
+<div id="app">
+  <h1 id="title">Topology Visualizer</h1>
+  <Graph/>
+  <Statusbar/>
+</div>
 </template>
 
 <script lang="ts">
@@ -16,3 +16,10 @@ export default {
 }
 
 </script>
+
+<style scoped>
+#title {
+  text-align: center;
+  margin-top: 15px;
+}
+</style>
