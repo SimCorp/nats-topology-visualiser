@@ -60,7 +60,12 @@ namespace backend
         [ProducesResponseType(Status200OK)]
         public ActionResult<IEnumerable<Link>> GetGatewayLinks()
         {   
-            var gatewayLinks = new List<Link> { new Link ("bb1", "bb2", true), new Link("ehkd1", "ehkd2", false)};
+            var gatewayLinks = new List<Link> {
+                new Link ("bb1", "bb2", true),
+                new Link ("bb1", "bb3", true),
+                new Link ("bb2", "bb3", true),
+                new Link("ehkd1", "ehkd2", false)
+            };
             return gatewayLinks;
         }
 
