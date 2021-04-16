@@ -1,6 +1,6 @@
 ﻿<template>
   <div id='graph'>
-    <Searchbar id="search" v-on:input="searchFilter"></Searchbar>
+    <Searchbar id="search" v-on:input="searchFilter" @button-click="searchReset"/>
     <div id='visualizer'></div>
   </div>
 </template>
@@ -17,9 +17,9 @@ import { D3DragEvent, SimulationNodeDatum, Selection, SubjectPosition } from 'd3
 export default {
   name: 'Graph',
   components: { Searchbar },
-  data (): { 
-    searchText: string; 
-    servers: ServerDatum[]; 
+  data (): {
+    searchText: string;
+    servers: ServerDatum[];
     routes: RouteDatum[];
     clusters: ClusterDatum[];
     svg: Selection<SVGSVGElement, unknown, HTMLElement, HTMLElement> | null;
@@ -56,6 +56,11 @@ export default {
 
       this.drawGraph(this.searchText !== '')
 
+    },
+    // Resets the graph on click of the "X" button
+    searchReset() {
+      this.searchText = '' // This is only Graph's local variable, the actual input text gets removed in Searchbar
+      this.drawGraph(false)
     },
     // Checks whether the current server name contains the given search text/input
     isSearchMatch (serverName: string) {
@@ -98,7 +103,7 @@ export default {
         .attr('stroke-linejoin', 'round')
         .attr('stroke-width', 20)
         .style('fill', '#ddd')
-        
+
       hull?.append('title')
         .text(d => d.name)
 
@@ -169,7 +174,7 @@ export default {
             return [node[0].x, node[0].y]
           })
           const hullCoords: [number, number][] | null = d3.polygonHull(nodesCoords)
-          return svgPath(hullCoords || nodesCoords) // Polygonhull returns null for 2 or fewer nodes. 
+          return svgPath(hullCoords || nodesCoords) // Polygonhull returns null for 2 or fewer nodes.
         })
       })
     }
@@ -197,7 +202,7 @@ function calculateViewBoxValue (width: number, height: number, viewBoxScalar: nu
 }
 
 function drag (simulation: d3.Simulation<ServerDatum, RouteDatum>): d3.DragBehavior<Element, ServerDatum, ServerDatum | SubjectPosition> & ((this: Element, event: any, d: ServerDatum) => void) {
-  function dragstarted (event: D3DragEvent<SVGElement, SimulationNodeDatum, ServerDatum>, d: ServerDatum) { 
+  function dragstarted (event: D3DragEvent<SVGElement, SimulationNodeDatum, ServerDatum>, d: ServerDatum) {
     if (!event.active) simulation.alphaTarget(0.3).restart()
     d.fx = d.x
     d.fy = d.y
