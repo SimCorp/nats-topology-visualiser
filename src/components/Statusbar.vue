@@ -30,7 +30,7 @@ export default {
 <style scoped>
 #status-bar {
   text-align: center;
-  width: 350px;
+  width: 360px;
   position: absolute;
   bottom: 0;
   left: 0;
