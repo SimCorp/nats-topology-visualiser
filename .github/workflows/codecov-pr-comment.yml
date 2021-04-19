@@ -1,0 +1,24 @@
+name: Generate Codecov PR report
+
+on:
+  issue_comment:
+    types: [created, edited]
+
+jobs:
+  codecov-comment:
+    if: contains(github.event.comment.html_url, '/pull/') && contains(github.event.comment.body, 'run codecov')
+    name: CodeCov comment
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        dotnet: ['5.0']
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Test code
+        run: dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
+      - name: Upload code
+        run:
+          bash <(curl -s https://codecov.io/bash) -t ${{ secrets.CODECOV_TOKEN }}
