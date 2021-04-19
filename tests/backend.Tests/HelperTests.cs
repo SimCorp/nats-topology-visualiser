@@ -5,14 +5,8 @@ using backend.helpers;
 
 namespace backend.Tests
 {
-    public class Tests
+    public class HelperTests
     {
-        [Fact]
-        public void Test1()
-        {
-            Assert.True(true);
-        }
-
         [Fact]
         public void EnvTest()
         {
