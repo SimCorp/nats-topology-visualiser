@@ -4,7 +4,7 @@ using backend.models;
 
 namespace backend.Tests
 {
-    public class ConnectionTest
+    public class ConnectionTests
     {
         [Fact]
         public void Test1()
