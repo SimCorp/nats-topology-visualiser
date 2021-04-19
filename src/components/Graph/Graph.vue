@@ -22,7 +22,7 @@ export default {
     servers: ServerDatum[];
     routes: RouteDatum[];
     clusters: ClusterDatum[];
-    gatewayLinks: {source:string, target:string, ntv_error: boolean}[];
+    gatewayLinks: RouteDatum[];
     svg: Selection<SVGSVGElement, unknown, HTMLElement, HTMLElement> | null;
   } {
     return {
@@ -119,8 +119,11 @@ export default {
         .data(gateways) // Insert the list of links
         .join('line')
         .attr('stroke', d => d.ntv_error ? '#f00' : '#999') // Set line to red, if it has an error
-        .attr('stroke-width', 2)
+        .attr('stroke-width', 3)
         .style('opacity', isSearch ? 0.2 : 1.0)
+
+      gatewayLink?.append('title')
+        .text(d => d.errorsAsString)
 
       // A convex hull (enclosing path) for clusters
       const hull = this.svg?.append('g')
@@ -129,12 +132,12 @@ export default {
         .enter()
         .append('path')
         .attr('d', '')
-        .attr('opacity', 0.7)
         .attr('stroke', '#ddd')
         .attr('stroke-width', '13px')
         .attr('stroke-linejoin', 'round')
         .attr('stroke-width', 20)
         .style('fill', '#ddd')
+        .call(drag(simulation))
 
       hull?.append('title')
         .text(d => d.name)
@@ -176,7 +179,7 @@ export default {
         .attr('r', 5)
         .attr('fill', d => d.ntv_error ? '#f00' : '#000') // Make node red if it has error
         .style('opacity', d => this.isSearchMatch(d.server_name) || (d.server_name === null && !isSearch) ? 1.0 : 0.2)
-        .call(drag(simulation)) // Handle dragging of the nodes
+        // .call(drag(simulation)) // Handle dragging of the nodes
         .on('click', (d, i) => { // Log the value of the chosen node on click
           axios.get('https://localhost:5001/varz/' + i.server_id).then(a => {
             console.log(d)
