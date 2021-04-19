@@ -61,13 +61,21 @@ namespace backend
         [ProducesResponseType(Status200OK)]
         public ActionResult<IEnumerable<Link>> GetGatewayLinks()
         {   
-            
-            var gatewayLinks = new List<Link> {
-                new Link ("bb1", "bb2", true),
-                new Link ("bb1", "bb3", true),
-                new Link ("bb2", "bb3", true),
-                new Link("ehkd1", "ehkd2", false)
-            };
+            var gatewayLinks = new List<Link>();
+            foreach (var cluster in clusterConnectionErrors)
+            {
+                var split = cluster.Key.Split(" NAMESPLIT ");
+                var source = split[0];
+                var target = split[1];
+                var link = new Link (source, target, cluster.Value.Count > 0);
+                link.errors = cluster.Value;
+                foreach (var err in cluster.Value)
+                {
+                    link.errorsAsString += "\n" + err;
+                }
+                gatewayLinks.Add(link);
+            }
+
             return gatewayLinks;
         }
 
