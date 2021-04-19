@@ -5,4 +5,6 @@ export default class RouteDatum implements d3.SimulationLinkDatum<ServerDatum> {
     ntv_error!: boolean;
     source!: ServerDatum;
     target!: ServerDatum;
+    errors!: string[];
+    errorsAsString!: string;
 }
