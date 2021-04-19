@@ -180,13 +180,13 @@ function createGatewayLinkSelection (
   gateways: GatewayDatum[]
 ) {
   const gatewayLink = svg?.append('g') // Add element g (g for group)
-  .attr('stroke-opacity', 0.6)
-  .selectAll('line') // Select all of type 'line'
-  .data(gateways) // Insert the list of links
-  .join('line')
-  .attr('stroke', d => d.ntv_error ? '#f00' : '#999') // Set line to red, if it has an error
-  .attr('stroke-width', 3)
-  .style('opacity', d => d.isSearchMatch ? 1.0 : 0.2)
+    .attr('stroke-opacity', 0.6)
+    .selectAll('line') // Select all of type 'line'
+    .data(gateways) // Insert the list of links
+    .join('line')
+    .attr('stroke', d => d.ntv_error ? '#f00' : '#999') // Set line to red, if it has an error
+    .attr('stroke-width', 3)
+    .style('opacity', d => d.isSearchMatch ? 1.0 : 0.2)
 
   gatewayLink?.append('title')
     .text(d => d.errorsAsString)
