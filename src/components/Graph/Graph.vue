@@ -9,10 +9,12 @@
 import * as d3 from 'd3'
 import axios from 'axios'
 import Searchbar from '@/components/Searchbar.vue'
-import RouteDatum from './RouteDatum'
+import GatewayDatum from './GatewayDatum'
 import ServerDatum from './ServerDatum'
 import ClusterDatum from './ClusterDatum'
-import { D3DragEvent, SimulationNodeDatum, Selection, SubjectPosition } from 'd3'
+import { D3DragEvent, SimulationNodeDatum, Selection, SubjectPosition, Link, SimulationLinkDatum } from 'd3'
+import LinkDatum from './LinkDatum'
+import RouteDatum from './RouteDatum'
 
 export default {
   name: 'Graph',
@@ -22,7 +24,7 @@ export default {
     servers: ServerDatum[];
     routes: RouteDatum[];
     clusters: ClusterDatum[];
-    gatewayLinks: RouteDatum[];
+    gateways: GatewayDatum[];
     svg: Selection<SVGSVGElement, unknown, HTMLElement, HTMLElement> | null;
   } {
     return {
@@ -30,7 +32,7 @@ export default {
       servers: [],
       routes: [],
       clusters: [],
-      gatewayLinks: [],
+      gateways: [],
       svg: null
     }
   },
@@ -83,7 +85,8 @@ export default {
       this.clusters = clusterz.data
 
       const gatewayLinks = await axios.get('https://localhost:5001/gatewayLinks')
-      this.gatewayLinks = gatewayLinks.data
+      this.gateways = gatewayLinks.data
+      console.log("bruh", this.gateways)
     },
     // Draws graph from given data
     drawGraph (isSearch: boolean) {
@@ -91,10 +94,10 @@ export default {
       this.svg?.selectAll('*').remove()
 
       // Set data to new variables (in case they get modified)
-      const nodes = this.servers
-      const links = this.routes
-      const hulls = this.clusters
-      const gateways = this.gatewayLinks
+      // const nodes = this.servers
+      // const links = this.routes
+      // const hulls = this.clusters
+      // const gateways = this.gatewayLinks
 
         // Cluster Map
       const clusterNameToCluster = new Map<string, ClusterDatum>()
@@ -103,11 +106,12 @@ export default {
       })
       console.log(clusterNameToCluster)
 
-      const allNodes: (ServerDatum | ClusterDatum)[] = nodes.concat(hulls)
+      const allNodes: SimulationNodeDatum[] = this.servers.concat(this.clusters)
 
       // Physics for moving the nodes together
-      const simulation: d3.Simulation<ServerDatum, RouteDatum> = d3.forceSimulation(allNodes)
-        .force('link', d3.forceLink<ServerDatum, RouteDatum>(links).id(d => d.server_id))
+      const simulation: d3.Simulation<SimulationNodeDatum, LinkDatum<SimulationNodeDatum>> = d3.forceSimulation(allNodes)
+        .force('link', d3.forceLink<ServerDatum, RouteDatum>(this.routes).id(d => d.server_id))
+        .force('link', d3.forceLink<ClusterDatum, GatewayDatum>(this.gateways).id(d => d.name).strength(0.4).distance(50))
         .force('charge', d3.forceManyBody())
         .force('x', d3.forceX())
         .force('y', d3.forceY())
@@ -116,7 +120,7 @@ export default {
       const gatewayLink = this.svg?.append('g') // Add element g (g for group)
         .attr('stroke-opacity', 0.6)
         .selectAll('line') // Select all of type 'line'
-        .data(gateways) // Insert the list of links
+        .data(this.gateways) // Insert the list of links
         .join('line')
         .attr('stroke', d => d.ntv_error ? '#f00' : '#999') // Set line to red, if it has an error
         .attr('stroke-width', 3)
@@ -128,7 +132,7 @@ export default {
       // A convex hull (enclosing path) for clusters
       const hull = this.svg?.append('g')
         .selectAll('path')
-        .data(hulls)
+        .data(this.clusters)
         .enter()
         .append('path')
         .attr('d', '')
@@ -145,33 +149,34 @@ export default {
       // Cluster nodes
       const cluster = this.svg?.append('g') // Add element g (g for group)
         .selectAll('circle') // Select all of type 'circle'
-        .data(hulls)
+        .data(this.clusters)
         .join('circle')
         // Set the placement and radius for each node
         .attr('cx', () => { return Math.random() * 300 - 150 }) // Random because, then the simulation can move them around
         .attr('cy', () => { return Math.random() * 300 - 150 })
         .attr('r', 1)
+        .style('opacity', 0)
         .call(drag(simulation)) // Handle dragging of the nodes
 
       // Connections between nodes
-      const link = this.svg?.append('g') // Add element g (g for group)
+      const routeLink = this.svg?.append('g') // Add element g (g for group)
         .attr('stroke-opacity', 0.6)
         .selectAll('line') // Select all of type 'line'
-        .data(links) // Insert the list of links
+        .data(this.routes) // Insert the list of links
         .join('line')
         .attr('stroke', d => d.ntv_error ? '#f00' : '#999') // Set line to red, if it has an error
         .attr('stroke-width', 2)
         .style('opacity', isSearch ? 0.2 : 1.0)
 
-      link?.append('title') // Set title (hover text) for erronious link
+      routeLink?.append('title') // Set title (hover text) for erronious link
         .text(d => d.ntv_error ? 'Something\'s Wrong' : '')
 
       // The nodes
-      const node = this.svg?.append('g') // Add element g (g for group)
+      const serverNode = this.svg?.append('g') // Add element g (g for group)
         .attr('stroke', '#888')
         .attr('stroke-width', 3)
         .selectAll('circle') // Select all of type 'circle'
-        .data(nodes)
+        .data(this.servers)
         .join('circle')
         // Set the placement and radius for each node
         .attr('cx', () => { return Math.random() }) // Random because, then the simulation can move them around
@@ -189,65 +194,66 @@ export default {
         })
 
       // Set a title on the node, which is shown when hovered
-      node?.append('title')
+      serverNode?.append('title')
         .text(d => (d.ntv_error ? '[Crashed?] \n' : '') + 'NAME:' + d.server_name + '\nID:' + d.server_id)
-
-      console.log(nodes)
 
       // What it does whenever the canvas updates
       simulation.on('tick', () => {
 
-        node?.attr('cx', d => d.x)
+        serverNode?.attr('cx', d => d.x)
           .attr('cy', d => d.y)
 
-        link?.attr('x1', d => d.source.x)
+        routeLink?.attr('x1', d => d.source.x)
           .attr('y1', d => d.source.y)
           .attr('x2', d => d.target.x)
           .attr('y2', d => d.target.y)
 
         const k = simulation.alpha() * 0.3;
-        nodes.forEach(serverNode => {
+        this.servers.forEach(serverNode => {
           const cluster = clusterNameToCluster.get(serverNode.ntv_cluster)
-          serverNode.y += (cluster.y - serverNode.y) * k;
-          serverNode.x += (cluster.x - serverNode.x) * k;
+          serverNode.y += (cluster!.y - serverNode.y) * k;
+          serverNode.x += (cluster!.x - serverNode.x) * k;
         })
 
         cluster?.attr('cx', d => d.x)
           .attr('cy', d => d.y)
 
-        hull?.attr('d', d => {
-          // TODO: Find a more efficient method (pre process groupings of nodes according to clusters)
-          const nodesOfCluster = d.servers.map(serverDatum => {
-            return nodes.filter(serverNode => (serverDatum.server_id === serverNode.server_id))
-          })
-          // Create SVG path from coordinates
-          const nodesCoords: [number, number][] = nodesOfCluster.map(node => {
-            return [node[0].x, node[0].y]
-          })
-          const hullCoords: [number, number][] | null = d3.polygonHull(nodesCoords)
+        hull?.attr('d', d => getHullPath(d, this.servers))
 
-          const centroid = d3.polygonCentroid(hullCoords || [])
-          gateways.forEach(gateway => {
-            if (gateway.source === d.name) {
-              gateway['sourcex'] = centroid[0]
-              gateway['sourcey'] = centroid[1]
-            }
-            if (gateway.target === d.name) {
-              gateway['targetx'] = centroid[0]
-              gateway['targety'] = centroid[1]
-            }
-          })
-
-          return svgPath(hullCoords || nodesCoords) // Polygonhull returns null for 2 or fewer nodes. 
-        })
-
-        gatewayLink?.attr('x1', d => d.sourcex)
-          .attr('y1', d => d.sourcey)
-          .attr('x2', d => d.targetx)
-          .attr('y2', d => d.targety)
+        gatewayLink?.attr('x1', d => d.source.x)
+          .attr('y1', d => d.source.y)
+          .attr('x2', d => d.target.x)
+          .attr('y2', d => d.target.y)
       })
     }
   }
+}
+
+function getHullPath (cluster: ClusterDatum, servers: ServerDatum[]) {
+  // TODO: Find a more efficient method (pre process groupings of nodes according to clusters)
+  const nodesOfCluster = cluster.servers.map(serverDatum => {
+    return servers.filter(serverNode => (serverDatum.server_id === serverNode.server_id))
+  })
+  // Create SVG path from coordinates
+  const nodesCoords: [number, number][] = nodesOfCluster.map(node => {
+    return [node[0].x, node[0].y]
+  })
+  nodesCoords.push([cluster.x, cluster.y])
+  const hullCoords: [number, number][] | null = d3.polygonHull(nodesCoords)
+
+  // const centroid = d3.polygonCentroid(hullCoords || [])
+  // gateways.forEach(gateway => {
+  //   if (gateway.source.name === d.name) {
+  //     gateway.source.x = centroid[0]
+  //     gateway.source.y = centroid[1]
+  //   }
+  //   if (gateway.target === d.name) {
+  //     gateway.target.x = centroid[0]
+  //     gateway.target.y = centroid[1]
+  //   }
+  // })
+
+  return svgPath(hullCoords || nodesCoords) // Polygonhull returns null for 2 or fewer nodes. 
 }
 
 function svgPath (coordinates: [number, number][]): string {
@@ -270,8 +276,8 @@ function calculateViewBoxValue (width: number, height: number, viewBoxScalar: nu
   return viewBoxValue
 }
 
-function drag (simulation: d3.Simulation<ServerDatum, RouteDatum>): d3.DragBehavior<Element, ServerDatum, ServerDatum | SubjectPosition> & ((this: Element, event: any, d: ServerDatum) => void) {
-  function dragstarted (event: D3DragEvent<SVGElement, SimulationNodeDatum, ServerDatum>, d: ServerDatum) {
+function drag (simulation: d3.Simulation<SimulationNodeDatum, LinkDatum<SimulationNodeDatum>>): d3.DragBehavior<Element, ServerDatum, ServerDatum | SubjectPosition> & ((this: Element, event: any, d: ServerDatum) => void) {
+  function dragstarted (event: D3DragEvent<SVGElement, SimulationNodeDatum, ServerDatum>, d: ServerDatum) { 
     if (!event.active) simulation.alphaTarget(0.3).restart()
     d.fx = d.x
     d.fy = d.y
