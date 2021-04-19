@@ -23,8 +23,8 @@ namespace backend
             Console.WriteLine(json.ToString());
         }
 
-        private JToken ParseData(MsgHandlerEventArgs e) {
-
+        private JToken ParseData(MsgHandlerEventArgs e)
+        {
             var json = JsonConvert.DeserializeObject(Encoding.UTF8.GetString(e.Message.Data));
 
             JToken token = JObject.Parse(json.ToString());
@@ -83,8 +83,7 @@ namespace backend
             catch (Exception x)
             {
                 Console.WriteLine(x.StackTrace);
-            }
-            
+            }  
         }
         
         public void IncomingMessageHandlerGateWay(object sender, MsgHandlerEventArgs e)
@@ -99,8 +98,7 @@ namespace backend
             catch (Exception x)
             {
                 Console.WriteLine(x.StackTrace);
-            }
-            
+            }  
         }
 
         public void IncomingMessageHandlerLeaf(object sender, MsgHandlerEventArgs e)
@@ -116,7 +114,6 @@ namespace backend
             {
                 Console.WriteLine(x.StackTrace);
             }
-            
         }
 
     }

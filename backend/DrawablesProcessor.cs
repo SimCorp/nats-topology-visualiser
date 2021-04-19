@@ -162,9 +162,7 @@ namespace backend
                 });
             });
         }
-
-
- 
+        
         public string clusterTupleString(string cluster1, string cluster2)
         {
             return cluster1 + " NAMESPLIT " + cluster2;

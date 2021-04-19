@@ -10,7 +10,6 @@ namespace backend
 {
     class EventParser
     {
-
         public DataStorage dataStorage;
 
         public EventParser(DataStorage dataStorage) {
@@ -18,7 +17,6 @@ namespace backend
 
             SetEnv();
         }
-
 
         public void Parse()
         {
@@ -77,8 +75,6 @@ namespace backend
             });
 
         }
-
-
 
         public void Subscribe(string inbox, EventHandler<MsgHandlerEventArgs> handler, string subject, IConnection connection){
             using(var subscription = connection.SubscribeAsync(inbox, handler)) {
