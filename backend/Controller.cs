@@ -146,8 +146,9 @@ namespace backend
                 var source = entry.Key;
                 foreach (var target in entry.Value)
                 {
-                    var node = new ServerNode{
-                        server_id = target, 
+                    var node = new ServerNode {
+                        server_id = target,
+                        server_name = "Unknown name",
                         ntv_error = true
                     };
                     var cluster = processedClusters.Where(c => c.ContainsServer(source)).Select(c => c).FirstOrDefault();
