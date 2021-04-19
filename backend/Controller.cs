@@ -21,9 +21,10 @@ namespace backend
         private static ConcurrentBag<ClusterNode> processedClusters = new ConcurrentBag<ClusterNode>();
         private static Dictionary<string, List<string>> serverToMissingServer = new Dictionary<string, List<string>>();
         private static HashSet<string> missingServerIds = new HashSet<string>();
-        private static Dictionary<string, HashSet<string>> clustersAdjacencyList = new Dictionary<string, HashSet<string>>();
         private static HashSet<string> foundServers = new HashSet<string>();
         private static Dictionary<string, string> serverToCluster = new Dictionary<string, string>();
+        private static Dictionary<string, List<string>> clusterConnectionErrors = new Dictionary<string, List<string>>();
+        private static List<ClusterNode> errorClusters = new List<ClusterNode>();
 
         private static String timeOfRequest;
 
@@ -33,12 +34,12 @@ namespace backend
         {   
             return processedServers;
         }
-
-        [HttpGet("/clusterconnections")]
+        
+        [HttpGet("/gatewayerrors")]
         [ProducesResponseType(Status200OK)]
-        public ActionResult<Dictionary<string, HashSet<string>>> GetClusterConnections()
+        public ActionResult<Dictionary<string, List<string>>> GetGatewayErrors()
         {   
-            return clustersAdjacencyList;
+            return clusterConnectionErrors;
         }
 
         [HttpGet("/clusters")]
@@ -60,6 +61,7 @@ namespace backend
         [ProducesResponseType(Status200OK)]
         public ActionResult<IEnumerable<Link>> GetGatewayLinks()
         {   
+            
             var gatewayLinks = new List<Link> {
                 new Link ("bb1", "bb2", true),
                 new Link ("bb1", "bb3", true),
@@ -190,8 +192,73 @@ namespace backend
                 processedClusters.Add(cluster);
             }
 
-            var errorClusters = new List<ClusterNode>();
+            constructClustersOfBrokenGateways();
+            
+            detectGatewaysToCrashedServers();
+            foreach (var connection in clusterConnectionErrors)
+            {
+                var tuple = stringToTuple(connection.Key);
+                var source = tuple.Item1;
+                var target = tuple.Item2;
+                foreach (var gateway in Program.gateways)
+                {
+                    if (gateway.name != source && gateway.name != target) continue;
+                    if (source == target) continue;
+                    if (gateway.name == target) continue;
+                    if (!gateway.outbound_gateways.ContainsKey(target) /*|| !gateway.outbound_gateways.ContainsKey(source)*/)
+                    { // TODO tjek hvilken cluster det er til og fra
+                        connection.Value.Add("Missing gateway from cluster " + gateway.name + " to cluster " + target + " for server " + gateway.server_id);
+                    }
+                }
+            }
+        }
 
+        public static string clusterTupleString(string cluster1, string cluster2)
+        {
+            return cluster1 + " NAMESPLIT " + cluster2;
+        }
+
+        public static (string, string) stringToTuple (string input)
+        {
+            var split = input.Split(" NAMESPLIT ");
+            return (split[0], split[1]);
+        }
+
+        public static void detectGatewaysToCrashedServers() {
+            foreach (var gateway in Program.gateways)
+            {
+                if (gateway.name is null) continue;
+                foreach (var outbound in gateway.outbound_gateways)
+                {
+                    if (!clusterConnectionErrors.ContainsKey(clusterTupleString(gateway.name, outbound.Key)) && !clusterConnectionErrors.ContainsKey(clusterTupleString(outbound.Key, gateway.name)))
+                    {
+                        clusterConnectionErrors.Add(clusterTupleString(gateway.name, outbound.Key), new List<string>());
+                    }
+                    if (!Program.idToServer.ContainsKey(outbound.Value.connection.name))
+                    {
+                        clusterConnectionErrors[clusterTupleString(gateway.name, outbound.Key)].Add("Outbound gateway to crashed server. From " + gateway.server_id + " to " + outbound.Value.connection.name);
+                    }
+                }
+                foreach (var inbound in gateway.inbound_gateways)
+                {
+                    if (!clusterConnectionErrors.ContainsKey(clusterTupleString(gateway.name, inbound.Key)) && !clusterConnectionErrors.ContainsKey(clusterTupleString(inbound.Key, gateway.name)))
+                    {
+                        clusterConnectionErrors.Add(clusterTupleString(gateway.name, inbound.Key), new List<string>());
+                    }
+                    foreach (var inboundEntry in inbound.Value)
+                    {
+                        if (!Program.idToServer.ContainsKey(inboundEntry.connection.name))
+                        {
+                            clusterConnectionErrors[clusterTupleString(gateway.name, inbound.Key)].Add("Inbound gateway to crashed server. To " + gateway.server_id + " from " + inboundEntry.connection.name);
+                        }
+                        
+                    }
+                }
+            }
+        }
+
+        public static void constructClustersOfBrokenGateways()
+        {
             foreach (var gateway in Program.gateways)
             {
                 foreach (var inbound in gateway.inbound_gateways)
@@ -270,7 +337,6 @@ namespace backend
                     cluster.name = gateway.name;
                 }
             }
-
             foreach (var cluster in errorClusters)
             {
                 processedClusters.Add(cluster);
