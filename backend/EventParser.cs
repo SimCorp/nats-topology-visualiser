@@ -31,40 +31,11 @@ namespace backend
             {
                 var inbox = connection.NewInbox();
 
-                using (var subscription = connection.SubscribeAsync(inbox, messageHandler.IncomingMessageHandlerServer))
-                {
-                    subscription.Start();
-                    connection.Publish("$SYS.REQ.SERVER.PING.VARZ", inbox, new byte[0]);
-                    Thread.Sleep(TimeSpan.FromSeconds(2));
-                }
-
-                using (var subscription = connection.SubscribeAsync(inbox, messageHandler.IncomingMessageHandlerConnection))
-                {
-                    subscription.Start();
-                    connection.Publish("$SYS.REQ.SERVER.PING.CONNZ", inbox, new byte[0]);
-                    Thread.Sleep(TimeSpan.FromSeconds(2));
-                }
-
-                using (var subscription = connection.SubscribeAsync(inbox, messageHandler.IncomingMessageHandlerRoute))
-                {
-                    subscription.Start();
-                    connection.Publish("$SYS.REQ.SERVER.PING.ROUTEZ", inbox, new byte[0]);
-                    Thread.Sleep(TimeSpan.FromSeconds(2));
-                }
-                
-                using (var subscription = connection.SubscribeAsync(inbox, messageHandler.IncomingMessageHandlerGateWay))
-                {
-                    subscription.Start();
-                    connection.Publish("$SYS.REQ.SERVER.PING.GATEWAYZ", inbox, new byte[0]);
-                    Thread.Sleep(TimeSpan.FromSeconds(2));
-                }
-
-                using (var subscription = connection.SubscribeAsync(inbox, messageHandler.IncomingMessageHandlerLeaf))
-                {
-                    subscription.Start();
-                    connection.Publish("$SYS.REQ.SERVER.PING.LEAFZ", inbox, new byte[0]);
-                    Thread.Sleep(TimeSpan.FromSeconds(2));
-                }
+                Subscribe(inbox, messageHandler.IncomingMessageHandlerServer, "$SYS.REQ.SERVER.PING.VARZ", connection);
+                Subscribe(inbox, messageHandler.IncomingMessageHandlerConnection, "$SYS.REQ.SERVER.PING.CONNZ", connection);
+                Subscribe(inbox, messageHandler.IncomingMessageHandlerRoute, "$SYS.REQ.SERVER.PING.ROUTEZ", connection);
+                Subscribe(inbox, messageHandler.IncomingMessageHandlerGateWay, "$SYS.REQ.SERVER.PING.GATEWAYZ", connection);
+                Subscribe(inbox, messageHandler.IncomingMessageHandlerLeaf, "$SYS.REQ.SERVER.PING.LEAFZ", connection);
             }
 
             Parallel.ForEach(dataStorage.connections, connection =>
@@ -109,12 +80,13 @@ namespace backend
 
 
 
-        public void Subscribe(String inbox, EventHandler<MsgHandlerEventArgs> handler, String subject, IConnection connection){
-                var subscription = connection.SubscribeAsync(inbox, handler);
+        public void Subscribe(string inbox, EventHandler<MsgHandlerEventArgs> handler, string subject, IConnection connection){
+            using(var subscription = connection.SubscribeAsync(inbox, handler)) {
                 subscription.Start();
                 connection.Publish(subject, inbox, new byte[0]);
                 Thread.Sleep(TimeSpan.FromSeconds(2));
-        }        
+            } 
+        }
         
         private static void SetEnv() 
         {
