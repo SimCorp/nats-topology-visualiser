@@ -6,4 +6,5 @@ export default class LinkDatum<T extends SimulationNodeDatum> implements d3.Simu
     ntv_error!: boolean;
     errors!: string[];
     errorsAsString!: string;
+    isSearchMatch = true;
 }
