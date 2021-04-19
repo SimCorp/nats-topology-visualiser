@@ -9,4 +9,5 @@ export default class ServerDatum implements d3.SimulationNodeDatum {
     y = 0;
     fx: number | undefined | null;
     fy: number | undefined | null;
+    isSearchMatch = true;
 }
