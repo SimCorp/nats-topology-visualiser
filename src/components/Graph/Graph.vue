@@ -50,6 +50,12 @@ export default {
       .attr('preserveAspectRatio', 'xMinYMin meet')
       .attr('viewBox', calculateViewBoxValue(width, height, viewBoxScalar))
 
+    this.svg.append('g').attr('id', 'gateways')
+    this.svg.append('g').attr('id', 'hulls')
+    this.svg.append('g').attr('id', 'clusters')
+    this.svg.append('g').attr('id', 'routes')
+    this.svg.append('g').attr('id', 'servers')
+
     this.drawGraph()
     this.searchFilter('')
   },
@@ -59,8 +65,6 @@ export default {
     // Updates isSearchMatch field of datums
     searchFilter (searchText: string) {
       const isEmptySearch = searchText === ''
-
-      console.log('isEmptySearch', isEmptySearch)
 
       searchText = searchText.toLowerCase();
 
@@ -108,8 +112,6 @@ export default {
     },
     // Draws graph from given data
     drawGraph () {
-      // Clear canvas
-      this.svg?.selectAll('*').remove()
 
       // Local variables
       const svg = this.svg
@@ -135,7 +137,7 @@ export default {
         .force('x', d3.forceX())
         .force('y', d3.forceY())
 
-      // Gateways
+      // // Gateways
       const gatewayLink = createGatewayLinkSelection(svg, gateways)
       const hull = createHullSelection(svg, clusters, simulation)
       const cluster = createClusterNodeSelection(svg, clusters, simulation)
@@ -179,7 +181,7 @@ function createGatewayLinkSelection (
   svg: d3.Selection<SVGSVGElement, unknown, HTMLElement, HTMLElement> | null,
   gateways: GatewayDatum[]
 ) {
-  const gatewayLink = svg?.append('g') // Add element g (g for group)
+  const gatewayLink = svg?.select('g#gateways') // Add element g (g for group)
     .attr('stroke-opacity', 0.6)
     .selectAll('line') // Select all of type 'line'
     .data(gateways) // Insert the list of links
@@ -200,11 +202,10 @@ function createHullSelection (
   clusters: ClusterDatum[],
   simulation: d3.Simulation<d3.SimulationNodeDatum, LinkDatum<d3.SimulationNodeDatum>>
 ) {
-  const hull = svg?.append('g')
+  const hull = svg?.select('g#hulls')
     .selectAll('path')
     .data(clusters)
-    .enter()
-    .append('path')
+    .join('path')
     .attr('d', '')
     .attr('stroke', '#ddd')
     .attr('stroke-width', '13px')
@@ -224,9 +225,9 @@ function createClusterNodeSelection (
   clusters: ClusterDatum[],
   simulation: d3.Simulation<d3.SimulationNodeDatum, LinkDatum<d3.SimulationNodeDatum>>
 ) {
-  return svg?.append('g') // Add element g (g for group)
+  return svg?.select('g#clusters') // Add element g (g for group)
     .selectAll('circle') // Select all of type 'circle'
-    .data(clusters)
+    .data(clusters, d => d.name)
     .join('circle')
     // Set the placement and radius for each node
     .attr('cx', () => { return Math.random() * 300 - 150 }) // Random because, then the simulation can move them around
@@ -240,11 +241,11 @@ function createRouteLinkSelection (
   svg: d3.Selection<SVGSVGElement, unknown, HTMLElement, HTMLElement> | null,
   routes: RouteDatum[]
 ) {
-  const routeLink = svg?.append('g') // Add element g (g for group)
-    .attr('stroke-opacity', 0.6)
+  const routeLink = svg?.select('g#routes') // Add element g (g for group)
     .selectAll('line') // Select all of type 'line'
     .data(routes) // Insert the list of links
     .join('line')
+    .attr('stroke-opacity', 0.6)
     .attr('stroke', d => d.ntv_error ? '#f00' : '#999') // Set line to red, if it has an error
     .attr('stroke-width', 2)
     .style('opacity', d => d.isSearchMatch ? 1.0 : 0.2)
@@ -260,13 +261,16 @@ function createServerNodeSelection (
   servers: ServerDatum[],
   simulation: d3.Simulation<d3.SimulationNodeDatum, LinkDatum<d3.SimulationNodeDatum>>
 ) {
-  const serverNode = svg?.append('g') // Add element g (g for group)
+  const serverNode = svg?.select('g#servers')
+    .selectAll('circle') // Select all of type 'circle'
+    .data(servers, d => d.server_id)
+    .join(
+      enter => enter.append('circle'),
+      update => update,
+      exit => exit.remove()
+    )
     .attr('stroke', '#888')
     .attr('stroke-width', 3)
-    .selectAll('circle') // Select all of type 'circle'
-    .data(servers)
-    .join('circle')
-    // Set the placement and radius for each node
     .attr('cx', () => { return Math.random() }) // Random because, then the simulation can move them around
     .attr('cy', () => { return Math.random() })
     .attr('r', 5)
