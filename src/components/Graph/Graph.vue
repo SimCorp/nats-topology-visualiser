@@ -7,7 +7,6 @@
 
 <script lang='ts'>
 import * as d3 from 'd3'
-import axios from 'axios'
 import Searchbar from '@/components/Searchbar.vue'
 import GatewayDatum from './GatewayDatum'
 import ServerDatum from './ServerDatum'
@@ -16,27 +15,33 @@ import { D3DragEvent, SimulationNodeDatum, Selection, SubjectPosition } from 'd3
 import LinkDatum from './LinkDatum'
 import RouteDatum from './RouteDatum'
 
+import axios from 'axios'
+
 export default {
   name: 'Graph',
   components: { Searchbar },
+  props: ['servers','routes','clusters','gatewayLinks','dataLoaded'],
   data (): { 
     searchText: string;
     servers: ServerDatum[]; 
     routes: RouteDatum[];
     clusters: ClusterDatum[];
     gateways: GatewayDatum[];
+    dataLoaded: boolean;
     svg: Selection<SVGSVGElement, unknown, HTMLElement, HTMLElement> | null;
   } {
     return {
-      servers: [],
-      routes: [],
-      clusters: [],
-      gateways: [],
-      svg: null
+      servers: this.servers,
+      routes: this.routes,
+      clusters: this.clusters,
+      gateways: this.gatewayLinks,
+      dataLoaded: this.dataLoaded,
+      svg: null,
     }
   },
-  async mounted () {
-    await this.getData()
+  mounted () {
+    console.log('dataLoaded',this.dataLoaded)
+    console.log('dataLoaded',this.$data)
 
     const width = window.innerWidth
     const height = window.innerHeight
@@ -48,7 +53,7 @@ export default {
       .append('svg')
       // Responsive SVG needs these 2 attributes
       .attr('preserveAspectRatio', 'xMinYMin meet')
-      .attr('viewBox', calculateViewBoxValue(width, height, viewBoxScalar))
+      .attr('viewBox', this.calculateViewBoxValue(width, height, viewBoxScalar))
 
     this.svg.append('g').attr('id', 'gateways')
     this.svg.append('g').attr('id', 'hulls')
@@ -63,7 +68,7 @@ export default {
     // Runs every time an input is given to the search bar - searchText is the input
     // Checks whether the current server name contains the given search text/input
     // Updates isSearchMatch field of datums
-    searchFilter (searchText: string) {
+    searchFilter (searchText: string): void {
       const isEmptySearch = searchText === ''
 
       searchText = searchText.toLowerCase();
@@ -111,16 +116,14 @@ export default {
       this.gateways = gatewayLinks.data
     },
     // Draws graph from given data
-    drawGraph () {
-
-      // Local variables
+    drawGraph (): void {
       const svg = this.svg
       const servers = this.servers
       const routes = this.routes
       const clusters = this.clusters
       const gateways = this.gateways
 
-      // Cluster Map
+      // Cluster Map for fast lookup
       const clusterNameToCluster = new Map<string, ClusterDatum>()
       this.clusters.forEach(cluster => {
         clusterNameToCluster.set(cluster.name, cluster)
@@ -138,16 +141,14 @@ export default {
         .force('y', d3.forceY())
 
       // // Gateways
-      const gatewayLink = createGatewayLinkSelection(svg, gateways)
-      const hull = createHullSelection(svg, clusters, simulation)
-      const cluster = createClusterNodeSelection(svg, clusters, simulation)
-      const routeLink = createRouteLinkSelection(svg, routes)
-      const serverNode = createServerNodeSelection(svg, servers, simulation)
+      const gatewayLink = this.createGatewayLinkSelection(svg, gateways)
+      const hull = this.createHullSelection(svg, clusters, simulation)
+      const cluster = this.createClusterNodeSelection(svg, clusters, simulation)
+      const routeLink = this.createRouteLinkSelection(svg, routes)
+      const serverNode = this.createServerNodeSelection(svg, servers, simulation)
 
       // Update data on simulation tick
-      simulation.on('tick', simulationTick)
-
-      function simulationTick (): void {
+      simulation.on('tick', () => {
         serverNode?.attr('cx', d => d.x)
           .attr('cy', d => d.y)
 
@@ -166,186 +167,186 @@ export default {
         cluster?.attr('cx', d => d.x)
           .attr('cy', d => d.y)
 
-        hull?.attr('d', d => getHullPath(d, servers))
+        hull?.attr('d', d => this.getHullPath(d, servers))
 
         gatewayLink?.attr('x1', d => d.source.x)
           .attr('y1', d => d.source.y)
           .attr('x2', d => d.target.x)
           .attr('y2', d => d.target.y)
+      })
+    },
+
+    createGatewayLinkSelection (
+      svg: d3.Selection<SVGSVGElement, unknown, HTMLElement, HTMLElement> | null,
+      gateways: GatewayDatum[]
+    ) {
+      const gatewayLink = svg?.select('g#gateways') // Add element g (g for group)
+        .attr('stroke-opacity', 0.6)
+        .selectAll('line') // Select all of type 'line'
+        .data(gateways) // Insert the list of links
+        .join('line')
+        .attr('stroke', d => d.ntv_error ? '#f00' : '#999') // Set line to red, if it has an error
+        .attr('stroke-width', 3)
+        .style('opacity', d => d.isSearchMatch ? 1.0 : 0.2)
+
+      gatewayLink?.append('title')
+        .text(d => d.errorsAsString)
+
+      return gatewayLink
+    },
+
+    // A convex hull (enclosing path) for clusters
+    createHullSelection (
+      svg: d3.Selection<SVGSVGElement, unknown, HTMLElement, HTMLElement> | null,
+      clusters: ClusterDatum[],
+      simulation: d3.Simulation<d3.SimulationNodeDatum, LinkDatum<d3.SimulationNodeDatum>>
+    ) {
+      const hull = svg?.select('g#hulls')
+        .selectAll('path')
+        .data(clusters)
+        .join('path')
+        .attr('d', '')
+        .attr('stroke', '#ddd')
+        .attr('stroke-width', '13px')
+        .attr('stroke-linejoin', 'round')
+        .attr('stroke-width', 20)
+        .style('fill', '#ddd')
+        .call(this.drag(simulation))
+
+      hull?.append('title')
+        .text(d => d.name)
+
+      return hull
+    },
+
+    createClusterNodeSelection (
+      svg: d3.Selection<SVGSVGElement, unknown, HTMLElement, HTMLElement> | null,
+      clusters: ClusterDatum[],
+      simulation: d3.Simulation<d3.SimulationNodeDatum, LinkDatum<d3.SimulationNodeDatum>>
+    ) {
+      return svg?.select('g#clusters') // Add element g (g for group)
+        .selectAll('circle') // Select all of type 'circle'
+        .data(clusters, d => d.name)
+        .join('circle')
+        // Set the placement and radius for each node
+        .attr('cx', () => { return Math.random() * 300 - 150 }) // Random because, then the simulation can move them around
+        .attr('cy', () => { return Math.random() * 300 - 150 })
+        .attr('r', 1)
+        .style('opacity', 0)
+        .call(this.drag(simulation)) // Handle dragging of the nodes
+    },
+
+    createRouteLinkSelection (
+      svg: d3.Selection<SVGSVGElement, unknown, HTMLElement, HTMLElement> | null,
+      routes: RouteDatum[]
+    ) {
+      const routeLink = svg?.select('g#routes') // Add element g (g for group)
+        .selectAll('line') // Select all of type 'line'
+        .data(routes) // Insert the list of links
+        .join('line')
+        .attr('stroke-opacity', 0.6)
+        .attr('stroke', d => d.ntv_error ? '#f00' : '#999') // Set line to red, if it has an error
+        .attr('stroke-width', 2)
+        .style('opacity', d => d.isSearchMatch ? 1.0 : 0.2)
+
+      routeLink?.append('title') // Set title (hover text) for erronious link
+        .text(d => d.ntv_error ? 'Something\'s Wrong' : '')
+      
+      return routeLink
+    },
+
+    createServerNodeSelection (
+      svg: d3.Selection<SVGSVGElement, unknown, HTMLElement, HTMLElement> | null,
+      servers: ServerDatum[],
+      simulation: d3.Simulation<d3.SimulationNodeDatum, LinkDatum<d3.SimulationNodeDatum>>
+    ) {
+      const serverNode = svg?.select('g#servers')
+        .selectAll('circle') // Select all of type 'circle'
+        .data(servers, d => d.server_id)
+        .join(
+          enter => enter.append('circle'),
+          update => update,
+          exit => exit.remove()
+        )
+        .attr('stroke', '#888')
+        .attr('stroke-width', 3)
+        .attr('cx', () => { return Math.random() }) // Random because, then the simulation can move them around
+        .attr('cy', () => { return Math.random() })
+        .attr('r', 5)
+        .attr('fill', d => d.ntv_error ? '#f00' : '#000') // Make node red if it has error
+        .style('opacity', d => d.isSearchMatch ? 1.0 : 0.2)
+        .call(this.drag(simulation)) // Handle dragging of the nodes
+        .on('click', (d, i) => { // Log the value of the chosen node on click
+          axios.get('https://localhost:5001/varz/' + i.server_id).then(a => {
+            console.log(d)
+            console.log(i)
+            console.log(a.data)
+          })
+        })
+
+      // Set a title on the node, which is shown when hovered
+      serverNode?.append('title')
+        .text(d => (d.ntv_error ? '[Crashed?] \n' : '') + 'NAME:' + d.server_name + '\nID:' + d.server_id)
+
+      return serverNode
+    },
+
+    getHullPath (cluster: ClusterDatum, servers: ServerDatum[]) {
+      // TODO: Find a more efficient method (pre process groupings of nodes according to clusters)
+      const nodesOfCluster = cluster.servers.map(serverDatum => {
+        return servers.filter(serverNode => (serverDatum.server_id === serverNode.server_id))
+      })
+      // Create SVG path from coordinates
+      const nodesCoords: [number, number][] = nodesOfCluster.map(node => {
+        return [node[0].x, node[0].y]
+      })
+      nodesCoords.push([cluster.x, cluster.y])
+      const hullCoords: [number, number][] | null = d3.polygonHull(nodesCoords)
+
+      return this.svgPath(hullCoords || nodesCoords) // Polygonhull returns null for 2 or fewer nodes. 
+    },
+
+    svgPath (coordinates: [number, number][]): string {
+      // Create closed SVG path from coordinates
+      const initialValue = ''
+      const hullPath: string = coordinates?.reduce((str, coords, index, array) =>
+        index === 0
+          ? `${str} M ${coords[0]},${coords[1]}` // Initially use MoveTo command 'M'
+          : `${str} L ${coords[0]},${coords[1]}` // otherwise use LineTo command 'L'
+      , initialValue) + ' Z' // End with ClosePath command 'Z'
+      return hullPath
+    },
+
+    drag (simulation: d3.Simulation<SimulationNodeDatum, LinkDatum<SimulationNodeDatum>>): d3.DragBehavior<Element, ServerDatum, ServerDatum | SubjectPosition> & ((this: Element, event: any, d: ServerDatum) => void) {
+      function dragstarted (event: D3DragEvent<SVGElement, SimulationNodeDatum, ServerDatum>, d: ServerDatum) { 
+        if (!event.active) simulation.alphaTarget(0.3).restart()
+        d.fx = d.x
+        d.fy = d.y
       }
+      function dragged (event: D3DragEvent<SVGElement, SimulationNodeDatum, ServerDatum>, d: ServerDatum) {
+        d.fx = event.x
+        d.fy = event.y
+      }
+      function dragended (event: D3DragEvent<SVGElement, SimulationNodeDatum, Node>, d: ServerDatum) {
+        if (!event.active) simulation.alphaTarget(0)
+        d.fx = null
+        d.fy = null
+      }
+      return d3.drag<Element, ServerDatum>()
+        .on('start', dragstarted)
+        .on('drag', dragged)
+        .on('end', dragended)
+    },
+
+    calculateViewBoxValue (width: number, height: number, viewBoxScalar: number): string {
+      const viewBoxTop = -width / 2
+      const viewBoxLeft = -height / 2
+      const viewBoxRight = width
+      const viewBoxBottom = height
+      const viewBoxValue = `${viewBoxTop * viewBoxScalar}, ${viewBoxLeft * viewBoxScalar}, ${viewBoxRight * viewBoxScalar}, ${viewBoxBottom * viewBoxScalar}`
+      return viewBoxValue
     }
   }
-}
-
-function createGatewayLinkSelection (
-  svg: d3.Selection<SVGSVGElement, unknown, HTMLElement, HTMLElement> | null,
-  gateways: GatewayDatum[]
-) {
-  const gatewayLink = svg?.select('g#gateways') // Add element g (g for group)
-    .attr('stroke-opacity', 0.6)
-    .selectAll('line') // Select all of type 'line'
-    .data(gateways) // Insert the list of links
-    .join('line')
-    .attr('stroke', d => d.ntv_error ? '#f00' : '#999') // Set line to red, if it has an error
-    .attr('stroke-width', 3)
-    .style('opacity', d => d.isSearchMatch ? 1.0 : 0.2)
-
-  gatewayLink?.append('title')
-    .text(d => d.errorsAsString)
-
-  return gatewayLink
-}
-
-// A convex hull (enclosing path) for clusters
-function createHullSelection (
-  svg: d3.Selection<SVGSVGElement, unknown, HTMLElement, HTMLElement> | null,
-  clusters: ClusterDatum[],
-  simulation: d3.Simulation<d3.SimulationNodeDatum, LinkDatum<d3.SimulationNodeDatum>>
-) {
-  const hull = svg?.select('g#hulls')
-    .selectAll('path')
-    .data(clusters)
-    .join('path')
-    .attr('d', '')
-    .attr('stroke', '#ddd')
-    .attr('stroke-width', '13px')
-    .attr('stroke-linejoin', 'round')
-    .attr('stroke-width', 20)
-    .style('fill', '#ddd')
-    .call(drag(simulation))
-
-  hull?.append('title')
-    .text(d => d.name)
-
-  return hull
-}
-
-function createClusterNodeSelection (
-  svg: d3.Selection<SVGSVGElement, unknown, HTMLElement, HTMLElement> | null,
-  clusters: ClusterDatum[],
-  simulation: d3.Simulation<d3.SimulationNodeDatum, LinkDatum<d3.SimulationNodeDatum>>
-) {
-  return svg?.select('g#clusters') // Add element g (g for group)
-    .selectAll('circle') // Select all of type 'circle'
-    .data(clusters, d => d.name)
-    .join('circle')
-    // Set the placement and radius for each node
-    .attr('cx', () => { return Math.random() * 300 - 150 }) // Random because, then the simulation can move them around
-    .attr('cy', () => { return Math.random() * 300 - 150 })
-    .attr('r', 1)
-    .style('opacity', 0)
-    .call(drag(simulation)) // Handle dragging of the nodes
-}
-
-function createRouteLinkSelection (
-  svg: d3.Selection<SVGSVGElement, unknown, HTMLElement, HTMLElement> | null,
-  routes: RouteDatum[]
-) {
-  const routeLink = svg?.select('g#routes') // Add element g (g for group)
-    .selectAll('line') // Select all of type 'line'
-    .data(routes) // Insert the list of links
-    .join('line')
-    .attr('stroke-opacity', 0.6)
-    .attr('stroke', d => d.ntv_error ? '#f00' : '#999') // Set line to red, if it has an error
-    .attr('stroke-width', 2)
-    .style('opacity', d => d.isSearchMatch ? 1.0 : 0.2)
-
-  routeLink?.append('title') // Set title (hover text) for erronious link
-    .text(d => d.ntv_error ? 'Something\'s Wrong' : '')
-  
-  return routeLink
-}
-
-function createServerNodeSelection (
-  svg: d3.Selection<SVGSVGElement, unknown, HTMLElement, HTMLElement> | null,
-  servers: ServerDatum[],
-  simulation: d3.Simulation<d3.SimulationNodeDatum, LinkDatum<d3.SimulationNodeDatum>>
-) {
-  const serverNode = svg?.select('g#servers')
-    .selectAll('circle') // Select all of type 'circle'
-    .data(servers, d => d.server_id)
-    .join(
-      enter => enter.append('circle'),
-      update => update,
-      exit => exit.remove()
-    )
-    .attr('stroke', '#888')
-    .attr('stroke-width', 3)
-    .attr('cx', () => { return Math.random() }) // Random because, then the simulation can move them around
-    .attr('cy', () => { return Math.random() })
-    .attr('r', 5)
-    .attr('fill', d => d.ntv_error ? '#f00' : '#000') // Make node red if it has error
-    .style('opacity', d => d.isSearchMatch ? 1.0 : 0.2)
-    .call(drag(simulation)) // Handle dragging of the nodes
-    .on('click', (d, i) => { // Log the value of the chosen node on click
-      axios.get('https://localhost:5001/varz/' + i.server_id).then(a => {
-        console.log(d)
-        console.log(i)
-        console.log(a.data)
-      })
-    })
-
-  // Set a title on the node, which is shown when hovered
-  serverNode?.append('title')
-    .text(d => (d.ntv_error ? '[Crashed?] \n' : '') + 'NAME:' + d.server_name + '\nID:' + d.server_id)
-
-  return serverNode
-}
-
-function getHullPath (cluster: ClusterDatum, servers: ServerDatum[]) {
-  // TODO: Find a more efficient method (pre process groupings of nodes according to clusters)
-  const nodesOfCluster = cluster.servers.map(serverDatum => {
-    return servers.filter(serverNode => (serverDatum.server_id === serverNode.server_id))
-  })
-  // Create SVG path from coordinates
-  const nodesCoords: [number, number][] = nodesOfCluster.map(node => {
-    return [node[0].x, node[0].y]
-  })
-  nodesCoords.push([cluster.x, cluster.y])
-  const hullCoords: [number, number][] | null = d3.polygonHull(nodesCoords)
-
-  return svgPath(hullCoords || nodesCoords) // Polygonhull returns null for 2 or fewer nodes. 
-}
-
-function svgPath (coordinates: [number, number][]): string {
-  // Create closed SVG path from coordinates
-  const initialValue = ''
-  const hullPath: string = coordinates?.reduce((str, coords, index, array) =>
-    index === 0
-      ? `${str} M ${coords[0]},${coords[1]}` // Initially use MoveTo command 'M'
-      : `${str} L ${coords[0]},${coords[1]}` // otherwise use LineTo command 'L'
-  , initialValue) + ' Z' // End with ClosePath command 'Z'
-  return hullPath
-}
-
-function drag (simulation: d3.Simulation<SimulationNodeDatum, LinkDatum<SimulationNodeDatum>>): d3.DragBehavior<Element, ServerDatum, ServerDatum | SubjectPosition> & ((this: Element, event: any, d: ServerDatum) => void) {
-  function dragstarted (event: D3DragEvent<SVGElement, SimulationNodeDatum, ServerDatum>, d: ServerDatum) { 
-    if (!event.active) simulation.alphaTarget(0.3).restart()
-    d.fx = d.x
-    d.fy = d.y
-  }
-  function dragged (event: D3DragEvent<SVGElement, SimulationNodeDatum, ServerDatum>, d: ServerDatum) {
-    d.fx = event.x
-    d.fy = event.y
-  }
-  function dragended (event: D3DragEvent<SVGElement, SimulationNodeDatum, Node>, d: ServerDatum) {
-    if (!event.active) simulation.alphaTarget(0)
-    d.fx = null
-    d.fy = null
-  }
-  return d3.drag<Element, ServerDatum>()
-    .on('start', dragstarted)
-    .on('drag', dragged)
-    .on('end', dragended)
-}
-
-function calculateViewBoxValue (width: number, height: number, viewBoxScalar: number) {
-  const viewBoxTop = -width / 2
-  const viewBoxLeft = -height / 2
-  const viewBoxRight = width
-  const viewBoxBottom = height
-  const viewBoxValue = `${viewBoxTop * viewBoxScalar}, ${viewBoxLeft * viewBoxScalar}, ${viewBoxRight * viewBoxScalar}, ${viewBoxBottom * viewBoxScalar}`
-  return viewBoxValue
 }
 
 </script>
