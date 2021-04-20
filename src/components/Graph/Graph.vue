@@ -22,7 +22,6 @@ export default {
   components: { Searchbar },
   props: ['servers','routes','clusters','gatewayLinks','dataLoaded'],
   data (): { 
-    searchText: string;
     servers: ServerDatum[]; 
     routes: RouteDatum[];
     clusters: ClusterDatum[];
@@ -97,23 +96,8 @@ export default {
     },
     // Resets the graph on click of the "X" button
     searchReset() {
-      this.searchText = '' // This is only Graph's local variable, the actual input text gets removed in Searchbar
-      this.drawGraph(false)
-    },
-    async getData () {
-      const host = 'https://localhost:5001'
-
-      const varzResponse = await axios.get(`${host}/nodes`)
-      this.servers = varzResponse.data
-
-      const routezResponse = await axios.get(`${host}/links`)
-      this.routes = routezResponse.data
-
-      const clusterz = await axios.get(`${host}/clusters`)
-      this.clusters = clusterz.data
-
-      const gatewayLinks = await axios.get(`${host}/gatewayLinks`)
-      this.gateways = gatewayLinks.data
+      this.searchFilter('')
+      this.drawGraph()
     },
     // Draws graph from given data
     drawGraph (): void {
