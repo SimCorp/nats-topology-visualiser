@@ -1,6 +1,6 @@
 <template>
 <div id="app">
-  <h1>Topology Visualizer</h1>
+  <h1 id="title">Topology Visualizer</h1>
   <Graph
     v-if='dataLoaded'
     :servers='this.servers'
@@ -10,6 +10,8 @@
     :dataLoaded='this.dataLoaded'
   >
   </Graph>
+  <Graph/>
+  <InfoPanel></InfoPanel>
   <Statusbar/>
 </div>
 </template>
@@ -23,10 +25,16 @@ import RouteDatum from './components/Graph/RouteDatum'
 import ClusterDatum from './components/Graph/ClusterDatum'
 import GatewayDatum from './components/Graph/GatewayDatum'
 import Statusbar from '@/components/Statusbar.vue'
+import InfoPanel from '@/components/InfoPanel.vue'
+
 
 export default {
   name: 'App',
-  components: { Graph, Statusbar },
+  components: {
+    Graph,
+    Statusbar,
+    InfoPanel
+  },
   data (): { 
     servers: ServerDatum[]; 
     routes: RouteDatum[];
@@ -67,4 +75,6 @@ export default {
   text-align: center;
   margin-top: 15px;
 }
+
+
 </style>
