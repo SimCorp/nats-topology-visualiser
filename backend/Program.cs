@@ -126,7 +126,17 @@ namespace backend
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); });
+                .ConfigureAppConfiguration((hostingContext, configuration) =>
+                {
+                    //configuration.Sources.Clear();
+
+                    IHostEnvironment env = hostingContext.HostingEnvironment;
+
+                    configuration
+                        .SetBasePath(env.ContentRootPath)
+                        .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+                
+                }).ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); });
 
 
         private static void IncomingMessageHandlerRawJson(object sender, MsgHandlerEventArgs e)
