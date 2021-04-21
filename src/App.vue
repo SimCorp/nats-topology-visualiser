@@ -2,6 +2,7 @@
 <div id="app">
   <h1 id="title">Topology Visualizer</h1>
   <Graph
+    @node-click="onNodeClick"
     v-if='dataLoaded'
     :servers='this.servers'
     :routes='this.routes'
@@ -10,9 +11,8 @@
     :dataLoaded='this.dataLoaded'
   >
   </Graph>
-  <Graph/>
-  <InfoPanel></InfoPanel>
-  <Statusbar/>
+  <InfoPanel ref="panel"></InfoPanel>
+  <Statusbar></Statusbar>
 </div>
 </template>
 
@@ -41,6 +41,7 @@ export default {
     clusters: ClusterDatum[];
     gatewayLinks: GatewayDatum[];
     dataLoaded: boolean;
+    isPanelOpen: boolean;
   } {
     return {
       servers: [],
@@ -48,6 +49,7 @@ export default {
       clusters: [],
       gatewayLinks: [],
       dataLoaded: false,
+      isPanelOpen: false
     }
   },
   created: async function(){
@@ -65,6 +67,9 @@ export default {
 
       return true
     },
+    onNodeClick () {
+      this.$refs.panel.onNodeClick();
+    }
   }
 }
 
@@ -75,6 +80,5 @@ export default {
   text-align: center;
   margin-top: 15px;
 }
-
 
 </style>
