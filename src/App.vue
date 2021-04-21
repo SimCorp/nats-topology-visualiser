@@ -43,7 +43,7 @@ export default {
     servers: ServerDatum[]; 
     routes: RouteDatum[];
     clusters: ClusterDatum[];
-    gatewayLinks: GatewayDatum[];
+    gateways: GatewayDatum[];
     dataLoaded: boolean;
     isPanelOpen: boolean;
   } {
@@ -67,14 +67,14 @@ export default {
       this.servers = (await axios.get(`${host}/nodes`)).data
       this.routes = (await axios.get(`${host}/links`)).data
       this.clusters =( await axios.get(`${host}/clusters`)).data
-      this.gatewayLinks = (await axios.get(`${host}/gatewayLinks`)).data
+      this.gateways = (await axios.get(`${host}/gatewayLinks`)).data
 
       return true
     },
     onNodeClick () {
       this.$refs.panel.onNodeClick()
     },
-    onSearchInput (text) {
+    onSearchInput (text: string) {
       this.$refs.graph.searchFilter(text)
     },
     onSearchReset () {
