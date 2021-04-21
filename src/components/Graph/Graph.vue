@@ -1,13 +1,11 @@
 ﻿<template>
   <div id='graph'>
-    <Searchbar id="search" v-on:input="searchFilter" @button-click="searchReset"/>
     <div id='visualizer'></div>
   </div>
 </template>
 
 <script lang='ts'>
 import * as d3 from 'd3'
-import Searchbar from '@/components/Searchbar.vue'
 import GatewayDatum from './GatewayDatum'
 import ServerDatum from './ServerDatum'
 import ClusterDatum from './ClusterDatum'
@@ -19,10 +17,9 @@ import axios from 'axios'
 
 export default {
   name: 'Graph',
-  components: { Searchbar },
   props: ['servers','routes','clusters','gatewayLinks','dataLoaded'],
-  data (): { 
-    servers: ServerDatum[]; 
+  data (): {
+    servers: ServerDatum[];
     routes: RouteDatum[];
     clusters: ClusterDatum[];
     gateways: GatewayDatum[];
@@ -235,7 +232,7 @@ export default {
 
       routeLink?.append('title') // Set title (hover text) for erronious link
         .text(d => d.ntv_error ? 'Something\'s Wrong' : '')
-      
+
       return routeLink
     },
 
@@ -289,7 +286,7 @@ export default {
       nodesCoords.push([cluster.x, cluster.y])
       const hullCoords: [number, number][] | null = d3.polygonHull(nodesCoords)
 
-      return this.svgPath(hullCoords || nodesCoords) // Polygonhull returns null for 2 or fewer nodes. 
+      return this.svgPath(hullCoords || nodesCoords) // Polygonhull returns null for 2 or fewer nodes.
     },
 
     svgPath (coordinates: [number, number][]): string {
@@ -304,7 +301,7 @@ export default {
     },
 
     drag (simulation: d3.Simulation<SimulationNodeDatum, LinkDatum<SimulationNodeDatum>>): d3.DragBehavior<Element, ServerDatum, ServerDatum | SubjectPosition> & ((this: Element, event: any, d: ServerDatum) => void) {
-      function dragstarted (event: D3DragEvent<SVGElement, SimulationNodeDatum, ServerDatum>, d: ServerDatum) { 
+      function dragstarted (event: D3DragEvent<SVGElement, SimulationNodeDatum, ServerDatum>, d: ServerDatum) {
         if (!event.active) simulation.alphaTarget(0.3).restart()
         d.fx = d.x
         d.fy = d.y

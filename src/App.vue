@@ -2,6 +2,7 @@
 <div id="app">
   <h1 id="title">Topology Visualizer</h1>
   <Graph
+    ref="graph"
     @node-click="onNodeClick"
     v-if='dataLoaded'
     :servers='this.servers'
@@ -11,6 +12,7 @@
     :dataLoaded='this.dataLoaded'
   >
   </Graph>
+  <Searchbar id="search" v-on:input="onSearchInput" @button-click="onSearchReset"/>
   <InfoPanel ref="panel"></InfoPanel>
   <Statusbar></Statusbar>
 </div>
@@ -26,6 +28,7 @@ import ClusterDatum from './components/Graph/ClusterDatum'
 import GatewayDatum from './components/Graph/GatewayDatum'
 import Statusbar from '@/components/Statusbar.vue'
 import InfoPanel from '@/components/InfoPanel.vue'
+import Searchbar from "@/components/Searchbar.vue";
 
 
 export default {
@@ -33,6 +36,7 @@ export default {
   components: {
     Graph,
     Statusbar,
+    Searchbar,
     InfoPanel
   },
   data (): { 
@@ -68,7 +72,13 @@ export default {
       return true
     },
     onNodeClick () {
-      this.$refs.panel.onNodeClick();
+      this.$refs.panel.onNodeClick()
+    },
+    onSearchInput (text) {
+      this.$refs.graph.searchFilter(text)
+    },
+    onSearchReset () {
+      this.$refs.graph.searchReset()
     }
   }
 }
