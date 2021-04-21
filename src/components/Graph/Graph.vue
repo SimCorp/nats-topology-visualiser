@@ -9,36 +9,30 @@ import * as d3 from 'd3'
 import GatewayDatum from './GatewayDatum'
 import ServerDatum from './ServerDatum'
 import ClusterDatum from './ClusterDatum'
-import { D3DragEvent, SimulationNodeDatum, Selection, SubjectPosition } from 'd3'
+import { D3DragEvent, Selection, SubjectPosition } from 'd3'
 import LinkDatum from './LinkDatum'
 import RouteDatum from './RouteDatum'
 
 import axios from 'axios'
+import { PropType } from 'vue'
+import NodeDatum from './NodeDatum'
 
 export default {
   name: 'Graph',
-  props: ['servers','routes','clusters','gatewayLinks','dataLoaded'],
+  props: {
+    servers: Array as PropType<ServerDatum[]>,
+    routes: Array as PropType<RouteDatum[]>,
+    clusters: Array as PropType<ClusterDatum[]>,
+    gateways: Array as PropType<GatewayDatum[]>,
+  },
   data (): {
-    servers: ServerDatum[];
-    routes: RouteDatum[];
-    clusters: ClusterDatum[];
-    gateways: GatewayDatum[];
-    dataLoaded: boolean;
     svg: Selection<SVGSVGElement, unknown, HTMLElement, HTMLElement> | null;
   } {
     return {
-      servers: this.servers,
-      routes: this.routes,
-      clusters: this.clusters,
-      gateways: this.gatewayLinks,
-      dataLoaded: this.dataLoaded,
       svg: null,
     }
   },
   mounted () {
-    console.log('dataLoaded',this.dataLoaded)
-    console.log('dataLoaded',this.$data)
-
     const width = window.innerWidth
     const height = window.innerHeight
     const viewBoxScalar = 0.5
@@ -111,10 +105,10 @@ export default {
       })
 
       // Put every kind of node in a collection, before passing to simulation
-      const allNodes: SimulationNodeDatum[] = (servers as SimulationNodeDatum[]).concat(clusters)
+      const allNodes: NodeDatum[] = (servers as NodeDatum[]).concat(clusters)
 
       // Physics for moving the nodes together
-      const simulation: d3.Simulation<SimulationNodeDatum, LinkDatum<SimulationNodeDatum>> = d3.forceSimulation(allNodes)
+      const simulation: d3.Simulation<NodeDatum, LinkDatum<NodeDatum>> = d3.forceSimulation(allNodes)
         .force('link', d3.forceLink<ServerDatum, RouteDatum>(routes).id(d => d.server_id))
         .force('link', d3.forceLink<ClusterDatum, GatewayDatum>(gateways).id(d => d.name).strength(0.4).distance(50))
         .force('charge', d3.forceManyBody())
@@ -180,7 +174,7 @@ export default {
     createHullSelection (
       svg: d3.Selection<SVGSVGElement, unknown, HTMLElement, HTMLElement> | null,
       clusters: ClusterDatum[],
-      simulation: d3.Simulation<d3.SimulationNodeDatum, LinkDatum<d3.SimulationNodeDatum>>
+      simulation: d3.Simulation<NodeDatum, LinkDatum<NodeDatum>>
     ) {
       const hull = svg?.select('g#hulls')
         .selectAll('path')
@@ -203,11 +197,11 @@ export default {
     createClusterNodeSelection (
       svg: d3.Selection<SVGSVGElement, unknown, HTMLElement, HTMLElement> | null,
       clusters: ClusterDatum[],
-      simulation: d3.Simulation<d3.SimulationNodeDatum, LinkDatum<d3.SimulationNodeDatum>>
+      simulation: d3.Simulation<NodeDatum, LinkDatum<NodeDatum>>
     ) {
       return svg?.select('g#clusters') // Add element g (g for group)
         .selectAll('circle') // Select all of type 'circle'
-        .data(clusters, d => d.name)
+        .data(clusters, d => (d as ClusterDatum).name)
         .join('circle')
         // Set the placement and radius for each node
         .attr('cx', () => { return Math.random() * 300 - 150 }) // Random because, then the simulation can move them around
@@ -239,11 +233,11 @@ export default {
     createServerNodeSelection (
       svg: d3.Selection<SVGSVGElement, unknown, HTMLElement, HTMLElement> | null,
       servers: ServerDatum[],
-      simulation: d3.Simulation<d3.SimulationNodeDatum, LinkDatum<d3.SimulationNodeDatum>>
+      simulation: d3.Simulation<NodeDatum, LinkDatum<NodeDatum>>
     ) {
       const serverNode = svg?.select('g#servers')
         .selectAll('circle') // Select all of type 'circle'
-        .data(servers, d => d.server_id)
+        .data(servers, d => (d as ServerDatum).server_id)
         .join(
           enter => enter.append('circle'),
           update => update,
@@ -300,17 +294,17 @@ export default {
       return hullPath
     },
 
-    drag (simulation: d3.Simulation<SimulationNodeDatum, LinkDatum<SimulationNodeDatum>>): d3.DragBehavior<Element, ServerDatum, ServerDatum | SubjectPosition> & ((this: Element, event: any, d: ServerDatum) => void) {
-      function dragstarted (event: D3DragEvent<SVGElement, SimulationNodeDatum, ServerDatum>, d: ServerDatum) {
+    drag (simulation: d3.Simulation<NodeDatum, LinkDatum<NodeDatum>>): d3.DragBehavior<Element, ServerDatum, ServerDatum | SubjectPosition> & ((this: Element, event: any, d: ServerDatum) => void) {
+      function dragstarted (event: D3DragEvent<SVGElement, NodeDatum, ServerDatum>, d: ServerDatum) {
         if (!event.active) simulation.alphaTarget(0.3).restart()
         d.fx = d.x
         d.fy = d.y
       }
-      function dragged (event: D3DragEvent<SVGElement, SimulationNodeDatum, ServerDatum>, d: ServerDatum) {
+      function dragged (event: D3DragEvent<SVGElement, NodeDatum, ServerDatum>, d: ServerDatum) {
         d.fx = event.x
         d.fy = event.y
       }
-      function dragended (event: D3DragEvent<SVGElement, SimulationNodeDatum, Node>, d: ServerDatum) {
+      function dragended (event: D3DragEvent<SVGElement, NodeDatum, Node>, d: ServerDatum) {
         if (!event.active) simulation.alphaTarget(0)
         d.fx = null
         d.fy = null
