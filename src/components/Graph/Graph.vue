@@ -261,6 +261,8 @@ export default {
         .style('opacity', d => d.isSearchMatch ? 1.0 : 0.2)
         .call(this.drag(simulation)) // Handle dragging of the nodes
         .on('click', (d, i) => { // Log the value of the chosen node on click
+          this.$emit('node-click')
+
           axios.get('https://localhost:5001/varz/' + i.server_id).then(a => {
             console.log(d)
             console.log(i)
