@@ -18,7 +18,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import SidebarPanel from 'bootstrap-vue'
 
 export default {
@@ -31,8 +31,8 @@ export default {
   },
   methods: {
     onNodeClick () {
-      if (!this.isPanelOpen) {
-        this.isPanelOpen = true
+      if (!this.$data.isPanelOpen) {
+        this.$data.isPanelOpen = true
       }
     }
   }
