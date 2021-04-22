@@ -51,7 +51,7 @@ export default {
       servers: [],
       routes: [],
       clusters: [],
-      gatewayLinks: [],
+      gateways: [],
       dataLoaded: false,
       isPanelOpen: false
     }
