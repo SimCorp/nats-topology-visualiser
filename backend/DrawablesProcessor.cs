@@ -119,10 +119,11 @@ namespace backend
             foreach (var server in _dataStorage.routes)
             {
                 var source = server.server_id;
-                Parallel.ForEach(server.routes, route => {
+                foreach (var route in server.routes)
+                {
                     var target = route.remote_id;
                     _dataStorage.links.Add(new Link(source, target));
-                });
+                }
             }
 
             foreach (var link in _dataStorage.links) 
