@@ -8,7 +8,7 @@
     :servers='this.servers'
     :routes='this.routes'
     :clusters='this.clusters'
-    :gatewayLinks='this.gatewayLinks'
+    :gateways='this.gateways'
     :dataLoaded='this.dataLoaded'
   >
   </Graph>
@@ -51,7 +51,7 @@ export default {
       servers: [],
       routes: [],
       clusters: [],
-      gatewayLinks: [],
+      gateways: [],
       dataLoaded: false,
       isPanelOpen: false
     }
