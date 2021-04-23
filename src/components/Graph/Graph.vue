@@ -1,10 +1,14 @@
 ﻿<template>
   <div id='graph'>
     <Searchbar id="search" v-on:input="searchFilter" @button-click="searchReset"/>
-    <v-zoomer id="zoomer">
+    <div id="zoomButtons">
+      <b-button class="zoomButtons" @click="zoomOut" variant="info">-</b-button>
+      <b-button class="zoomButtons" @click="zoomIn" variant="info">+</b-button>
+      <label v-model="text"> {{ this.zoomLevel }}% </label>
+    </div>
+    <v-zoomer id="zoomer" ref="zoom" maxScale="6" minScale="1">
     <div id='visualizer'></div>
     </v-zoomer>
-    <Zoombar @plusClick="zoomIn" @minusClick="zoomOut"></Zoombar>
   </div>
 </template>
 
@@ -16,7 +20,6 @@ import ClusterDatum from './ClusterDatum'
 import { D3DragEvent, Selection, SubjectPosition } from 'd3'
 import LinkDatum from './LinkDatum'
 import RouteDatum from './RouteDatum'
-import Zoombar from '@/components/Zoombar.vue'
 
 import axios from 'axios'
 import { PropType } from 'vue'
@@ -35,6 +38,7 @@ export default {
   } {
     return {
       svg: null,
+      zoomLevel: 100,
     }
   },
   mounted () {
@@ -329,11 +333,16 @@ export default {
       return viewBoxValue
     },
     zoomIn () {
-      console.log("in")
-
+      if (this.zoomLevel < 300) {
+        this.$refs.zoom.zoomIn(1.20)
+        this.zoomLevel = this.zoomLevel +20
+      }
     },
     zoomOut () {
-      console.log("out")
+      if (this.zoomLevel > 100) {
+        this.$refs.zoom.zoomOut(0.80)
+        this.zoomLevel = this.zoomLevel -20
+      }
     }
   }
 }
@@ -349,8 +358,22 @@ svg {
   z-index: -1;
 }
 #zoomer {
-  width: 1000px;
-  height: 900px;
-  border: solid 1px silver;
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: -1;
+  width: 100vw;
+  height: 100vh;
+}
+#zoomButtons {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  margin-left: 420px;
+  margin-bottom: 17px;
+}
+.zoomButtons {
+  width: 40px;
+  margin: 3px;
 }
 </style>
