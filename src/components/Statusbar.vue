@@ -34,7 +34,7 @@ export default {
   position: absolute;
   bottom: 0;
   left: 0;
-  margin-left: 20px;
+  margin-left: 50px;
   margin-bottom: 20px;
 }
 </style>

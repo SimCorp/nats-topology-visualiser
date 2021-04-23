@@ -29,7 +29,7 @@ import GatewayDatum from './components/Graph/GatewayDatum'
 import Statusbar from '@/components/Statusbar.vue'
 import InfoPanel from '@/components/InfoPanel.vue'
 import Searchbar from "@/components/Searchbar.vue";
-
+import Zoombar from '@/components/Zoombar.vue'
 
 export default {
   name: 'App',
