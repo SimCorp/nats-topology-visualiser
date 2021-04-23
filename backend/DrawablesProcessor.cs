@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace backend
 {
-    class DrawablesProcessor
+    public class DrawablesProcessor
     {
         private DataStorage _dataStorage;
 
@@ -15,6 +15,12 @@ namespace backend
             _dataStorage = dataStorage;
 
             ProcessData();
+        }
+
+        // For testing purposes
+        public DrawablesProcessor(DataStorage dataStorage, string test)
+        {
+            _dataStorage = dataStorage;
         }
 
         public void ProcessData() 
@@ -110,20 +116,21 @@ namespace backend
         {
             // Information about routes are also on server, no request to routez necessary
             // Maybe info on routes is more up-to-date?
-            Parallel.ForEach(_dataStorage.servers, server => {
+            foreach (var server in _dataStorage.routes)
+            {
                 var source = server.server_id;
-                Parallel.ForEach(server.route.routes, route => {
+                foreach (var route in server.routes)
+                {
                     var target = route.remote_id;
                     _dataStorage.links.Add(new Link(source, target));
-                });
-            });
+                }
+            }
 
             foreach (var link in _dataStorage.links) 
             {
                 if (!_dataStorage.idToServer.ContainsKey(link.target))
                 {
                     link.ntv_error = true;
-                    _dataStorage.links.Add(link);
                     if (_dataStorage.serverToMissingServer.ContainsKey(link.source))
                     {
                         _dataStorage.serverToMissingServer[link.source].Add(link.target);

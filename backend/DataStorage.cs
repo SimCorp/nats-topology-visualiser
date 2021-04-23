@@ -14,7 +14,7 @@ namespace backend
         public ConcurrentBag<Route> routes;
         public ConcurrentBag<Gateway> gateways;
         public ConcurrentBag<Leaf> leafs;
-        public ConcurrentBag<Link> links;
+        public List<Link> links;
         public ConcurrentBag<ServerNode> processedServers;
         public ConcurrentBag<ClusterNode> processedClusters;
         public Dictionary<string, List<string>> serverToMissingServer;
@@ -35,7 +35,7 @@ namespace backend
             gateways = new ConcurrentBag<Gateway>();
             leafs = new ConcurrentBag<Leaf>();
 
-            links = new ConcurrentBag<Link>();
+            links = new List<Link>();
             processedServers = new ConcurrentBag<ServerNode>();
             processedClusters = new ConcurrentBag<ClusterNode>();
             serverToMissingServer = new Dictionary<string, List<string>>();
