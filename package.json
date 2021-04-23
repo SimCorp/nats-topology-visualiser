@@ -22,6 +22,7 @@
   "homepage": "https://github.com/SimCorp/nats-topology-visualiser#readme",
   "dependencies": {
     "@okta/okta-vue": "^3.1.0",
+    "@panzoom/panzoom": "^4.3.2",
     "axios": "^0.21.1",
     "bootstrap": "^4.6.0",
     "bootstrap-vue": "^2.21.2",
