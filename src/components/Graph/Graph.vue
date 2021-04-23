@@ -1,6 +1,10 @@
 ﻿<template>
   <div id='graph'>
+    <Searchbar id="search" v-on:input="searchFilter" @button-click="searchReset"/>
+    <v-zoomer id="zoomer">
     <div id='visualizer'></div>
+    </v-zoomer>
+    <Zoombar @plusClick="zoomIn" @minusClick="zoomOut"></Zoombar>
   </div>
 </template>
 
@@ -12,6 +16,7 @@ import ClusterDatum from './ClusterDatum'
 import { D3DragEvent, Selection, SubjectPosition } from 'd3'
 import LinkDatum from './LinkDatum'
 import RouteDatum from './RouteDatum'
+import Zoombar from '@/components/Zoombar.vue'
 
 import axios from 'axios'
 import { PropType } from 'vue'
@@ -322,6 +327,13 @@ export default {
       const viewBoxBottom = height
       const viewBoxValue = `${viewBoxTop * viewBoxScalar}, ${viewBoxLeft * viewBoxScalar}, ${viewBoxRight * viewBoxScalar}, ${viewBoxBottom * viewBoxScalar}`
       return viewBoxValue
+    },
+    zoomIn () {
+      console.log("in")
+
+    },
+    zoomOut () {
+      console.log("out")
     }
   }
 }
@@ -335,5 +347,10 @@ svg {
   left: 0;
   top: 0;
   z-index: -1;
+}
+#zoomer {
+  width: 1000px;
+  height: 900px;
+  border: solid 1px silver;
 }
 </style>
