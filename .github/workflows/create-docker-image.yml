@@ -1,0 +1,20 @@
+name: Docker image
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  docker:
+    name: Docker image build
+  runs-on: ubuntu-latest
+  strategy:
+    matrix:
+      dotnet: ['5.0']
+
+  steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+    - name: Docker build
+      run: docker build -t nats-topology-visualiser .
