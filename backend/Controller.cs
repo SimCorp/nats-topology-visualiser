@@ -52,6 +52,20 @@ namespace backend
             return timeOfRequest;
         }
 
+        [HttpGet("/iptoserverid")]
+        [ProducesResponseType(Status200OK)]
+        public ActionResult<Dictionary<string, string>> GetIpToServerId()
+        {
+            return _dataStorage.ipToServerId;
+        }
+
+        [HttpGet("/leaflinks")]
+        [ProducesResponseType(Status200OK)]
+        public ActionResult<List<Link>> GetLeafLinks()
+        {
+            return _dataStorage.leafLinks;
+        }
+
         [HttpGet("/gatewayLinks")]
         [ProducesResponseType(Status200OK)]
         public ActionResult<IEnumerable<Link>> GetGatewayLinks()

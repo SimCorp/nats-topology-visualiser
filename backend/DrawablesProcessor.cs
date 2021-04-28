@@ -29,6 +29,7 @@ namespace backend
             ProcessServers();
             ProcessClusters();
             ProcessLinks();
+            ProcessLeafs();
 
             // Patch for a missing node from varz
             // TODO dynamically handle these types of errors
@@ -54,6 +55,44 @@ namespace backend
                 foreach (var server in cluster.servers)
                 {
                     server.ntv_cluster = cluster.name;
+                }
+            }
+        }
+
+        public void ProcessLeafs()
+        {
+
+            var leafIps = new HashSet<string>();
+            foreach (var entry in _dataStorage.leafs)
+            {
+                if (entry.leafs is null) continue;
+                foreach (var leaf in entry.leafs)
+                {
+                    leafIps.Add(leaf.ip);
+                }
+            }
+
+            foreach (var entry in _dataStorage.routes)
+            {
+                foreach (var route in entry.routes)
+                {
+                    if (_dataStorage.ipToServerId.ContainsKey(route.ip)) continue;
+                    if (leafIps.Contains(route.ip))
+                    {
+                        _dataStorage.ipToServerId.Add(route.ip, route.remote_id);
+                    }
+                }
+            }
+            foreach (var server in _dataStorage.leafs)
+            {
+                if (server.leafs is null) continue;
+                foreach (var leaf in server.leafs)
+                {
+                    // TODO detection of errors (use leafAdjacencyList)
+                    _dataStorage.leafLinks.Add(new Link (
+                        server.server_id,
+                        _dataStorage.ipToServerId[leaf.ip] // TODO check for if key is not in map
+                    ));
                 }
             }
         }

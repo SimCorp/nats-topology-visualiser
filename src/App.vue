@@ -9,6 +9,7 @@
     :routes='this.routes'
     :clusters='this.clusters'
     :gateways='this.gateways'
+    :leafs='this.leafs'
     :dataLoaded='this.dataLoaded'
   >
   </Graph>
@@ -30,6 +31,7 @@ import Statusbar from '@/components/Statusbar.vue'
 import InfoPanel from '@/components/InfoPanel.vue'
 import Searchbar from "@/components/Searchbar.vue";
 import Zoombar from '@/components/Zoombar.vue'
+import LinkDatum from './components/Graph/LinkDatum'
 
 export default {
   name: 'App',
@@ -44,6 +46,7 @@ export default {
     routes: RouteDatum[];
     clusters: ClusterDatum[];
     gateways: GatewayDatum[];
+    leafs: RouteDatum[]; // TODO add LeafDatum?
     dataLoaded: boolean;
     isPanelOpen: boolean;
   } {
@@ -52,6 +55,7 @@ export default {
       routes: [],
       clusters: [],
       gateways: [],
+      leafs: [],
       dataLoaded: false,
       isPanelOpen: false
     }
@@ -68,6 +72,7 @@ export default {
       this.routes = (await axios.get(`${host}/links`)).data
       this.clusters =( await axios.get(`${host}/clusters`)).data
       this.gateways = (await axios.get(`${host}/gatewayLinks`)).data
+      this.leafs = (await axios.get(`${host}/leaflinks`)).data
 
       return true
     },

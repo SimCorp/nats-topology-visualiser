@@ -1,8 +1,9 @@
 using System.Collections.Generic;
+using System;
 
 namespace backend.drawables
 {
-    public class Link
+    public class Link 
     {
         public string source { get; }
         public string target { get; }

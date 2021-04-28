@@ -32,6 +32,7 @@ export default {
     routes: Array as PropType<RouteDatum[]>,
     clusters: Array as PropType<ClusterDatum[]>,
     gateways: Array as PropType<GatewayDatum[]>,
+    leafs: Array as PropType<RouteDatum[]>
   },
   data (): {
     svg: Selection<SVGSVGElement, unknown, HTMLElement, HTMLElement> | null;
@@ -58,6 +59,7 @@ export default {
     this.svg.append('g').attr('id', 'hulls')
     this.svg.append('g').attr('id', 'clusters')
     this.svg.append('g').attr('id', 'routes')
+    this.svg.append('g').attr('id', 'leafs')
     this.svg.append('g').attr('id', 'servers')
 
     this.drawGraph()
@@ -106,6 +108,7 @@ export default {
       const routes = this.routes
       const clusters = this.clusters
       const gateways = this.gateways
+      const leafs = this.leafs
 
       // Cluster Map for fast lookup
       const clusterNameToCluster = new Map<string, ClusterDatum>()
@@ -120,6 +123,7 @@ export default {
       const simulation: d3.Simulation<NodeDatum, LinkDatum<NodeDatum>> = d3.forceSimulation(allNodes)
         .force('link', d3.forceLink<ServerDatum, RouteDatum>(routes).id(d => d.server_id))
         .force('link', d3.forceLink<ClusterDatum, GatewayDatum>(gateways).id(d => d.name).strength(0.4).distance(50))
+        .force('link', d3.forceLink<ServerDatum, RouteDatum>(leafs).id(d => d.server_id).strength(0.01).distance(200))
         .force('charge', d3.forceManyBody())
         .force('x', d3.forceX())
         .force('y', d3.forceY())
@@ -129,6 +133,7 @@ export default {
       const hull = this.createHullSelection(svg, clusters, simulation)
       const cluster = this.createClusterNodeSelection(svg, clusters, simulation)
       const routeLink = this.createRouteLinkSelection(svg, routes)
+      const leafLink = this.createLeafLinkSelection(svg, leafs)
       const serverNode = this.createServerNodeSelection(svg, servers, simulation)
 
       // Update data on simulation tick
@@ -137,6 +142,11 @@ export default {
           .attr('cy', d => d.y)
 
         routeLink?.attr('x1', d => d.source.x)
+          .attr('y1', d => d.source.y)
+          .attr('x2', d => d.target.x)
+          .attr('y2', d => d.target.y)
+
+        leafLink?.attr('x1', d => d.source.x)
           .attr('y1', d => d.source.y)
           .attr('x2', d => d.target.x)
           .attr('y2', d => d.target.y)
@@ -237,6 +247,25 @@ export default {
         .text(d => d.ntv_error ? 'Something\'s Wrong' : '')
 
       return routeLink
+    },
+
+    createLeafLinkSelection(
+      svg: d3.Selection<SVGSVGElement, unknown, HTMLElement, HTMLElement> | null,
+      leafs: RouteDatum[])
+    {
+      const leafLink = svg?.select('g#leafs') // Add element g (g for group)
+        .selectAll('line') // Select all of type 'line'
+        .data(leafs) // Insert the list of links
+        .join('line')
+        .attr('stroke-opacity', 0.6)
+        .attr('stroke', d => d.ntv_error ? '#f00' : '#00f') // Set line to red, if it has an error
+        .attr('stroke-width', 2)
+        .style('opacity', d => d.isSearchMatch ? 1.0 : 0.2)
+
+      leafLink?.append('title') // Set title (hover text) for erronious link
+        .text(d => d.ntv_error ? 'Something\'s Wrong' : '')
+
+      return leafLink
     },
 
     createServerNodeSelection (

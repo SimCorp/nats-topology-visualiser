@@ -24,6 +24,9 @@ namespace backend
         public Dictionary<string, string> serverToCluster = new Dictionary<string, string>();
         public Dictionary<string, List<string>> clusterConnectionErrors = new Dictionary<string, List<string>>();
         public List<ClusterNode> errorClusters = new List<ClusterNode>();
+        public Dictionary<string, string> ipToServerId;
+        public Dictionary<string, List<string>> leafAdjacencyList;
+        public List<Link> leafLinks;
 
 
         public DataStorage() {
@@ -39,6 +42,9 @@ namespace backend
             processedServers = new ConcurrentBag<ServerNode>();
             processedClusters = new ConcurrentBag<ClusterNode>();
             serverToMissingServer = new Dictionary<string, List<string>>();
+            ipToServerId = new Dictionary<string, string>();
+            leafAdjacencyList = new Dictionary<string, List<string>>();
+            leafLinks = new List<Link>();
 
             missingServerIds = new HashSet<string>();
             foundServers = new HashSet<string>();
