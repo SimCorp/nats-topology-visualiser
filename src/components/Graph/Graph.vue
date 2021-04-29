@@ -4,7 +4,7 @@
       <b-button class="zoomButtons" @click="zoomOut" variant="info">-</b-button>
       <b-button class="zoomButtons" @click="zoomIn" variant="info">+</b-button>
     </div>
-    <v-zoomer id="zoomer" ref="zoom" maxScale="6" minScale="1">
+    <v-zoomer id="zoomer" ref="zoom" :maxScale="6" :minScale="1">
     <div id='visualizer'></div>
     </v-zoomer>
   </div>
