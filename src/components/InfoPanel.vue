@@ -9,7 +9,7 @@
       shadow=true
       width="400px"
       v-model="isPanelOpen">
-      <div class="px-3 py-2" id="info">
+      <div class="px-3 py-2">
         <table>
           <tr>
             <th>Name</th>
@@ -48,8 +48,13 @@ export default {
 }
 </script>
 
-<style scoped>
-#info {
-  overflow-x: hidden;
+<style>
+table {
+  table-layout: fixed;
+  width: 360px;
+}
+td {
+  word-wrap: break-word;
+  vertical-align: text-top;
 }
 </style>
