@@ -4,8 +4,6 @@
       id="sidepanel"
       title="Node information"
       right
-      backdrop-variant="transparent"
-      backdrop
       shadow=true
       width="400px"
       v-model="isPanelOpen">
