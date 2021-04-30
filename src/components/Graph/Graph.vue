@@ -261,7 +261,7 @@ export default {
         .attr('stroke', d => d.ntv_error ? '#f00' : '#00f') // Set line to red, if it has an error
         .attr('stroke-width', 2)
         .style('opacity', d => d.isSearchMatch ? 1.0 : 0.2)
-
+        .style ("stroke-dasharray", ("3,3"))
       leafLink?.append('title') // Set title (hover text) for erronious link
         .text(d => d.ntv_error ? 'Something\'s Wrong' : '')
 

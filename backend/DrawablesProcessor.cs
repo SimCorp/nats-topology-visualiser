@@ -95,6 +95,7 @@ namespace backend
                     ));
                 }
             }
+            detectLeafErrors();
         }
 
         public void ProcessClusters()
@@ -253,6 +254,19 @@ namespace backend
             }
         }
 
+        public void detectLeafErrors ()
+        {
+            foreach (var leafLink in _dataStorage.leafLinks)
+            {
+                if (! _dataStorage.leafConnectionErrors.ContainsKey(clusterTupleString(leafLink.source, leafLink.target)) && (! _dataStorage.leafConnectionErrors.ContainsKey(clusterTupleString(leafLink.target, leafLink.source))))
+                {
+                    _dataStorage.leafConnectionErrors.Add(clusterTupleString(leafLink.source, leafLink.target), new List<string>()); //<-- only one leaf connection is shown
+                }
+
+                //_dataStorage.leafConnectionErrors[clusterTupleString(leafLink.source, leafLink.target)].
+                
+            }
+        } 
         public void constructClustersOfBrokenGateways()
         {
             foreach (var gateway in _dataStorage.gateways)

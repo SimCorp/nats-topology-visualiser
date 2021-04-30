@@ -27,7 +27,7 @@ namespace backend
         public Dictionary<string, string> ipToServerId;
         public Dictionary<string, List<string>> leafAdjacencyList;
         public List<Link> leafLinks;
-
+        public Dictionary<string, List<string>> leafConnectionErrors;
 
         public DataStorage() {
 
@@ -45,12 +45,14 @@ namespace backend
             ipToServerId = new Dictionary<string, string>();
             leafAdjacencyList = new Dictionary<string, List<string>>();
             leafLinks = new List<Link>();
+            
 
             missingServerIds = new HashSet<string>();
             foundServers = new HashSet<string>();
             serverToCluster = new Dictionary<string, string>();
             clusterConnectionErrors = new Dictionary<string, List<string>>();
             errorClusters = new List<ClusterNode>();
+            leafConnectionErrors = new Dictionary<string, List<string>>();
         }
     }
 }

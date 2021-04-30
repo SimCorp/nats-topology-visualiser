@@ -62,8 +62,27 @@ namespace backend
         [HttpGet("/leaflinks")]
         [ProducesResponseType(Status200OK)]
         public ActionResult<List<Link>> GetLeafLinks()
-        {
-            return _dataStorage.leafLinks;
+        {  var leafLinks = new List<Link>();
+            foreach (var leafLink in _dataStorage.leafConnectionErrors)
+            {
+                var split = leafLink.Key.Split(" NAMESPLIT ");
+                var source = split[0];
+                var target = split[1];
+                var link = new Link (source, target, leafLink.Value.Count > 0);
+                link.errors = leafLink.Value;
+                foreach (var err in leafLink.Value)
+                {
+                    link.errorsAsString += "\n" + err;
+                }
+                leafLinks.Add(link);
+            } 
+           /* var leafLinks = new List<Link>();
+            foreach (var leaf in _dataStorage.leafConnectionErrors) 
+                {
+                    var s
+
+                } */
+            return leafLinks;
         }
 
         [HttpGet("/gatewayLinks")]
@@ -138,6 +157,8 @@ namespace backend
         [ProducesResponseType(Status200OK)]
         public ActionResult<IEnumerable<Leaf>> GetLeafz()
         {   
+            
+            
             return _dataStorage.leafs;
         }
     }
