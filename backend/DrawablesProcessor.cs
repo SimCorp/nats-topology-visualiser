@@ -264,7 +264,7 @@ namespace backend
                 }
 
                 //_dataStorage.leafConnectionErrors[clusterTupleString(leafLink.source, leafLink.target)].
-                
+                //TODO: detect how leafs connect (in order to get arrow-direction?)
             }
         } 
         public void constructClustersOfBrokenGateways()

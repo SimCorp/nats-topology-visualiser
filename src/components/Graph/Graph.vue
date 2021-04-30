@@ -264,8 +264,8 @@ export default {
         .style ("stroke-dasharray", ("3,3"))
       leafLink?.append('title') // Set title (hover text) for erronious link
         .text(d => d.ntv_error ? 'Something\'s Wrong' : '')
-
-      return leafLink
+      //TODO: detect how leafs connect (in order to get arrow-direction?)
+     return leafLink
     },
 
     createServerNodeSelection (
