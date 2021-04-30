@@ -10,16 +10,7 @@
       width="400px"
       v-model="isPanelOpen">
       <div class="px-3 py-2">
-        <table>
-          <tr>
-            <th>Name</th>
-            <th>Value</th>
-          </tr>
-          <tr v-for="(value, key) in nodeData">
-            <td>{{ key }}</td>
-            <td>{{ value }}</td>
-          </tr>
-        </table>
+        <json-view :data="nodeData" :root-key="rootName"/>
       </div>
     </b-sidebar>
   </div>
@@ -34,7 +25,8 @@ export default {
   data () {
     return {
       isPanelOpen: false,
-      nodeData: null
+      nodeData: null,
+      rootName: 'node'
     }
   },
   methods: {
@@ -48,13 +40,6 @@ export default {
 }
 </script>
 
-<style>
-table {
-  table-layout: fixed;
-  width: 360px;
-}
-td {
-  word-wrap: break-word;
-  vertical-align: text-top;
-}
+<style scoped>
+
 </style>
