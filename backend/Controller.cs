@@ -22,7 +22,7 @@ namespace backend
         {
             _dataStorage = dataStorage;
         }
-
+        
         [HttpGet("/nodes")]
         [ProducesResponseType(Status200OK)]
         public ActionResult<IEnumerable<ServerNode>> GetNodes()
@@ -125,5 +125,37 @@ namespace backend
         {   
             return _dataStorage.leafs;
         }
+        
+        [HttpGet("/TreeViewData")]
+        [ProducesResponseType(Status200OK)]
+        public ActionResult<IEnumerable<TreeNode>> GetTreeViewData()
+        {
+            var node1 = new TreeNode {
+                name = "node1",
+                id = 1,
+                pid = 0,
+                dragDisabled = true,
+                addTreeNodeDisabled = true,
+                addLeafNodeDisabled = true,
+                editNodeDisabled = true,
+                delNodeDisabled = true,
+            };
+            var node2 = new TreeNode {
+                name = "node2",
+                id = 2,
+                pid = 0,
+                dragDisabled = true,
+                addTreeNodeDisabled = true,
+                addLeafNodeDisabled = true,
+                editNodeDisabled = true,
+                delNodeDisabled = true,
+            };
+            List<TreeNode> test = new List<TreeNode>();
+            test.Add(node1);
+            test.Add(node2);
+
+            return test;
+        }
+        
     }
 }

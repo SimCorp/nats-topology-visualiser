@@ -28,6 +28,7 @@ namespace backend
         public List<LeafLink> leafLinks;
         public HashSet<string> leafConnections;
         public List<GatewayLink> gatewayLinks;
+        public List<TreeNode> treeNodes = new List<TreeNode>();
 
         public DataStorage() {
 

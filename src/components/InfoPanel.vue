@@ -19,9 +19,7 @@
       <div>
     <vue-tree-list
       @click="onClick"
-      @change-name="onChangeName"
-      @delete-node="onDel"
-      @add-node="onAddNode"
+
       :model="data"
       default-tree-node-name="new node"
       default-leaf-node-name="new leaf"
@@ -47,11 +45,16 @@
 <script lang="ts">
 import SidebarPanel from 'bootstrap-vue'
 import { VueTreeList, Tree, TreeNode } from 'vue-tree-list'
+import axios from "axios";
 
 export default {
   name: "InfoPanel",
+  async mounted () {
+    await this.getData()
+  },
   components: { SidebarPanel, VueTreeList },
-  data () {
+
+  data() {
     return {
       isPanelOpen: false,
       nodeData: null,
