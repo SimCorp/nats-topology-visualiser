@@ -16,6 +16,7 @@
   <Searchbar id="search" v-on:input="onSearchInput" @button-click="onSearchReset"/>
   <InfoPanel ref="panel"></InfoPanel>
   <Statusbar></Statusbar>
+  <TreeList></TreeList>
 </div>
 </template>
 
@@ -32,6 +33,7 @@ import InfoPanel from '@/components/InfoPanel.vue'
 import Searchbar from "@/components/Searchbar.vue";
 import Zoombar from '@/components/Zoombar.vue'
 import LinkDatum from './components/Graph/LinkDatum'
+import TreeList from '@/components/TreeList.vue'
 
 export default {
   name: 'App',
@@ -39,7 +41,7 @@ export default {
     Graph,
     Statusbar,
     Searchbar,
-    InfoPanel
+    InfoPanel,
   },
   data (): {
     servers: ServerDatum[];

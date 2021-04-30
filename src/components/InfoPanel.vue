@@ -16,16 +16,41 @@
           <json-view :data="nodeData" :root-key="rootName"/>
         </div>
       </div>
+      <div>
+    <vue-tree-list
+      @click="onClick"
+      @change-name="onChangeName"
+      @delete-node="onDel"
+      @add-node="onAddNode"
+      :model="data"
+      default-tree-node-name="new node"
+      default-leaf-node-name="new leaf"
+      v-bind:default-expanded="false"
+    >
+      <template v-slot:leafNameDisplay="slotProps">
+        <span>
+          {{ slotProps.model.name }} <span class="muted">#{{ slotProps.model.id }}</span>
+        </span>
+      </template>
+      <span class="icon" slot="addTreeNodeIcon">📂</span>
+      <span class="icon" slot="addLeafNodeIcon">＋</span>
+      <span class="icon" slot="editNodeIcon">📃</span>
+      <span class="icon" slot="delNodeIcon">✂️</span>
+      <span class="icon" slot="leafNodeIcon">🍃</span>
+      <span class="icon" slot="treeNodeIcon">🌲</span>
+    </vue-tree-list>
+  </div>
     </b-sidebar>
   </div>
 </template>
 
 <script lang="ts">
 import SidebarPanel from 'bootstrap-vue'
+import { VueTreeList, Tree, TreeNode } from 'vue-tree-list'
 
 export default {
   name: "InfoPanel",
-  components: { SidebarPanel },
+  components: { SidebarPanel, VueTreeList },
   data () {
     return {
       isPanelOpen: false,
