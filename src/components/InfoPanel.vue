@@ -2,17 +2,24 @@
   <div>
     <b-sidebar
       id="sidepanel"
-      title="Useful information"
+      title="Node information"
       right
       backdrop-variant="transparent"
       backdrop
       shadow=true
+      width="400px"
       v-model="isPanelOpen">
-      <div class="px-3 py-2">
-        <p>
-          Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis
-          in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
-        </p>
+      <div class="px-3 py-2" id="info">
+        <table>
+          <tr>
+            <th>Name</th>
+            <th>Value</th>
+          </tr>
+          <tr v-for="(value, key) in nodeData">
+            <td>{{ key }}</td>
+            <td>{{ value }}</td>
+          </tr>
+        </table>
       </div>
     </b-sidebar>
   </div>
@@ -26,19 +33,23 @@ export default {
   components: { SidebarPanel },
   data () {
     return {
-      isPanelOpen: false
+      isPanelOpen: false,
+      nodeData: null
     }
   },
   methods: {
-    onNodeClick () {
+    onNodeClick (nodeData) {
       if (!this.$data.isPanelOpen) {
         this.$data.isPanelOpen = true
       }
+      this.nodeData = nodeData
     }
   }
 }
 </script>
 
 <style scoped>
-
+#info {
+  overflow-x: hidden;
+}
 </style>
