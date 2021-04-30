@@ -1,12 +1,10 @@
 ﻿<template>
   <div id='graph'>
-    <Searchbar id="search" v-on:input="searchFilter" @button-click="searchReset"/>
     <div id="zoomButtons">
       <b-button class="zoomButtons" @click="zoomOut" variant="info">-</b-button>
       <b-button class="zoomButtons" @click="zoomIn" variant="info">+</b-button>
-      <label v-model="text"> {{ this.zoomLevel }}% </label>
     </div>
-    <v-zoomer id="zoomer" ref="zoom" maxScale="6" minScale="1">
+    <v-zoomer id="zoomer" ref="zoom" :maxScale="6" :minScale="1">
     <div id='visualizer'></div>
     </v-zoomer>
   </div>
@@ -31,14 +29,13 @@ export default {
     servers: Array as PropType<ServerDatum[]>,
     routes: Array as PropType<RouteDatum[]>,
     clusters: Array as PropType<ClusterDatum[]>,
-    gateways: Array as PropType<GatewayDatum[]>,
+    gateways: Array as PropType<GatewayDatum[]>
   },
   data (): {
     svg: Selection<SVGSVGElement, unknown, HTMLElement, HTMLElement> | null;
   } {
     return {
-      svg: null,
-      zoomLevel: 100,
+      svg: null
     }
   },
   mounted () {
@@ -333,16 +330,10 @@ export default {
       return viewBoxValue
     },
     zoomIn () {
-      if (this.zoomLevel < 300) {
-        this.$refs.zoom.zoomIn(1.20)
-        this.zoomLevel = this.zoomLevel +20
-      }
+      this.$refs.zoom.zoomIn(1.20)
     },
     zoomOut () {
-      if (this.zoomLevel > 100) {
-        this.$refs.zoom.zoomOut(0.80)
-        this.zoomLevel = this.zoomLevel -20
-      }
+      this.$refs.zoom.zoomOut(0.80)
     }
   }
 }
