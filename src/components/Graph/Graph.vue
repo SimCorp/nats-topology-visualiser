@@ -267,23 +267,25 @@ export default {
         .append("svg:marker")
         .attr("id", "arrow")
         .attr("viewBox", "0 -5 10 10")
-        .attr('refX', 16)//arrows touching nodes' border
-        .attr("markerWidth", 5)
-        .attr("markerHeight", 5)
+        .attr('refX', 20)//arrows touching nodes' border
+        .attr("markerWidth", 6)
+        .attr("markerHeight", 6)
         .attr("orient", "auto")
       .append("svg:path")
-        .attr("d", "M0,-5 L10,0 L0,5");
+        .attr("d", "M10,0 L0,4 L0,-4 Z")
+        .style('fill', '#444')
 
       svg?.append("svg:defs")
         .append("svg:marker")
         .attr("id", "arrow-2")
         .attr("viewBox", "0 -5 10 10")
-        .attr('refX', 16) //arrows touching nodes' border
-        .attr("markerWidth", 5)
-        .attr("markerHeight", 5)
+        .attr('refX', 20) //arrows touching nodes' border
+        .attr("markerWidth", 6)
+        .attr("markerHeight", 6)
         .attr("orient", "auto-start-reverse")
       .append("svg:path")
-        .attr("d", "M0,-5 L10,0 L0,5");
+        .attr("d", "M0,-4 L10,0 L0,4 Z")
+        .style('fill', '#444')
 
       const leafLink = svg?.select('g#leafs')
         .selectAll("line")
@@ -293,16 +295,16 @@ export default {
           update => update,
           exit => exit.remove()
         )
-        .style( "stroke", "#000" )
-        .attr('marker-end', () => "url(#arrow)")//attach the arrow from defs
-        .attr('marker-start', () => "url(#arrow-2)") //attach the arrow-2 from defs
-        .style( "stroke-width", 2 )
+        .style( "stroke", "#444" )
+        .attr('marker-end', () => "url(#arrow)") // attach the arrow from defs
+        .attr('marker-start', () => "url(#arrow-2)")
+        .style( "stroke-width", 1 )
         .style ("stroke-dasharray", ("3,3"))
 
       leafLink?.append('title') // Set title (hover text) for erronious link
         .text(d => d.ntv_error ? 'Something\'s Wrong' : '')
-        //.attr('stroke', d => d.ntv_error ? '#f00' : '#00f')  // Set line to red, if it has an error
-     return leafLink
+        // .attr('stroke', d => d.ntv_error ? '#f00' : '#00f')  // Set line to red, if it has an error
+      return leafLink
     },
 
     createServerNodeSelection (
