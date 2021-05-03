@@ -138,6 +138,7 @@ export default {
 
       // Update data on simulation tick
       simulation.on('tick', () => {
+        leafLink?.attr( "d", d => "M" + d.source.x + "," + d.source.y + ", " + d.target.x + "," + d.target.y)
         serverNode?.attr('cx', d => d.x)
           .attr('cy', d => d.y)
 
@@ -253,15 +254,37 @@ export default {
       svg: d3.Selection<SVGSVGElement, unknown, HTMLElement, HTMLElement> | null,
       leafs: RouteDatum[])
     {
-      const leafLink = svg?.select('g#leafs') // Add element g (g for group)
-        .selectAll('line') // Select all of type 'line'
-        .data(leafs) // Insert the list of links
-        .join('line')
-        .attr('stroke-opacity', 0.6)
-        .attr('stroke', d => d.ntv_error ? '#f00' : '#00f') // Set line to red, if it has an error
-        .attr('stroke-width', 2)
-        .style('opacity', d => d.isSearchMatch ? 1.0 : 0.2)
-        .style ("stroke-dasharray", ("3,3"))
+      // const leafLink = svg?.select('g#leafs') // Add element g (g for group)
+      //   .selectAll('line') // Select all of type 'line'
+      //   .data(leafs) // Insert the list of links
+      //   // .enter().append("svg:marker")
+      //   .join('line')
+      //   .attr('stroke-opacity', 0.6)
+      //   .attr('stroke', d => d.ntv_error ? '#f00' : '#00f') // Set line to red, if it has an error
+      //   .attr('stroke-width', 2)
+      //   .style('opacity', d => d.isSearchMatch ? 1.0 : 0.2)
+      //   .style ("stroke-dasharray", ("3,3"))
+
+      svg?.append("svg:defs").append("svg:marker")
+        .attr("id", "arrow")
+        .attr("viewBox", "0 -5 10 10")
+        .attr('refX', -20)//so that it comes towards the center.
+        .attr("markerWidth", 5)
+        .attr("markerHeight", 5)
+        .attr("orient", "auto")
+      .append("svg:path")
+        .attr("d", "M0,-5L10,0L0,5");
+
+      const leafLink = svg?.selectAll( "line.link" )
+        .data(leafs)
+        .enter().append( "path" )//append path
+        .attr( "class", "link" )
+        .style( "stroke", "#000" )
+        .attr('marker-start', () => "url(#arrow)")//attach the arrow from defs
+        .style( "stroke-width", 2 );
+
+      
+        
       leafLink?.append('title') // Set title (hover text) for erronious link
         .text(d => d.ntv_error ? 'Something\'s Wrong' : '')
       //TODO: detect how leafs connect (in order to get arrow-direction?)
