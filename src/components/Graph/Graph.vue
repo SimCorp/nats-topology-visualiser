@@ -165,12 +165,10 @@ export default {
           .attr('x2', d => d.target.x)
           .attr('y2', d => d.target.y)
           
-        leafLink?.attr("d", d => "M" + d.source.x + "," + d.source.y + ", " + d.target.x + "," + d.target.y)
-
-        // leafLink?.attr('x1', d => d.source.x)
-        //   .attr('y1', d => d.source.y)
-        //   .attr('x2', d => d.target.x)
-        //   .attr('y2', d => d.target.y)
+        leafLink?.attr('x1', d => d.source.x)
+          .attr('y1', d => d.source.y)
+          .attr('x2', d => d.target.x)
+          .attr('y2', d => d.target.y)
       })
     },
 
@@ -279,10 +277,10 @@ export default {
         .attr("d", "M0,-5L10,0L0,5");
 
       const leafLink = svg?.select('g#leafs')
-        .selectAll("path")
+        .selectAll("line")
         .data(leafs)
         .join(
-          enter => enter.append('path'),
+          enter => enter.append('line'),
           update => update,
           exit => exit.remove()
         )
