@@ -138,7 +138,7 @@ export default {
 
       // Update data on simulation tick
       simulation.on('tick', () => {
-        leafLink?.attr( "d", d => "M" + d.source.x + "," + d.source.y + ", " + d.target.x + "," + d.target.y)
+        
         serverNode?.attr('cx', d => d.x)
           .attr('cy', d => d.y)
 
@@ -147,10 +147,6 @@ export default {
           .attr('x2', d => d.target.x)
           .attr('y2', d => d.target.y)
 
-        leafLink?.attr('x1', d => d.source.x)
-          .attr('y1', d => d.source.y)
-          .attr('x2', d => d.target.x)
-          .attr('y2', d => d.target.y)
 
         const k = simulation.alpha() * 0.3;
         servers.forEach(serverNode => {
@@ -168,6 +164,13 @@ export default {
           .attr('y1', d => d.source.y)
           .attr('x2', d => d.target.x)
           .attr('y2', d => d.target.y)
+          
+        leafLink?.attr("d", d => "M" + d.source.x + "," + d.source.y + ", " + d.target.x + "," + d.target.y)
+
+        // leafLink?.attr('x1', d => d.source.x)
+        //   .attr('y1', d => d.source.y)
+        //   .attr('x2', d => d.target.x)
+        //   .attr('y2', d => d.target.y)
       })
     },
 
@@ -275,16 +278,18 @@ export default {
       .append("svg:path")
         .attr("d", "M0,-5L10,0L0,5");
 
-      const leafLink = svg?.selectAll( "line.link" )
+      const leafLink = svg?.select('g#leafs')
+        .selectAll("path")
         .data(leafs)
-        .enter().append( "path" )//append path
-        .attr( "class", "link" )
+        .join(
+          enter => enter.append('path'),
+          update => update,
+          exit => exit.remove()
+        )
         .style( "stroke", "#000" )
         .attr('marker-start', () => "url(#arrow)")//attach the arrow from defs
         .style( "stroke-width", 2 );
 
-      
-        
       leafLink?.append('title') // Set title (hover text) for erronious link
         .text(d => d.ntv_error ? 'Something\'s Wrong' : '')
       //TODO: detect how leafs connect (in order to get arrow-direction?)
