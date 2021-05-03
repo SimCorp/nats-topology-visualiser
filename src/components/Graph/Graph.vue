@@ -138,7 +138,14 @@ export default {
 
       // Update data on simulation tick
       simulation.on('tick', () => {
-        
+        cluster?.attr('cx', d => d.x)
+          .attr('cy', d => d.y)
+
+        gatewayLink?.attr('x1', d => d.source.x)
+          .attr('y1', d => d.source.y)
+          .attr('x2', d => d.target.x)
+          .attr('y2', d => d.target.y)
+
         serverNode?.attr('cx', d => d.x)
           .attr('cy', d => d.y)
 
@@ -147,6 +154,12 @@ export default {
           .attr('x2', d => d.target.x)
           .attr('y2', d => d.target.y)
 
+        leafLink?.attr('x1', d => d.source.x)
+          .attr('y1', d => d.source.y)
+          .attr('x2', d => d.target.x)
+          .attr('y2', d => d.target.y)
+
+        hull?.attr('d', d => this.getHullPath(d, servers))
 
         const k = simulation.alpha() * 0.3;
         servers.forEach(serverNode => {
@@ -154,21 +167,6 @@ export default {
           serverNode.y += (cluster!.y - serverNode.y) * k;
           serverNode.x += (cluster!.x - serverNode.x) * k;
         })
-
-        cluster?.attr('cx', d => d.x)
-          .attr('cy', d => d.y)
-
-        hull?.attr('d', d => this.getHullPath(d, servers))
-
-        gatewayLink?.attr('x1', d => d.source.x)
-          .attr('y1', d => d.source.y)
-          .attr('x2', d => d.target.x)
-          .attr('y2', d => d.target.y)
-          
-        leafLink?.attr('x1', d => d.source.x)
-          .attr('y1', d => d.source.y)
-          .attr('x2', d => d.target.x)
-          .attr('y2', d => d.target.y)
       })
     },
 
@@ -266,15 +264,27 @@ export default {
       //   .style('opacity', d => d.isSearchMatch ? 1.0 : 0.2)
       //   .style ("stroke-dasharray", ("3,3"))
 
-      svg?.append("svg:defs").append("svg:marker")
+      svg?.append("svg:defs")
+        .append("svg:marker")
         .attr("id", "arrow")
         .attr("viewBox", "0 -5 10 10")
-        .attr('refX', -20)//so that it comes towards the center.
+        .attr('refX', 16)//so that it comes towards the center.
         .attr("markerWidth", 5)
         .attr("markerHeight", 5)
         .attr("orient", "auto")
       .append("svg:path")
-        .attr("d", "M0,-5L10,0L0,5");
+        .attr("d", "M0,-5 L10,0 L0,5");
+
+      svg?.append("svg:defs")
+        .append("svg:marker")
+        .attr("id", "arrow-2")
+        .attr("viewBox", "0 -5 10 10")
+        .attr('refX', 16)//so that it comes towards the center.
+        .attr("markerWidth", 5)
+        .attr("markerHeight", 5)
+        .attr("orient", "auto-start-reverse")
+      .append("svg:path")
+        .attr("d", "M0,-5 L10,0 L0,5");
 
       const leafLink = svg?.select('g#leafs')
         .selectAll("line")
@@ -285,8 +295,10 @@ export default {
           exit => exit.remove()
         )
         .style( "stroke", "#000" )
-        .attr('marker-start', () => "url(#arrow)")//attach the arrow from defs
-        .style( "stroke-width", 2 );
+        .attr('marker-end', () => "url(#arrow)")//attach the arrow from defs
+        .attr('marker-start', () => "url(#arrow-2)")
+        .style( "stroke-width", 2 )
+        .style ("stroke-dasharray", ("3,3"))
 
       leafLink?.append('title') // Set title (hover text) for erronious link
         .text(d => d.ntv_error ? 'Something\'s Wrong' : '')
