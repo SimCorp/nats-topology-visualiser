@@ -136,7 +136,7 @@ export default {
       const leafLink = this.createLeafLinkSelection(svg, leafs)
       const serverNode = this.createServerNodeSelection(svg, servers, simulation)
 
-      // Update data on simulation tick
+      // Update data on simulation tick - also the order which the varz are drawn
       simulation.on('tick', () => {
         cluster?.attr('cx', d => d.x)
           .attr('cy', d => d.y)
@@ -259,7 +259,6 @@ export default {
       //   // .enter().append("svg:marker")
       //   .join('line')
       //   .attr('stroke-opacity', 0.6)
-      //   .attr('stroke', d => d.ntv_error ? '#f00' : '#00f') // Set line to red, if it has an error
       //   .attr('stroke-width', 2)
       //   .style('opacity', d => d.isSearchMatch ? 1.0 : 0.2)
       //   .style ("stroke-dasharray", ("3,3"))
@@ -268,7 +267,7 @@ export default {
         .append("svg:marker")
         .attr("id", "arrow")
         .attr("viewBox", "0 -5 10 10")
-        .attr('refX', 16)//so that it comes towards the center.
+        .attr('refX', 16)//arrows touching nodes' border
         .attr("markerWidth", 5)
         .attr("markerHeight", 5)
         .attr("orient", "auto")
@@ -279,7 +278,7 @@ export default {
         .append("svg:marker")
         .attr("id", "arrow-2")
         .attr("viewBox", "0 -5 10 10")
-        .attr('refX', 16)//so that it comes towards the center.
+        .attr('refX', 16) //arrows touching nodes' border
         .attr("markerWidth", 5)
         .attr("markerHeight", 5)
         .attr("orient", "auto-start-reverse")
@@ -296,13 +295,13 @@ export default {
         )
         .style( "stroke", "#000" )
         .attr('marker-end', () => "url(#arrow)")//attach the arrow from defs
-        .attr('marker-start', () => "url(#arrow-2)")
+        .attr('marker-start', () => "url(#arrow-2)") //attach the arrow-2 from defs
         .style( "stroke-width", 2 )
         .style ("stroke-dasharray", ("3,3"))
 
       leafLink?.append('title') // Set title (hover text) for erronious link
         .text(d => d.ntv_error ? 'Something\'s Wrong' : '')
-      //TODO: detect how leafs connect (in order to get arrow-direction?)
+        //.attr('stroke', d => d.ntv_error ? '#f00' : '#00f')  // Set line to red, if it has an error
      return leafLink
     },
 
