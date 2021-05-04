@@ -5,7 +5,7 @@
       title="Node information"
       right
       shadow=true
-      width="400px"
+      width="450px"
       v-model="isPanelOpen">
       <div class="px-3 py-2">
         <p id="error">The selected node does not exist.</p>
