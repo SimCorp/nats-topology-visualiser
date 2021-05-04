@@ -16,45 +16,16 @@
           <json-view :data="nodeData" :root-key="rootName"/>
         </div>
       </div>
-      <div>
-    <vue-tree-list
-      @click="onClick"
-
-      :model="data"
-      default-tree-node-name="new node"
-      default-leaf-node-name="new leaf"
-      v-bind:default-expanded="false"
-    >
-      <template v-slot:leafNameDisplay="slotProps">
-        <span>
-          {{ slotProps.model.name }} <span class="muted">#{{ slotProps.model.id }}</span>
-        </span>
-      </template>
-      <span class="icon" slot="addTreeNodeIcon">📂</span>
-      <span class="icon" slot="addLeafNodeIcon">＋</span>
-      <span class="icon" slot="editNodeIcon">📃</span>
-      <span class="icon" slot="delNodeIcon">✂️</span>
-      <span class="icon" slot="leafNodeIcon">🍃</span>
-      <span class="icon" slot="treeNodeIcon">🌲</span>
-    </vue-tree-list>
-  </div>
     </b-sidebar>
   </div>
 </template>
 
 <script lang="ts">
 import SidebarPanel from 'bootstrap-vue'
-import { VueTreeList, Tree, TreeNode } from 'vue-tree-list'
-import axios from "axios";
-
 export default {
   name: "InfoPanel",
-  async mounted () {
-    await this.getData()
-  },
-  components: { SidebarPanel, VueTreeList },
-
-  data() {
+  components: { SidebarPanel },
+  data () {
     return {
       isPanelOpen: false,
       nodeData: null,
@@ -67,7 +38,6 @@ export default {
       if (!this.$data.isPanelOpen) {
         this.$data.isPanelOpen = true
       }
-
       const info = document.getElementById("info")
       const error = document.getElementById("error")
 
@@ -86,7 +56,6 @@ export default {
 </script>
 
 <style scoped>
-
 #errorid {
   word-wrap: break-word;
   color: #268bd2;
@@ -97,5 +66,4 @@ export default {
 #error {
   font-weight: 600;
 }
-
 </style>
