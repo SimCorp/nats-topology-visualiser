@@ -71,8 +71,8 @@ export default {
 
       return true
     },
-    onNodeClick (nodeData) {
-      this.$refs.panel.onNodeClick(nodeData)
+    onNodeClick ({nodeData, id}) {
+      this.$refs.panel.onNodeClick({nodeData, id})
     },
     onSearchInput (text: string) {
       this.$refs.graph.searchFilter(text)

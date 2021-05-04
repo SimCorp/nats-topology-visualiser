@@ -256,10 +256,11 @@ export default {
         .attr('r', 5)
         .attr('fill', d => d.ntv_error ? '#f00' : '#000') // Make node red if it has error
         .style('opacity', d => d.isSearchMatch ? 1.0 : 0.2)
+        .style('cursor', 'pointer')
         .call(this.drag(simulation)) // Handle dragging of the nodes
         .on('click', (d, i) => { // Log the value of the chosen node on click
           axios.get('https://localhost:5001/varz/' + i.server_id).then(a => {
-            this.$emit('node-click', a.data)
+            this.$emit('node-click', {nodeData: a.data, id: i.server_id})
           })
         })
 

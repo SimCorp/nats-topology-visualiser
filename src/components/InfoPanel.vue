@@ -8,7 +8,10 @@
       width="450px"
       v-model="isPanelOpen">
       <div class="px-3 py-2">
-        <p id="error">The selected node does not exist.</p>
+        <div id="error">
+          <p>The selected node does not exist. <br><br> server_id:</p>
+          <p id="errorid">"{{ errorId }}"</p>
+        </div>
         <div id="info">
           <json-view :data="nodeData" :root-key="rootName"/>
         </div>
@@ -27,11 +30,12 @@ export default {
     return {
       isPanelOpen: false,
       nodeData: null,
-      rootName: 'node'
+      rootName: 'node',
+      errorId: ''
     }
   },
   methods: {
-    onNodeClick (nodeData) {
+    onNodeClick ({nodeData, id}) {
       if (!this.$data.isPanelOpen) {
         this.$data.isPanelOpen = true
       }
@@ -42,6 +46,7 @@ export default {
       if (nodeData === '') {
         info.style.display = "none"
         error.style.display = "block"
+        this.errorId = id
       } else {
         info.style.display = "block"
         error.style.display = "none"
@@ -53,5 +58,16 @@ export default {
 </script>
 
 <style scoped>
+
+#errorid {
+  word-wrap: break-word;
+  color: #268bd2;
+  font-weight: 600;
+  margin-top: -15px;
+}
+
+#error {
+  font-weight: 600;
+}
 
 </style>
