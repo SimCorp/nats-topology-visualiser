@@ -88,14 +88,54 @@ namespace backend
                 if (server.leafs is null) continue;
                 foreach (var leaf in server.leafs)
                 {
-                    // TODO detection of errors (use leafAdjacencyList)
-                    _dataStorage.leafLinks.Add(new Link (
-                        server.server_id,
-                        _dataStorage.ipToServerId[leaf.ip] // TODO check for if key is not in map
-                    ));
+                    // TODO detection of errors
+                    if (!_dataStorage.ipToServerId.ContainsKey(leaf.ip)) continue;
+                    var targetId = _dataStorage.ipToServerId[leaf.ip];
+
+                    var oppositeLink = _dataStorage.leafLinks.Where(l =>
+                        l.source == targetId && 
+                        l.target == server.server_id
+                    ).Select(l => l).FirstOrDefault();
+
+                    var identicalLink = _dataStorage.leafLinks.Where(l =>
+                        l.target == targetId && 
+                        l.source == server.server_id
+                    ).Select(l => l).FirstOrDefault();
+
+                    if (identicalLink is not null)
+                    {
+                        if (!identicalLink.accountToBidirectional.ContainsKey(leaf.account))
+                        {
+                            identicalLink.accountToBidirectional.Add(leaf.account, false);
+                        }
+                        else 
+                        {
+                            identicalLink.accountToBidirectional[leaf.account] = true;
+                        }
+                    }
+                    else if (oppositeLink is null)
+                    {
+                        var link = new Link (
+                            server.server_id,
+                            targetId
+                        );
+                        link.accountToBidirectional.Add(leaf.account, false);
+                        _dataStorage.leafLinks.Add(link);
+                    }
+                    else
+                    {
+                        if (!oppositeLink.accountToBidirectional.ContainsKey(leaf.account))
+                        {
+                            oppositeLink.accountToBidirectional.Add(leaf.account, false);
+                        }
+                        else 
+                        {
+                            oppositeLink.accountToBidirectional[leaf.account] = true;
+                        }
+                    }
+                    
                 }
             }
-            detectLeafErrors();
         }
 
         public void ProcessClusters()
@@ -258,10 +298,29 @@ namespace backend
         {
             foreach (var leafLink in _dataStorage.leafLinks)
             {
-                if (! _dataStorage.leafConnectionErrors.ContainsKey(clusterTupleString(leafLink.source, leafLink.target)) && (! _dataStorage.leafConnectionErrors.ContainsKey(clusterTupleString(leafLink.target, leafLink.source))))
+                if (! _dataStorage.leafConnectionErrors.ContainsKey(clusterTupleString(leafLink.source, leafLink.target)))
                 {
-                    _dataStorage.leafConnectionErrors.Add(clusterTupleString(leafLink.source, leafLink.target), new List<string>()); //<-- only one leaf connection is shown
+                    if (! _dataStorage.leafConnectionErrors.ContainsKey(clusterTupleString(leafLink.target, leafLink.source)))
+                    {
+                        _dataStorage.leafConnectionErrors.Add(clusterTupleString(leafLink.source, leafLink.target), new List<string>()); //<-- only one leaf connection is shown
+                        continue;
+                    }
                 }
+
+                if (! _dataStorage.leafConnectionErrors.ContainsKey(clusterTupleString(leafLink.target, leafLink.source)))
+                {
+                    if (! _dataStorage.leafConnectionErrors.ContainsKey(clusterTupleString(leafLink.source, leafLink.target)))
+                    {
+                        _dataStorage.leafConnectionErrors.Add(clusterTupleString(leafLink.target, leafLink.source), new List<string>()); //<-- only one leaf connection is shown
+                     
+                        continue;
+                    }
+                }
+
+                // if (_dataStorage.leafConnectionErrors.ContainsKey(clusterTupleString(leafLink.source, leafLink.target)))
+                // {
+                    
+                // }
 
                 //_dataStorage.leafConnectionErrors[clusterTupleString(leafLink.source, leafLink.target)].
                 //TODO: detect how leafs connect (in order to get arrow-direction?)

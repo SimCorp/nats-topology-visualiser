@@ -28,6 +28,7 @@ namespace backend
         public Dictionary<string, List<string>> leafAdjacencyList;
         public List<Link> leafLinks;
         public Dictionary<string, List<string>> leafConnectionErrors;
+        public Dictionary<string, Dictionary<string, (bool, bool)>> leafconnectionToAccountToIsConnected;
 
         public DataStorage() {
 
@@ -53,6 +54,7 @@ namespace backend
             clusterConnectionErrors = new Dictionary<string, List<string>>();
             errorClusters = new List<ClusterNode>();
             leafConnectionErrors = new Dictionary<string, List<string>>();
+            leafconnectionToAccountToIsConnected = new Dictionary<string, Dictionary<string, (bool, bool)>>();
         }
     }
 }
