@@ -83,6 +83,12 @@ namespace backend
                     }
                 }
             }
+            constructSingleLeafConnections();
+        }
+
+        public void constructSingleLeafConnections()
+        {
+            // TODO functionality about bidirectionality is currently not being used. Should maybe be removed.
             foreach (var server in _dataStorage.leafs)
             {
                 if (server.leafs is null) continue;

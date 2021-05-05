@@ -20,6 +20,7 @@ import ClusterDatum from './ClusterDatum'
 import { D3DragEvent, Selection, SubjectPosition } from 'd3'
 import LinkDatum from './LinkDatum'
 import RouteDatum from './RouteDatum'
+import LeafDatum from './LeafDatum'
 
 import axios from 'axios'
 import { PropType } from 'vue'
@@ -32,7 +33,7 @@ export default {
     routes: Array as PropType<RouteDatum[]>,
     clusters: Array as PropType<ClusterDatum[]>,
     gateways: Array as PropType<GatewayDatum[]>,
-    leafs: Array as PropType<RouteDatum[]>
+    leafs: Array as PropType<LeafDatum[]>
   },
   data (): {
     svg: Selection<SVGSVGElement, unknown, HTMLElement, HTMLElement> | null;
@@ -251,7 +252,7 @@ export default {
 
     createLeafLinkSelection(
       svg: d3.Selection<SVGSVGElement, unknown, HTMLElement, HTMLElement> | null,
-      leafs: RouteDatum[])
+      leafs: LeafDatum[])
     {
       const leafLink = svg?.select('g#leafs')
         .selectAll("line")
