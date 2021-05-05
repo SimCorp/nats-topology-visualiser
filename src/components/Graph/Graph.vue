@@ -253,40 +253,6 @@ export default {
       svg: d3.Selection<SVGSVGElement, unknown, HTMLElement, HTMLElement> | null,
       leafs: RouteDatum[])
     {
-      // const leafLink = svg?.select('g#leafs') // Add element g (g for group)
-      //   .selectAll('line') // Select all of type 'line'
-      //   .data(leafs) // Insert the list of links
-      //   // .enter().append("svg:marker")
-      //   .join('line')
-      //   .attr('stroke-opacity', 0.6)
-      //   .attr('stroke-width', 2)
-      //   .style('opacity', d => d.isSearchMatch ? 1.0 : 0.2)
-      //   .style ("stroke-dasharray", ("3,3"))
-
-      svg?.append("svg:defs")
-        .append("svg:marker")
-        .attr("id", "arrow")
-        .attr("viewBox", "0 -5 10 10")
-        .attr('refX', 20)//arrows touching nodes' border
-        .attr("markerWidth", 6)
-        .attr("markerHeight", 6)
-        .attr("orient", "auto")
-      .append("svg:path")
-        .attr("d", "M10,0 L0,4 L0,-4 Z")
-        .style('fill', '#444')
-
-      svg?.append("svg:defs")
-        .append("svg:marker")
-        .attr("id", "arrow-2")
-        .attr("viewBox", "0 -5 10 10")
-        .attr('refX', 20) //arrows touching nodes' border
-        .attr("markerWidth", 6)
-        .attr("markerHeight", 6)
-        .attr("orient", "auto-start-reverse")
-      .append("svg:path")
-        .attr("d", "M0,-4 L10,0 L0,4 Z")
-        .style('fill', '#444')
-
       const leafLink = svg?.select('g#leafs')
         .selectAll("line")
         .data(leafs)
@@ -296,8 +262,6 @@ export default {
           exit => exit.remove()
         )
         .style( "stroke", "#444" )
-        .attr('marker-end', () => "url(#arrow)") // attach the arrow from defs
-        .attr('marker-start', () => "url(#arrow-2)")
         .style( "stroke-width", 1 )
         .style ("stroke-dasharray", ("3,3"))
 
