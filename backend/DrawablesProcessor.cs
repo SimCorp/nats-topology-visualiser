@@ -303,36 +303,28 @@ namespace backend
             }
         }
 
-        public void detectLeafErrors ()
+        public void detectLeafConnections ()
         {
             foreach (var leafLink in _dataStorage.leafLinks)
             {
-                if (! _dataStorage.leafConnectionErrors.ContainsKey(tupleString(leafLink.source, leafLink.target)))
+                if (! _dataStorage.leafConnections.Contains(tupleString(leafLink.source, leafLink.target)))
                 {
-                    if (! _dataStorage.leafConnectionErrors.ContainsKey(tupleString(leafLink.target, leafLink.source)))
+                    if (! _dataStorage.leafConnections.Contains(tupleString(leafLink.target, leafLink.source)))
                     {
-                        _dataStorage.leafConnectionErrors.Add(tupleString(leafLink.source, leafLink.target), new List<string>()); //<-- only one leaf connection is shown
+                        _dataStorage.leafConnections.Add(tupleString(leafLink.source, leafLink.target)); //<-- only one leaf connection is shown
                         continue;
                     }
                 }
 
-                if (! _dataStorage.leafConnectionErrors.ContainsKey(tupleString(leafLink.target, leafLink.source)))
+                if (! _dataStorage.leafConnections.Contains(tupleString(leafLink.target, leafLink.source)))
                 {
-                    if (! _dataStorage.leafConnectionErrors.ContainsKey(tupleString(leafLink.source, leafLink.target)))
+                    if (! _dataStorage.leafConnections.Contains(tupleString(leafLink.source, leafLink.target)))
                     {
-                        _dataStorage.leafConnectionErrors.Add(tupleString(leafLink.target, leafLink.source), new List<string>()); //<-- only one leaf connection is shown
+                        _dataStorage.leafConnections.Add(tupleString(leafLink.target, leafLink.source)); //<-- only one leaf connection is shown
                      
                         continue;
                     }
                 }
-
-                // if (_dataStorage.leafConnectionErrors.ContainsKey(clusterTupleString(leafLink.source, leafLink.target)))
-                // {
-                    
-                // }
-
-                //_dataStorage.leafConnectionErrors[clusterTupleString(leafLink.source, leafLink.target)].
-                //TODO: detect how leafs connect (in order to get arrow-direction?)
             }
         } 
         public void constructClustersOfBrokenGateways()

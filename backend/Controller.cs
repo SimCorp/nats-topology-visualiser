@@ -63,35 +63,20 @@ namespace backend
         [ProducesResponseType(Status200OK)]
         public ActionResult<List<LeafLink>> GetLeafLinks()
         {  
-            // var leafLinks = new List<Link>();
-            // foreach (var leafLink in _dataStorage.leafConnectionErrors)
-            // {
-            //     var split = leafLink.Key.Split(" NAMESPLIT ");
-            //     var source = split[0];
-            //     var target = split[1];
-            //     var link = new Link (source, target, leafLink.Value.Count > 0);
-            //     link.errors = leafLink.Value;
-            //     foreach (var err in leafLink.Value)
-            //     {
-            //         link.errorsAsString += "\n" + err;
-            //     }
-            //     leafLinks.Add(link);
-            // } 
-          
             return _dataStorage.leafLinks;
         }
 
         [HttpGet("/gatewayLinks")]
         [ProducesResponseType(Status200OK)]
-        public ActionResult<IEnumerable<Link>> GetGatewayLinks()
+        public ActionResult<IEnumerable<GatewayLink>> GetGatewayLinks()
         {   
-            var gatewayLinks = new List<Link>();
+            var gatewayLinks = new List<GatewayLink>();
             foreach (var cluster in _dataStorage.clusterConnectionErrors)
             {
                 var split = cluster.Key.Split(" NAMESPLIT ");
                 var source = split[0];
                 var target = split[1];
-                var link = new Link (source, target, cluster.Value.Count > 0);
+                var link = new GatewayLink (source, target, cluster.Value.Count > 0);
                 link.errors = cluster.Value;
                 foreach (var err in cluster.Value)
                 {
@@ -153,8 +138,6 @@ namespace backend
         [ProducesResponseType(Status200OK)]
         public ActionResult<IEnumerable<Leaf>> GetLeafz()
         {   
-            
-            
             return _dataStorage.leafs;
         }
     }

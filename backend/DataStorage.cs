@@ -25,10 +25,8 @@ namespace backend
         public Dictionary<string, List<string>> clusterConnectionErrors = new Dictionary<string, List<string>>();
         public List<ClusterNode> errorClusters = new List<ClusterNode>();
         public Dictionary<string, string> ipToServerId;
-        public Dictionary<string, List<string>> leafAdjacencyList;
         public List<LeafLink> leafLinks;
-        public Dictionary<string, List<string>> leafConnectionErrors;
-        public Dictionary<string, Dictionary<string, (bool, bool)>> leafconnectionToAccountToIsConnected;
+        public HashSet<string> leafConnections;
 
         public DataStorage() {
 
@@ -44,7 +42,6 @@ namespace backend
             processedClusters = new ConcurrentBag<ClusterNode>();
             serverToMissingServer = new Dictionary<string, List<string>>();
             ipToServerId = new Dictionary<string, string>();
-            leafAdjacencyList = new Dictionary<string, List<string>>();
             leafLinks = new List<LeafLink>();
             
 
@@ -53,8 +50,7 @@ namespace backend
             serverToCluster = new Dictionary<string, string>();
             clusterConnectionErrors = new Dictionary<string, List<string>>();
             errorClusters = new List<ClusterNode>();
-            leafConnectionErrors = new Dictionary<string, List<string>>();
-            leafconnectionToAccountToIsConnected = new Dictionary<string, Dictionary<string, (bool, bool)>>();
+            leafConnections = new HashSet<string>();
         }
     }
 }
