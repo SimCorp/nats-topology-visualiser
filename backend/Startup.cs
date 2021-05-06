@@ -31,7 +31,7 @@ namespace backend
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
             });
 
-            var AllowedHosts = Configuration.GetSection("CORS:AllowedHosts").Get<string[]>();
+          /*  var AllowedHosts = Configuration.GetSection("CORS:AllowedHosts").Get<string[]>();
 
             services.AddCors(options =>
                 {
@@ -40,8 +40,8 @@ namespace backend
                                   {
                                       builder.WithOrigins(AllowedHosts);
                                 });
-                });
-        }
+                }); */
+        } 
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -61,7 +61,7 @@ namespace backend
 
             app.UseAuthorization();
 
-            app.UseCors(MyAllowSpecificOrigins);
+            //app.UseCors(MyAllowSpecificOrigins);
 
             app.UseEndpoints(endpoints =>
             {
