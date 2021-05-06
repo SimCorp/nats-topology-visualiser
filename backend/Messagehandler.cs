@@ -3,42 +3,118 @@ using System.Text;
 using NATS.Client;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using backend.models;
 
 namespace backend
 {
     public class MessageHandler
     {
-
-
-        public MessageHandler() {
-            Console.WriteLine(this.GetType());
+        public DataStorage dataStorage;
+        public MessageHandler(DataStorage dataStorage) {
+            this.dataStorage = dataStorage;
         }
 
-
-        public static void IncommingMessageHandler<T>(object sender, MsgHandlerEventArgs e) where T : new(){
-            
-            Console.WriteLine(e.Message.ToString());
-
+        public void IncomingMessageHandlerRawJson(object sender, MsgHandlerEventArgs e)
+        {
             var json = JsonConvert.DeserializeObject(Encoding.UTF8.GetString(e.Message.Data));
-            
+
+            Console.WriteLine(e.Message.ArrivalSubscription.Subject);
+
+            Console.WriteLine(json.ToString());
+        }
+
+        private JToken ParseData(MsgHandlerEventArgs e)
+        {
+            var json = JsonConvert.DeserializeObject(Encoding.UTF8.GetString(e.Message.Data));
+
             JToken token = JObject.Parse(json.ToString());
 
-            var data_json = token.SelectToken("data");
-            //var server_json = token.SelectToken("server");
+            return token.SelectToken("data");
+        }
 
-            T server = new T();
+        public void IncomingMessageHandlerServer(object sender, MsgHandlerEventArgs e)
+        {
+            var data_json = ParseData(e);
 
-            try {
-            server = JsonConvert.DeserializeObject<T>(data_json.ToString());
-            } catch (Exception x) {
+            Server server = new Server();
+
+            var json = JsonConvert.DeserializeObject(Encoding.UTF8.GetString(e.Message.Data));
+
+            try
+            {
+                server = JsonConvert.DeserializeObject<Server>(data_json.ToString());
+            }
+            catch (Exception x)
+            {
                 Console.WriteLine(x.StackTrace);
             }
+            dataStorage.idToServer.TryAdd(server.server_id, server);
+            dataStorage.servers.Add(server);
+        }
 
-            //Console.WriteLine(server.server_name);
-            //Console.WriteLine(server.in_msgs);
-            //Console.WriteLine(string.Join("", server.connections));
+        public void IncomingMessageHandlerConnection(object sender, MsgHandlerEventArgs e)
+        {
+            var data_json = ParseData(e);
+
+            backend.models.Connection connection = new backend.models.Connection();
+
+            try
+            {
+                connection = JsonConvert.DeserializeObject<backend.models.Connection>(data_json.ToString());
+                dataStorage.connections.Add(connection);
+            }
+            catch (Exception x)
+            {
+                Console.WriteLine(x.StackTrace);
+            }
+        }
+
+        public void IncomingMessageHandlerRoute(object sender, MsgHandlerEventArgs e)
+        {
+            var data_json = ParseData(e);
+
+            Route route = new Route();
+
+            try
+            {
+                route = JsonConvert.DeserializeObject<Route>(data_json.ToString());
+                dataStorage.routes.Add(route);
+            }
+            catch (Exception x)
+            {
+                Console.WriteLine(x.StackTrace);
+            }  
+        }
+        
+        public void IncomingMessageHandlerGateWay(object sender, MsgHandlerEventArgs e)
+        {
+            var data_json = ParseData(e);
+
+            try
+            {
+                var gateway = JsonConvert.DeserializeObject<Gateway>(data_json.ToString());
+                dataStorage.gateways.Add(gateway);
+            }
+            catch (Exception x)
+            {
+                Console.WriteLine(x.StackTrace);
+            }  
+        }
+
+        public void IncomingMessageHandlerLeaf(object sender, MsgHandlerEventArgs e)
+        {
+            var data_json = ParseData(e);
+
+            try
+            {
+                var leaf = JsonConvert.DeserializeObject<Leaf>(data_json.ToString());
+                dataStorage.leafs.Add(leaf);
+            }
+            catch (Exception x)
+            {
+                Console.WriteLine(x.StackTrace);
+            }
         }
 
     }
-
 }

@@ -1,27 +1,22 @@
-name: Code Coverage
+name: Generate Codecov PR report
 
 on:
-  push:
-    branches:
-      - develop
-      - main
-  pull_request:
+  issue_comment:
+    types: [created, edited]
 
 jobs:
-  codecov:
-    name: CodeCov report
+  codecov-comment:
+    if: contains(github.event.comment.html_url, '/pull/') && contains(github.event.comment.body, 'run codecov')
+    name: CodeCov comment
     runs-on: ubuntu-latest
     strategy:
       matrix:
         dotnet: ['5.0']
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
-      - name: Set current commit sha as env var
-        run: echo COMMIT_SHA=$(git rev-parse HEAD) >> $GITHUB_ENV
       - name: Test code
         run: dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
       - name: Upload code

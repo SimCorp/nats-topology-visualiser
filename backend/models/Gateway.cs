@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Collections.Concurrent;
 
 namespace backend
 {
@@ -10,8 +9,8 @@ namespace backend
         public string name { get; set; }
         public string host { get; set; }
         public int port { get; set; }
-        public ConcurrentDictionary<string, List<GatewayNodeWrapper>> inbound_gateways { get; set; }
-        public ConcurrentDictionary<string, GatewayNodeWrapper> outbound_gateways { get; set; }
+        public Dictionary<string, List<GatewayNodeWrapper>> inbound_gateways { get; set; }
+        public Dictionary<string, GatewayNodeWrapper> outbound_gateways { get; set; }
 
         public class GatewayNode
         {

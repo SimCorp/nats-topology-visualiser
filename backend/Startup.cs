@@ -9,6 +9,8 @@ namespace backend
 {
     public class Startup
     {
+
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -21,9 +23,6 @@ namespace backend
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //services.AddDbContext<SuperheroContext>(o => o.UseSqlite("Filename=superheroes.db"));
-            //services.AddScoped<ISuperheroContext, SuperheroContext>();
-            //services.AddScoped<ISuperheroRepository, SuperheroRepository>();
             services.AddControllers();
             services.AddRouting(options => options.LowercaseUrls = true);
 
@@ -32,15 +31,16 @@ namespace backend
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
             });
 
+            var AllowedHosts = Configuration.GetSection("CORS:AllowedHosts").Get<string[]>();
 
-              services.AddCors(options =>
-            {
-                options.AddPolicy(name: MyAllowSpecificOrigins,
-                              builder =>
-                              {
-                                  builder.WithOrigins("*");
-                              });
-            });
+            services.AddCors(options =>
+                {
+                    options.AddPolicy(name: MyAllowSpecificOrigins,
+                                  builder =>
+                                  {
+                                      builder.WithOrigins(AllowedHosts);
+                                });
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

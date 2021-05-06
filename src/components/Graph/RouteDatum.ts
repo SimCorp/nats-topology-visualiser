@@ -1,8 +1,6 @@
-import d3 from 'd3'
+import LinkDatum from './LinkDatum'
 import ServerDatum from './ServerDatum'
 
-export default class RouteDatum implements d3.SimulationLinkDatum<ServerDatum> {
-    ntv_error!: boolean;
-    source!: ServerDatum;
-    target!: ServerDatum;
+export default class RouteDatum extends LinkDatum<ServerDatum> {
+
 }
