@@ -1,5 +1,6 @@
 codecov:
   branch: develop
+
   max_report_age: off
   require_ci_to_pass: no
 
@@ -10,6 +11,7 @@ coverage:
   status: # Used when blocking PRs that don't meet a particular coverage threshold.
     patch: on
     project: on
+
 
 parsers:
   gcov:
@@ -23,3 +25,4 @@ comment:
   layout: "reach,diff,flags,files,footer"
   behavior: default
   require_changes: no
+
