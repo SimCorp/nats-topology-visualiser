@@ -26,7 +26,7 @@ namespace backend
         public List<ClusterNode> errorClusters = new List<ClusterNode>();
         public Dictionary<string, string> ipToServerId;
         public Dictionary<string, List<string>> leafAdjacencyList;
-        public List<Link> leafLinks;
+        public List<LeafLink> leafLinks;
         public Dictionary<string, List<string>> leafConnectionErrors;
         public Dictionary<string, Dictionary<string, (bool, bool)>> leafconnectionToAccountToIsConnected;
 
@@ -45,7 +45,7 @@ namespace backend
             serverToMissingServer = new Dictionary<string, List<string>>();
             ipToServerId = new Dictionary<string, string>();
             leafAdjacencyList = new Dictionary<string, List<string>>();
-            leafLinks = new List<Link>();
+            leafLinks = new List<LeafLink>();
             
 
             missingServerIds = new HashSet<string>();

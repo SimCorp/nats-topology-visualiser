@@ -61,7 +61,7 @@ namespace backend
 
         [HttpGet("/leaflinks")]
         [ProducesResponseType(Status200OK)]
-        public ActionResult<List<Link>> GetLeafLinks()
+        public ActionResult<List<LeafLink>> GetLeafLinks()
         {  
             // var leafLinks = new List<Link>();
             // foreach (var leafLink in _dataStorage.leafConnectionErrors)

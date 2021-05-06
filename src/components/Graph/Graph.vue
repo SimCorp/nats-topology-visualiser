@@ -265,6 +265,9 @@ export default {
         .style( "stroke", "#444" )
         .style( "stroke-width", 1 )
         .style ("stroke-dasharray", ("3,3"))
+        .on('click', (d, i) => { // Log the value of the chosen node on click
+          console.log(i.connections) // fetch data on click
+        })
 
       leafLink?.append('title') // Set title (hover text) for erronious link
         .text(d => d.ntv_error ? 'Something\'s Wrong' : '')

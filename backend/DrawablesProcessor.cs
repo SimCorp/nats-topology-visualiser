@@ -94,7 +94,7 @@ namespace backend
                 if (server.leafs is null) continue;
                 foreach (var leaf in server.leafs)
                 {
-                    // TODO detection of errors
+                    // TODO leafs to unknown servers are not handled
                     if (!_dataStorage.ipToServerId.ContainsKey(leaf.ip)) continue;
                     var targetId = _dataStorage.ipToServerId[leaf.ip];
 
@@ -110,6 +110,7 @@ namespace backend
 
                     if (identicalLink is not null)
                     {
+                        identicalLink.connections.Add(leaf); // Add leafnode to be fetched when link is clicked
                         if (!identicalLink.accountToBidirectional.ContainsKey(leaf.account))
                         {
                             identicalLink.accountToBidirectional.Add(leaf.account, false);
@@ -121,15 +122,17 @@ namespace backend
                     }
                     else if (oppositeLink is null)
                     {
-                        var link = new Link (
+                        var link = new LeafLink (
                             server.server_id,
                             targetId
                         );
+                        link.connections.Add(leaf);
                         link.accountToBidirectional.Add(leaf.account, false);
                         _dataStorage.leafLinks.Add(link);
                     }
                     else
                     {
+                        oppositeLink.connections.Add(leaf);
                         if (!oppositeLink.accountToBidirectional.ContainsKey(leaf.account))
                         {
                             oppositeLink.accountToBidirectional.Add(leaf.account, false);
@@ -256,9 +259,9 @@ namespace backend
             });
         }
         
-        public string clusterTupleString(string cluster1, string cluster2)
+        public string tupleString(string id1, string id2)
         {
-            return cluster1 + " NAMESPLIT " + cluster2;
+            return id1 + " NAMESPLIT " + id2;
         }
 
         public (string, string) stringToTuple (string input)
@@ -273,26 +276,26 @@ namespace backend
                 if (gateway.name is null) continue;
                 foreach (var outbound in gateway.outbound_gateways)
                 {
-                    if (!_dataStorage.clusterConnectionErrors.ContainsKey(clusterTupleString(gateway.name, outbound.Key)) && !_dataStorage.clusterConnectionErrors.ContainsKey(clusterTupleString(outbound.Key, gateway.name)))
+                    if (!_dataStorage.clusterConnectionErrors.ContainsKey(tupleString(gateway.name, outbound.Key)) && !_dataStorage.clusterConnectionErrors.ContainsKey(tupleString(outbound.Key, gateway.name)))
                     {
-                        _dataStorage.clusterConnectionErrors.Add(clusterTupleString(gateway.name, outbound.Key), new List<string>());
+                        _dataStorage.clusterConnectionErrors.Add(tupleString(gateway.name, outbound.Key), new List<string>());
                     }
                     if (!_dataStorage.idToServer.ContainsKey(outbound.Value.connection.name))
                     {
-                        _dataStorage.clusterConnectionErrors[clusterTupleString(gateway.name, outbound.Key)].Add("Outbound gateway to crashed server. From " + gateway.server_id + " to " + outbound.Value.connection.name);
+                        _dataStorage.clusterConnectionErrors[tupleString(gateway.name, outbound.Key)].Add("Outbound gateway to crashed server. From " + gateway.server_id + " to " + outbound.Value.connection.name);
                     }
                 }
                 foreach (var inbound in gateway.inbound_gateways)
                 {
-                    if (!_dataStorage.clusterConnectionErrors.ContainsKey(clusterTupleString(gateway.name, inbound.Key)) && !_dataStorage.clusterConnectionErrors.ContainsKey(clusterTupleString(inbound.Key, gateway.name)))
+                    if (!_dataStorage.clusterConnectionErrors.ContainsKey(tupleString(gateway.name, inbound.Key)) && !_dataStorage.clusterConnectionErrors.ContainsKey(tupleString(inbound.Key, gateway.name)))
                     {
-                        _dataStorage.clusterConnectionErrors.Add(clusterTupleString(gateway.name, inbound.Key), new List<string>());
+                        _dataStorage.clusterConnectionErrors.Add(tupleString(gateway.name, inbound.Key), new List<string>());
                     }
                     foreach (var inboundEntry in inbound.Value)
                     {
                         if (!_dataStorage.idToServer.ContainsKey(inboundEntry.connection.name))
                         {
-                            _dataStorage.clusterConnectionErrors[clusterTupleString(gateway.name, inbound.Key)].Add("Inbound gateway to crashed server. To " + gateway.server_id + " from " + inboundEntry.connection.name);
+                            _dataStorage.clusterConnectionErrors[tupleString(gateway.name, inbound.Key)].Add("Inbound gateway to crashed server. To " + gateway.server_id + " from " + inboundEntry.connection.name);
                         }
                         
                     }
@@ -304,20 +307,20 @@ namespace backend
         {
             foreach (var leafLink in _dataStorage.leafLinks)
             {
-                if (! _dataStorage.leafConnectionErrors.ContainsKey(clusterTupleString(leafLink.source, leafLink.target)))
+                if (! _dataStorage.leafConnectionErrors.ContainsKey(tupleString(leafLink.source, leafLink.target)))
                 {
-                    if (! _dataStorage.leafConnectionErrors.ContainsKey(clusterTupleString(leafLink.target, leafLink.source)))
+                    if (! _dataStorage.leafConnectionErrors.ContainsKey(tupleString(leafLink.target, leafLink.source)))
                     {
-                        _dataStorage.leafConnectionErrors.Add(clusterTupleString(leafLink.source, leafLink.target), new List<string>()); //<-- only one leaf connection is shown
+                        _dataStorage.leafConnectionErrors.Add(tupleString(leafLink.source, leafLink.target), new List<string>()); //<-- only one leaf connection is shown
                         continue;
                     }
                 }
 
-                if (! _dataStorage.leafConnectionErrors.ContainsKey(clusterTupleString(leafLink.target, leafLink.source)))
+                if (! _dataStorage.leafConnectionErrors.ContainsKey(tupleString(leafLink.target, leafLink.source)))
                 {
-                    if (! _dataStorage.leafConnectionErrors.ContainsKey(clusterTupleString(leafLink.source, leafLink.target)))
+                    if (! _dataStorage.leafConnectionErrors.ContainsKey(tupleString(leafLink.source, leafLink.target)))
                     {
-                        _dataStorage.leafConnectionErrors.Add(clusterTupleString(leafLink.target, leafLink.source), new List<string>()); //<-- only one leaf connection is shown
+                        _dataStorage.leafConnectionErrors.Add(tupleString(leafLink.target, leafLink.source), new List<string>()); //<-- only one leaf connection is shown
                      
                         continue;
                     }
