@@ -11,6 +11,7 @@ namespace backend.drawables
         public List<string> errors { get; set; }
         public string errorsAsString { get; set; }
 
+
         public Link(string source, string target, bool ntv_error = false)
         {
             this.source = source;

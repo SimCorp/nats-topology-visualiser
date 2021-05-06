@@ -1,4 +1,4 @@
-﻿<template>
+<template>
 <div id='searchbar'>
   <b-input-group class="mt-3" id='search-bar'>
     <b-form-input v-model="text" @input="onSearch" placeholder="Search"></b-form-input>
