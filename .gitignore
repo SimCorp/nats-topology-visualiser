@@ -30,3 +30,4 @@ backend.sln.DotSettings.user
 # .NET build files
 bin
 obj
+publish
