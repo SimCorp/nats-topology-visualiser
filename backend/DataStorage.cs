@@ -13,7 +13,7 @@ namespace backend
         public ConcurrentBag<backend.models.Connection> connections;
         public ConcurrentBag<Route> routes;
         public ConcurrentBag<Gateway> gateways;
-        public ConcurrentBag<Leaf> leafs;
+        public List<Leaf> leafs;
         public List<Link> links;
         public ConcurrentBag<ServerNode> processedServers;
         public ConcurrentBag<ClusterNode> processedClusters;
@@ -35,7 +35,7 @@ namespace backend
             connections = new ConcurrentBag<backend.models.Connection>();
             routes = new ConcurrentBag<Route>();
             gateways = new ConcurrentBag<Gateway>();
-            leafs = new ConcurrentBag<Leaf>();
+            leafs = new List<Leaf>();
 
             links = new List<Link>();
             processedServers = new ConcurrentBag<ServerNode>();

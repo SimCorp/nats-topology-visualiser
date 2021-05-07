@@ -123,8 +123,8 @@ export default {
         .force('link', d3.forceLink<ClusterDatum, GatewayDatum>(gateways).id(d => d.name).strength(0.4).distance(50))
         .force('link', d3.forceLink<ServerDatum, RouteDatum>(leafs).id(d => d.server_id).strength(0.01).distance(200))
         .force('charge', d3.forceManyBody())
-        .force('x', d3.forceX())
-        .force('y', d3.forceY())
+        .force('x', d3.forceX().strength(0.05))
+        .force('y', d3.forceY().strength(0.05))
 
       // // Gateways
       const gatewayLink = this.createGatewayLinkSelection(svg, gateways)

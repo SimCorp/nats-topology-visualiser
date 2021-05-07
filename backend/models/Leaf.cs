@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Collections.Concurrent;
 
 namespace backend
 {
@@ -9,7 +8,7 @@ namespace backend
         public string server_id { get; set; }
         public string now { get; set; }
         public int leafnodes { get; set; }
-        public ConcurrentBag<LeafNode> leafs { get; set; }
+        public List<LeafNode> leafs { get; set; }
     }
 
 

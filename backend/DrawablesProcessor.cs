@@ -83,10 +83,10 @@ namespace backend
                     }
                 }
             }
-            constructSingleLeafConnections();
+            ConstructSingleLeafConnections();
         }
 
-        public void constructSingleLeafConnections()
+        public void ConstructSingleLeafConnections()
         {
             // TODO functionality about bidirectionality is currently not being used. Should maybe be removed.
             foreach (var server in _dataStorage.leafs)
@@ -111,14 +111,6 @@ namespace backend
                     if (identicalLink is not null)
                     {
                         identicalLink.connections.Add(leaf); // Add leafnode to be fetched when link is clicked
-                        if (!identicalLink.accountToBidirectional.ContainsKey(leaf.account))
-                        {
-                            identicalLink.accountToBidirectional.Add(leaf.account, false);
-                        }
-                        else 
-                        {
-                            identicalLink.accountToBidirectional[leaf.account] = true;
-                        }
                     }
                     else if (oppositeLink is null)
                     {
@@ -127,20 +119,11 @@ namespace backend
                             targetId
                         );
                         link.connections.Add(leaf);
-                        link.accountToBidirectional.Add(leaf.account, false);
                         _dataStorage.leafLinks.Add(link);
                     }
                     else
                     {
                         oppositeLink.connections.Add(leaf);
-                        if (!oppositeLink.accountToBidirectional.ContainsKey(leaf.account))
-                        {
-                            oppositeLink.accountToBidirectional.Add(leaf.account, false);
-                        }
-                        else 
-                        {
-                            oppositeLink.accountToBidirectional[leaf.account] = true;
-                        }
                     }
                     
                 }
