@@ -52,17 +52,31 @@ namespace backend
             return timeOfRequest;
         }
 
+        [HttpGet("/iptoserverid")]
+        [ProducesResponseType(Status200OK)]
+        public ActionResult<Dictionary<string, string>> GetIpToServerId()
+        {
+            return _dataStorage.ipToServerId;
+        }
+
+        [HttpGet("/leaflinks")]
+        [ProducesResponseType(Status200OK)]
+        public ActionResult<List<LeafLink>> GetLeafLinks()
+        {  
+            return _dataStorage.leafLinks;
+        }
+
         [HttpGet("/gatewayLinks")]
         [ProducesResponseType(Status200OK)]
-        public ActionResult<IEnumerable<Link>> GetGatewayLinks()
+        public ActionResult<IEnumerable<GatewayLink>> GetGatewayLinks()
         {   
-            var gatewayLinks = new List<Link>();
+            var gatewayLinks = new List<GatewayLink>();
             foreach (var cluster in _dataStorage.clusterConnectionErrors)
             {
                 var split = cluster.Key.Split(" NAMESPLIT ");
                 var source = split[0];
                 var target = split[1];
-                var link = new Link (source, target, cluster.Value.Count > 0);
+                var link = new GatewayLink (source, target, cluster.Value.Count > 0);
                 link.errors = cluster.Value;
                 foreach (var err in cluster.Value)
                 {
