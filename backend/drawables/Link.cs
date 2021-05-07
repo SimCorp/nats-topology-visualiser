@@ -9,6 +9,7 @@ namespace backend.drawables
         public string target { get; }
         public bool ntv_error { get; set; }
 
+
         public Link(string source, string target, bool ntv_error = false)
         {
             this.source = source;

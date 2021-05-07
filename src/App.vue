@@ -41,8 +41,8 @@ export default {
     Searchbar,
     InfoPanel
   },
-  data (): { 
-    servers: ServerDatum[]; 
+  data (): {
+    servers: ServerDatum[];
     routes: RouteDatum[];
     clusters: ClusterDatum[];
     gateways: GatewayDatum[];
@@ -76,8 +76,8 @@ export default {
 
       return true
     },
-    onNodeClick () {
-      this.$refs.panel.onNodeClick()
+    onNodeClick ({nodeData, id}) {
+      this.$refs.panel.onNodeClick({nodeData, id})
     },
     onSearchInput (text: string) {
       this.$refs.graph.searchFilter(text)

@@ -1,12 +1,10 @@
 ﻿<template>
   <div id='graph'>
-    <Searchbar id="search" v-on:input="searchFilter" @button-click="searchReset"/>
     <div id="zoomButtons">
       <b-button class="zoomButtons" @click="zoomOut" variant="info">-</b-button>
       <b-button class="zoomButtons" @click="zoomIn" variant="info">+</b-button>
-      <label v-model="text"> {{ this.zoomLevel }}% </label>
     </div>
-    <v-zoomer id="zoomer" ref="zoom" maxScale="6" minScale="1">
+    <v-zoomer id="zoomer" ref="zoom" :maxScale="6" :minScale="1">
     <div id='visualizer'></div>
     </v-zoomer>
   </div>
@@ -39,8 +37,7 @@ export default {
     svg: Selection<SVGSVGElement, unknown, HTMLElement, HTMLElement> | null;
   } {
     return {
-      svg: null,
-      zoomLevel: 100,
+      svg: null
     }
   },
   mounted () {
@@ -295,14 +292,11 @@ export default {
         .attr('r', 5)
         .attr('fill', d => d.ntv_error ? '#f00' : '#000') // Make node red if it has error
         .style('opacity', d => d.isSearchMatch ? 1.0 : 0.2)
+        .style('cursor', 'pointer')
         .call(this.drag(simulation)) // Handle dragging of the nodes
         .on('click', (d, i) => { // Log the value of the chosen node on click
-          this.$emit('node-click')
-
           axios.get('https://localhost:5001/varz/' + i.server_id).then(a => {
-            console.log(d)
-            console.log(i)
-            console.log(a.data)
+            this.$emit('node-click', {nodeData: a.data, id: i.server_id})
           })
         })
 
@@ -369,16 +363,10 @@ export default {
       return viewBoxValue
     },
     zoomIn () {
-      if (this.zoomLevel < 300) {
-        this.$refs.zoom.zoomIn(1.20)
-        this.zoomLevel = this.zoomLevel +20
-      }
+      this.$refs.zoom.zoomIn(1.20)
     },
     zoomOut () {
-      if (this.zoomLevel > 100) {
-        this.$refs.zoom.zoomOut(0.80)
-        this.zoomLevel = this.zoomLevel -20
-      }
+      this.$refs.zoom.zoomOut(0.80)
     }
   }
 }
