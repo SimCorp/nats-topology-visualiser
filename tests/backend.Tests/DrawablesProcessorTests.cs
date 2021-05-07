@@ -77,10 +77,12 @@ namespace backend.Tests
                     server_id = "id0",
                     routes = new ConcurrentBag<RouteNode>(new RouteNode[] {
                         new RouteNode {
-                            remote_id = "id1"
+                            remote_id = "id1",
+                            ip = "1234"
                         },
                         new RouteNode {
-                            remote_id = "bruh"
+                            remote_id = "bruh",
+                            ip = "2345"
                         }
                     })
                 },
@@ -88,7 +90,8 @@ namespace backend.Tests
                     server_id = "id1",
                     routes = new ConcurrentBag<RouteNode>(new RouteNode[] {
                         new RouteNode {
-                            remote_id = "id0"
+                            remote_id = "id0",
+                            ip = "3456"
                         }
                     })
                 }
