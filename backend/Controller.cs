@@ -70,22 +70,7 @@ namespace backend
         [ProducesResponseType(Status200OK)]
         public ActionResult<IEnumerable<GatewayLink>> GetGatewayLinks()
         {   
-            var gatewayLinks = new List<GatewayLink>();
-            foreach (var cluster in _dataStorage.clusterConnectionErrors)
-            {
-                var split = cluster.Key.Split(" NAMESPLIT ");
-                var source = split[0];
-                var target = split[1];
-                var link = new GatewayLink (source, target, cluster.Value.Count > 0);
-                link.errors = cluster.Value;
-                foreach (var err in cluster.Value)
-                {
-                    link.errorsAsString += "\n" + err;
-                }
-                gatewayLinks.Add(link);
-            }
-
-            return gatewayLinks;
+            return _dataStorage.gatewayLinks;
         }
 
         [HttpGet("/varz")]
