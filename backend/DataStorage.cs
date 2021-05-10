@@ -27,6 +27,7 @@ namespace backend
         public Dictionary<string, string> ipToServerId;
         public List<LeafLink> leafLinks;
         public HashSet<string> leafConnections;
+        public List<GatewayLink> gatewayLinks;
 
         public DataStorage() {
 
@@ -43,6 +44,7 @@ namespace backend
             serverToMissingServer = new Dictionary<string, List<string>>();
             ipToServerId = new Dictionary<string, string>();
             leafLinks = new List<LeafLink>();
+            gatewayLinks = new List<GatewayLink>();
             
 
             missingServerIds = new HashSet<string>();

@@ -167,6 +167,11 @@ namespace backend
             constructClustersOfBrokenGateways();
             
             detectGatewaysToCrashedServers();
+
+            constructSingleGatewayLinks();
+        }
+
+        public void constructSingleGatewayLinks() {
             foreach (var connection in _dataStorage.clusterConnectionErrors)
             {
                 var tuple = stringToTuple(connection.Key);
@@ -182,6 +187,20 @@ namespace backend
                         connection.Value.Add("Missing gateway from cluster " + gateway.name + " to cluster " + target + " for server " + gateway.server_id);
                     }
                 }
+            }
+
+            foreach (var cluster in _dataStorage.clusterConnectionErrors)
+            {
+                var split = cluster.Key.Split(" NAMESPLIT ");
+                var source = split[0];
+                var target = split[1];
+                var link = new GatewayLink (source, target, cluster.Value.Count > 0);
+                link.errors = cluster.Value;
+                foreach (var err in cluster.Value)
+                {
+                    link.errorsAsString += "\n" + err;
+                }
+                _dataStorage.gatewayLinks.Add(link);
             }
         }
         public void ProcessLinks()
