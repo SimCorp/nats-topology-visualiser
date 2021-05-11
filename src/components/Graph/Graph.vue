@@ -18,6 +18,7 @@ import ClusterDatum from './ClusterDatum'
 import { D3DragEvent, Selection, SubjectPosition } from 'd3'
 import LinkDatum from './LinkDatum'
 import RouteDatum from './RouteDatum'
+import LeafDatum from './LeafDatum'
 
 import axios from 'axios'
 import { PropType } from 'vue'
@@ -29,7 +30,8 @@ export default {
     servers: Array as PropType<ServerDatum[]>,
     routes: Array as PropType<RouteDatum[]>,
     clusters: Array as PropType<ClusterDatum[]>,
-    gateways: Array as PropType<GatewayDatum[]>
+    gateways: Array as PropType<GatewayDatum[]>,
+    leafs: Array as PropType<LeafDatum[]>
   },
   data (): {
     svg: Selection<SVGSVGElement, unknown, HTMLElement, HTMLElement> | null;
@@ -55,6 +57,7 @@ export default {
     this.svg.append('g').attr('id', 'hulls')
     this.svg.append('g').attr('id', 'clusters')
     this.svg.append('g').attr('id', 'routes')
+    this.svg.append('g').attr('id', 'leafs')
     this.svg.append('g').attr('id', 'servers')
 
     this.drawGraph()
@@ -103,6 +106,7 @@ export default {
       const routes = this.routes
       const clusters = this.clusters
       const gateways = this.gateways
+      const leafs = this.leafs
 
       // Cluster Map for fast lookup
       const clusterNameToCluster = new Map<string, ClusterDatum>()
@@ -117,19 +121,29 @@ export default {
       const simulation: d3.Simulation<NodeDatum, LinkDatum<NodeDatum>> = d3.forceSimulation(allNodes)
         .force('link', d3.forceLink<ServerDatum, RouteDatum>(routes).id(d => d.server_id))
         .force('link', d3.forceLink<ClusterDatum, GatewayDatum>(gateways).id(d => d.name).strength(0.4).distance(50))
+        .force('link', d3.forceLink<ServerDatum, RouteDatum>(leafs).id(d => d.server_id).strength(0.01).distance(200))
         .force('charge', d3.forceManyBody())
-        .force('x', d3.forceX())
-        .force('y', d3.forceY())
+        .force('x', d3.forceX().strength(0.05))
+        .force('y', d3.forceY().strength(0.05))
 
       // // Gateways
       const gatewayLink = this.createGatewayLinkSelection(svg, gateways)
       const hull = this.createHullSelection(svg, clusters, simulation)
       const cluster = this.createClusterNodeSelection(svg, clusters, simulation)
       const routeLink = this.createRouteLinkSelection(svg, routes)
+      const leafLink = this.createLeafLinkSelection(svg, leafs)
       const serverNode = this.createServerNodeSelection(svg, servers, simulation)
 
-      // Update data on simulation tick
+      // Update data on simulation tick - also the order which the varz are drawn
       simulation.on('tick', () => {
+        cluster?.attr('cx', d => d.x)
+          .attr('cy', d => d.y)
+
+        gatewayLink?.attr('x1', d => d.source.x)
+          .attr('y1', d => d.source.y)
+          .attr('x2', d => d.target.x)
+          .attr('y2', d => d.target.y)
+
         serverNode?.attr('cx', d => d.x)
           .attr('cy', d => d.y)
 
@@ -138,22 +152,19 @@ export default {
           .attr('x2', d => d.target.x)
           .attr('y2', d => d.target.y)
 
+        leafLink?.attr('x1', d => d.source.x)
+          .attr('y1', d => d.source.y)
+          .attr('x2', d => d.target.x)
+          .attr('y2', d => d.target.y)
+
+        hull?.attr('d', d => this.getHullPath(d, servers))
+
         const k = simulation.alpha() * 0.3;
         servers.forEach(serverNode => {
           const cluster = clusterNameToCluster.get(serverNode.ntv_cluster)
           serverNode.y += (cluster!.y - serverNode.y) * k;
           serverNode.x += (cluster!.x - serverNode.x) * k;
         })
-
-        cluster?.attr('cx', d => d.x)
-          .attr('cy', d => d.y)
-
-        hull?.attr('d', d => this.getHullPath(d, servers))
-
-        gatewayLink?.attr('x1', d => d.source.x)
-          .attr('y1', d => d.source.y)
-          .attr('x2', d => d.target.x)
-          .attr('y2', d => d.target.y)
       })
     },
 
@@ -236,6 +247,31 @@ export default {
       return routeLink
     },
 
+    createLeafLinkSelection(
+      svg: d3.Selection<SVGSVGElement, unknown, HTMLElement, HTMLElement> | null,
+      leafs: LeafDatum[])
+    {
+      const leafLink = svg?.select('g#leafs')
+        .selectAll("line")
+        .data(leafs)
+        .join(
+          enter => enter.append('line'),
+          update => update,
+          exit => exit.remove()
+        )
+        .style( "stroke", "#444" )
+        .style( "stroke-width", 1 )
+        .style ("stroke-dasharray", ("3,3"))
+        .on('click', (d, i) => { // Log the value of the chosen node on click
+          console.log(i.connections) // fetch data on click
+        })
+
+      leafLink?.append('title') // Set title (hover text) for erronious link
+        .text(d => d.ntv_error ? 'Something\'s Wrong' : '')
+        // .attr('stroke', d => d.ntv_error ? '#f00' : '#00f')  // Set line to red, if it has an error
+      return leafLink
+    },
+
     createServerNodeSelection (
       svg: d3.Selection<SVGSVGElement, unknown, HTMLElement, HTMLElement> | null,
       servers: ServerDatum[],
@@ -256,14 +292,11 @@ export default {
         .attr('r', 5)
         .attr('fill', d => d.ntv_error ? '#f00' : '#000') // Make node red if it has error
         .style('opacity', d => d.isSearchMatch ? 1.0 : 0.2)
+        .style('cursor', 'pointer')
         .call(this.drag(simulation)) // Handle dragging of the nodes
         .on('click', (d, i) => { // Log the value of the chosen node on click
-          this.$emit('node-click')
-
           axios.get('https://localhost:5001/varz/' + i.server_id).then(a => {
-            console.log(d)
-            console.log(i)
-            console.log(a.data)
+            this.$emit('node-click', {nodeData: a.data, id: i.server_id})
           })
         })
 

@@ -2,17 +2,19 @@
   <div>
     <b-sidebar
       id="sidepanel"
-      title="Useful information"
+      title="Node information"
       right
-      backdrop-variant="transparent"
-      backdrop
       shadow=true
+      width="450px"
       v-model="isPanelOpen">
       <div class="px-3 py-2">
-        <p>
-          Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis
-          in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
-        </p>
+        <div id="error">
+          <p>The selected node does not exist. <br><br> server_id:</p>
+          <p id="errorid">"{{ errorId }}"</p>
+        </div>
+        <div id="info">
+          <json-view :data="nodeData" :root-key="rootName"/>
+        </div>
       </div>
     </b-sidebar>
   </div>
@@ -26,13 +28,29 @@ export default {
   components: { SidebarPanel },
   data () {
     return {
-      isPanelOpen: false
+      isPanelOpen: false,
+      nodeData: null,
+      rootName: 'node',
+      errorId: ''
     }
   },
   methods: {
-    onNodeClick () {
+    onNodeClick ({nodeData, id}) {
       if (!this.$data.isPanelOpen) {
         this.$data.isPanelOpen = true
+      }
+
+      const info = document.getElementById("info")
+      const error = document.getElementById("error")
+
+      if (nodeData === '') {
+        info.style.display = "none"
+        error.style.display = "block"
+        this.errorId = id
+      } else {
+        info.style.display = "block"
+        error.style.display = "none"
+        this.nodeData = nodeData
       }
     }
   }
@@ -40,5 +58,16 @@ export default {
 </script>
 
 <style scoped>
+
+#errorid {
+  word-wrap: break-word;
+  color: #268bd2;
+  font-weight: 600;
+  margin-top: -15px;
+}
+
+#error {
+  font-weight: 600;
+}
 
 </style>

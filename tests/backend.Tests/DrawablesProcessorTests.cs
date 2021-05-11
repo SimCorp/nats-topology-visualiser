@@ -77,10 +77,12 @@ namespace backend.Tests
                     server_id = "id0",
                     routes = new ConcurrentBag<RouteNode>(new RouteNode[] {
                         new RouteNode {
-                            remote_id = "id1"
+                            remote_id = "id1",
+                            ip = "1234"
                         },
                         new RouteNode {
-                            remote_id = "bruh"
+                            remote_id = "bruh",
+                            ip = "2345"
                         }
                     })
                 },
@@ -88,7 +90,8 @@ namespace backend.Tests
                     server_id = "id1",
                     routes = new ConcurrentBag<RouteNode>(new RouteNode[] {
                         new RouteNode {
-                            remote_id = "id0"
+                            remote_id = "id0",
+                            ip = "3456"
                         }
                     })
                 }
@@ -118,6 +121,49 @@ namespace backend.Tests
             Assert.Equal("id0", data.links[2].source);
             Assert.Equal("id1", data.links[2].target);
             Assert.False(data.links[2].ntv_error);
+        }
+
+        [Fact]
+        public void ConstructSingleLeafConnectionsTest()
+        {
+            var data = new DataStorage();
+            data.servers = new List<Server>(new Server[]
+            {
+                new Server {server_id = "id0", server_name = "name0"},
+                new Server {server_id = "id1", server_name = "name1"},
+                new Server {server_id = "id2", server_name = "name2"}
+            });
+
+            data.ipToServerId.Add("123", "id0");
+            data.ipToServerId.Add("234", "id1");
+            data.ipToServerId.Add("345", "id2");
+
+            var leafs = new List<Leaf>(new Leaf[]{
+                new Leaf {
+                    server_id = "id0",
+                    leafs = new List<LeafNode>(new LeafNode[]{
+                        new LeafNode {
+                            ip = "234",
+                            account = "bruh"
+                        },
+                        new LeafNode {
+                            ip = "234",
+                            account = "oline"
+                        },
+                        new LeafNode {
+                            ip = "345",
+                            account = "lmao"
+                        }
+                    })
+                }
+            });
+
+            data.leafs = leafs;
+
+            var dp = new DrawablesProcessor(data, "thisTextDoesNotMatter");
+            dp.ConstructSingleLeafConnections();
+
+            Assert.Equal(2, data.leafLinks.Count());
         }
         
         [Fact]
