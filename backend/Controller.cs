@@ -25,6 +25,7 @@ namespace backend
         [ProducesResponseType(Status200OK)]
         public ActionResult<DataTransfer> GetData()
         {
+            Program.UpdateData();
             return new DataTransfer {
                 processedServers = _dataStorage.processedServers,
                 links = _dataStorage.links,

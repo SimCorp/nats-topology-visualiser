@@ -6,12 +6,21 @@ using System;
 
 namespace backend
 {
-    class Program
+    public class Program
     {
         public static DateTime dateOfNatsRequest;
         public static EventParser eventParser;
         public static DrawablesProcessor drawablesProcessor;
         private static void Main(string[] args)
+        {
+            UpdateData();
+            var host = CreateHostBuilder(args).Build();
+
+            CreateHostBuilder(args).Build().Run();
+            host.Run();
+        }
+
+        public static void UpdateData() 
         {
             eventParser = new EventParser(new DataStorage());
             eventParser.Parse();
@@ -19,11 +28,6 @@ namespace backend
             dateOfNatsRequest = DateTime.Now;
 
             drawablesProcessor = new DrawablesProcessor(eventParser.dataStorage);
-
-            var host = CreateHostBuilder(args).Build();
-
-            CreateHostBuilder(args).Build().Run();
-            host.Run();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>

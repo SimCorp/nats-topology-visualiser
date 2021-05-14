@@ -8,7 +8,7 @@ using backend.helpers;
 using Env = System.Environment;
 namespace backend
 {
-    class EventParser
+    public class EventParser
     {
         public DataStorage dataStorage;
 
