@@ -16,13 +16,12 @@
   </Graph>
   <Searchbar id="search" v-on:input="onSearchInput" @button-click="onSearchReset"/>
   <InfoPanel ref="panel"></InfoPanel>
-  <Statusbar></Statusbar>
+  <Statusbar :timeOfRequest="this.timeOfRequest" ></Statusbar>
 </div>
 </template>
 
 <script lang="ts">
 import axios from 'axios'
-
 import Graph from '@/components/Graph/Graph.vue'
 import ServerDatum from './components/Graph/ServerDatum'
 import RouteDatum from './components/Graph/RouteDatum'
@@ -30,9 +29,7 @@ import ClusterDatum from './components/Graph/ClusterDatum'
 import GatewayDatum from './components/Graph/GatewayDatum'
 import Statusbar from '@/components/Statusbar.vue'
 import InfoPanel from '@/components/InfoPanel.vue'
-import Searchbar from "@/components/Searchbar.vue";
-import Zoombar from '@/components/Zoombar.vue'
-import LinkDatum from './components/Graph/LinkDatum'
+import Searchbar from "@/components/Searchbar.vue"
 import LeafDatum from './components/Graph/LeafDatum'
 import Varz from './components/Graph/Varz'
 
@@ -51,6 +48,7 @@ export default {
     gateways: GatewayDatum[];
     leafs: LeafDatum[]; // TODO add LeafDatum?
     varz: Varz[];
+    timeOfRequest: Date;
     dataLoaded: boolean;
     isPanelOpen: boolean;
   } {
@@ -61,6 +59,7 @@ export default {
       gateways: [],
       leafs: [],
       varz: [],
+      timeOfRequest: undefined,
       dataLoaded: false,
       isPanelOpen: false,
     }
@@ -74,15 +73,15 @@ export default {
       const host = 'https://localhost:5001'
       // TODO add type safety
       const data = (await axios.get(`${host}/updateEverything`)).data
-      
+
       // TODO why no type errors?
       this.servers = data.processedServers
-      // console.log("servers", data.processedServers)
       this.routes = data.links
       this.clusters = data.processedClusters
       this.gateways = data.gatewayLinks
       this.leafs = data.leafLinks
       this.varz = data.varz
+      this.timeOfRequest = data.timeOfRequest
       return true
     },
     onNodeClick ({nodeData, id}) {

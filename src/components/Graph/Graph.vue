@@ -297,7 +297,6 @@ export default {
         .style('cursor', 'pointer')
         .call(this.drag(simulation)) // Handle dragging of the nodes
         .on('click', (d, i) => { // Log the value of the chosen node on click
-          // axios.get('https://localhost:5001/varz/' + i.server_id).then(a => {
             const foundVarz = this.getServerWithId(i.server_id)
             this.$emit('node-click', {nodeData: foundVarz, id: i.server_id})
         })
