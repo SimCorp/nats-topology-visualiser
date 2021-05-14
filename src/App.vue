@@ -10,6 +10,7 @@
     :clusters='this.clusters'
     :gateways='this.gateways'
     :leafs='this.leafs'
+    :varz='this.varz'
     :dataLoaded='this.dataLoaded'
   >
   </Graph>
@@ -32,6 +33,8 @@ import InfoPanel from '@/components/InfoPanel.vue'
 import Searchbar from "@/components/Searchbar.vue";
 import Zoombar from '@/components/Zoombar.vue'
 import LinkDatum from './components/Graph/LinkDatum'
+import LeafDatum from './components/Graph/LeafDatum'
+import Varz from './components/Graph/Varz'
 
 export default {
   name: 'App',
@@ -46,7 +49,8 @@ export default {
     routes: RouteDatum[];
     clusters: ClusterDatum[];
     gateways: GatewayDatum[];
-    leafs: RouteDatum[]; // TODO add LeafDatum?
+    leafs: LeafDatum[]; // TODO add LeafDatum?
+    varz: Varz[];
     dataLoaded: boolean;
     isPanelOpen: boolean;
   } {
@@ -56,8 +60,9 @@ export default {
       clusters: [],
       gateways: [],
       leafs: [],
+      varz: [],
       dataLoaded: false,
-      isPanelOpen: false
+      isPanelOpen: false,
     }
   },
   created: async function(){
@@ -67,13 +72,17 @@ export default {
   methods: {
     async getData (): Promise<boolean> {
       const host = 'https://localhost:5001'
-
-      this.servers = (await axios.get(`${host}/nodes`)).data
-      this.routes = (await axios.get(`${host}/links`)).data
-      this.clusters =( await axios.get(`${host}/clusters`)).data
-      this.gateways = (await axios.get(`${host}/gatewayLinks`)).data
-      this.leafs = (await axios.get(`${host}/leaflinks`)).data
-
+      // TODO add type safety
+      const data = (await axios.get(`${host}/updateEverything`)).data
+      
+      // TODO why no type errors?
+      this.servers = data.processedServers
+      // console.log("servers", data.processedServers)
+      this.routes = data.links
+      this.clusters = data.processedClusters
+      this.gateways = data.gatewayLinks
+      this.leafs = data.leafLinks
+      this.varz = data.varz
       return true
     },
     onNodeClick ({nodeData, id}) {

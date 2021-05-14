@@ -23,6 +23,7 @@ import LeafDatum from './LeafDatum'
 import axios from 'axios'
 import { PropType } from 'vue'
 import NodeDatum from './NodeDatum'
+import Varz from './Varz'
 
 export default {
   name: 'Graph',
@@ -31,7 +32,8 @@ export default {
     routes: Array as PropType<RouteDatum[]>,
     clusters: Array as PropType<ClusterDatum[]>,
     gateways: Array as PropType<GatewayDatum[]>,
-    leafs: Array as PropType<LeafDatum[]>
+    leafs: Array as PropType<LeafDatum[]>,
+    varz: Array as PropType<Varz[]>
   },
   data (): {
     svg: Selection<SVGSVGElement, unknown, HTMLElement, HTMLElement> | null;
@@ -295,9 +297,9 @@ export default {
         .style('cursor', 'pointer')
         .call(this.drag(simulation)) // Handle dragging of the nodes
         .on('click', (d, i) => { // Log the value of the chosen node on click
-          axios.get('https://localhost:5001/varz/' + i.server_id).then(a => {
-            this.$emit('node-click', {nodeData: a.data, id: i.server_id})
-          })
+          // axios.get('https://localhost:5001/varz/' + i.server_id).then(a => {
+            const foundVarz = this.getServerWithId(i.server_id)
+            this.$emit('node-click', {nodeData: foundVarz, id: i.server_id})
         })
 
       // Set a title on the node, which is shown when hovered
@@ -331,6 +333,13 @@ export default {
           : `${str} L ${coords[0]},${coords[1]}` // otherwise use LineTo command 'L'
       , initialValue) + ' Z' // End with ClosePath command 'Z'
       return hullPath
+    },
+
+    getServerWithId(server_id: string): Varz | string {
+      for (const server of this.varz) {
+        if (server.server_id === server_id) return server // TODO add varz type
+      }
+      return ""
     },
 
     drag (simulation: d3.Simulation<NodeDatum, LinkDatum<NodeDatum>>): d3.DragBehavior<Element, ServerDatum, ServerDatum | SubjectPosition> & ((this: Element, event: any, d: ServerDatum) => void) {
