@@ -16,8 +16,6 @@ namespace backend
 
         private readonly DataStorage _dataStorage;
 
-        private static String timeOfRequest;
-
         public Controller(DataStorage dataStorage)
         {
             _dataStorage = dataStorage;
@@ -33,7 +31,8 @@ namespace backend
                 processedClusters = _dataStorage.processedClusters,
                 gatewayLinks = _dataStorage.gatewayLinks,
                 leafLinks = _dataStorage.leafLinks,
-                varz = _dataStorage.servers
+                varz = _dataStorage.servers,
+                timeOfRequest = Program.dateOfNatsRequest
             };
         }
 
@@ -60,10 +59,9 @@ namespace backend
         
         [HttpGet("/timeOfRequest")]
         [ProducesResponseType(Status200OK)]
-        public ActionResult<String> GetTimeOfRequest()
+        public ActionResult<DateTime> GetTimeOfRequest()
         {
-            timeOfRequest = Program.dateOfNatsRequest.ToString("hh:mm tt - dd MMMM yyyy");
-            return timeOfRequest;
+            return Program.dateOfNatsRequest;
         }
 
         [HttpGet("/iptoserverid")]
