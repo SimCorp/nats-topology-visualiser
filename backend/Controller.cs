@@ -23,6 +23,20 @@ namespace backend
             _dataStorage = dataStorage;
         }
 
+        [HttpGet("/updateEverything")]
+        [ProducesResponseType(Status200OK)]
+        public ActionResult<DataTransfer> GetData()
+        {
+            return new DataTransfer {
+                processedServers = _dataStorage.processedServers,
+                links = _dataStorage.links,
+                processedClusters = _dataStorage.processedClusters,
+                gatewayLinks = _dataStorage.gatewayLinks,
+                leafLinks = _dataStorage.leafLinks,
+                varz = _dataStorage.servers
+            };
+        }
+
         [HttpGet("/nodes")]
         [ProducesResponseType(Status200OK)]
         public ActionResult<IEnumerable<ServerNode>> GetNodes()
