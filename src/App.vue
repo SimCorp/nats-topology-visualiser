@@ -17,7 +17,7 @@
   </Graph>
   <Searchbar id="search" v-on:input="onSearchInput" @button-click="onSearchReset"/>
   <InfoPanel ref="panel"></InfoPanel>
-  <Statusbar id="statusbar" :timeOfRequest="this.timeOfRequest" ></Statusbar>
+  <Statusbar ref="status" :shouldDisplay="this.showStatus" :timeOfRequest="this.timeOfRequest"></Statusbar>
 </div>
 </template>
 
@@ -52,6 +52,7 @@ export default {
     timeOfRequest: Date;
     dataLoaded: boolean;
     isPanelOpen: boolean;
+    showStatus: boolean;
   } {
     return {
       servers: [],
@@ -63,10 +64,10 @@ export default {
       timeOfRequest: undefined,
       dataLoaded: false,
       isPanelOpen: false,
+      showStatus: false
     }
   },
-  created: async function() {
-
+  mounted: async function() {
       this.displaySpinner(true)
       this.dataLoaded = await this.getData()
       this.displaySpinner(false)
@@ -101,8 +102,10 @@ export default {
       const spinner = document.getElementById("load")
       if (b) {
         spinner.style.display = "block"
+        this.showStatus = false
       } else {
         spinner.style.display = "none"
+        this.showStatus = true
       }
     }
   }
