@@ -16,7 +16,7 @@
   <Searchbar id="search" v-on:input="onSearchInput" @button-click="onSearchReset"/>
   <InfoPanel ref="panel"></InfoPanel>
   <Statusbar></Statusbar>
-  <StructurePanel ref="structurepanel" ></StructurePanel>
+  <StructurePanel ref="structurepanel" id="structurePanel" ></StructurePanel>
 </div>
 </template>
 
@@ -30,7 +30,9 @@ import ClusterDatum from './components/Graph/ClusterDatum'
 import GatewayDatum from './components/Graph/GatewayDatum'
 import Statusbar from '@/components/Statusbar.vue'
 import InfoPanel from '@/components/InfoPanel.vue'
-import Searchbar from "@/components/Searchbar.vue";
+import Searchbar from '@/components/Searchbar.vue'
+import StructurePanel from '@/components/StructurePanel.vue';
+
 import Zoombar from '@/components/Zoombar.vue'
 import LinkDatum from './components/Graph/LinkDatum'
 import TreeList from '@/components/TreeList.vue'
@@ -42,6 +44,7 @@ export default {
     Statusbar,
     Searchbar,
     InfoPanel,
+    StructurePanel,
   },
   data (): {
     servers: ServerDatum[];

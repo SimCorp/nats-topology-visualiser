@@ -6,12 +6,8 @@
       margin-left="100px"
       title="Structure Panel"
       left
-      backdrop-variant="transparent"
-      backdrop
       shadow=true
       width="400px"
-      p
-      no-close-on-backdrop=true
       v-model="isPanelOpen">
       <div>
     <vue-tree-list
@@ -27,10 +23,6 @@
           {{ slotProps.model.name }} <span class="muted">#{{ slotProps.model.id }}</span>
         </span>
       </template>
-      <span class="icon" slot="addTreeNodeIcon">📂</span>
-      <span class="icon" slot="addLeafNodeIcon">＋</span>
-      <span class="icon" slot="editNodeIcon">📃</span>
-      <span class="icon" slot="delNodeIcon">✂️</span>
       <span class="icon" slot="leafNodeIcon">🍃</span>
       <span class="icon" slot="treeNodeIcon">🌲</span>
     </vue-tree-list>
@@ -46,7 +38,7 @@ import { VueTreeList, Tree, TreeNode } from 'vue-tree-list'
 import axios from "axios";
 
 export default {
-  name: "InfoPanel",
+  name: "StructurePanel",
   async mounted () {
     await this.getData()
   },
@@ -54,7 +46,7 @@ export default {
 
   data() {
     return {
-      isPanelOpen: false,
+      isPanelOpen: true,
       newTree: {},
       data: Tree
     }
@@ -77,7 +69,7 @@ export default {
 
       onClick(params) {
         console.log(params)
-        this.$emit('structure-node-click', {nodeData: a.data, id: params.}) //TODO FIX THIS
+        //this.$emit('structure-node-click', {nodeData: a.data, id: params.}) //TODO FIX THIS
       },
 
       addNode() {

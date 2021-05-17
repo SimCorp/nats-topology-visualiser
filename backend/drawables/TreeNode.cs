@@ -1,4 +1,5 @@
 ﻿using System.Collections.Concurrent;
+using System.Collections.Generic;
 
 namespace backend.drawables
 {
@@ -14,6 +15,6 @@ namespace backend.drawables
         public bool editNodeDisabled { get; set; }
         public bool delNodeDisabled { get; set; }
         public bool isLeaf { get; set; }
-        public ConcurrentBag<TreeNode> children { get; set; }
+        public List<TreeNode> children { get; set; }
     }
 }
