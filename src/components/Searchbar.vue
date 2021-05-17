@@ -35,5 +35,6 @@ export default {
 #search-bar {
   width: 20%;
   left: 20px;
+  margin-left: 320px;
 }
 </style>

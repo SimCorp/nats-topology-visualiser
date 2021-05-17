@@ -6,6 +6,7 @@ namespace backend.drawables
     {
         public string name { get; set; }
         public int id { get; set; }
+        public string server_id { get; set; }
         public int pid { get; set; }
         public bool dragDisabled { get; set; }
         public bool addTreeNodeDisabled { get; set; }

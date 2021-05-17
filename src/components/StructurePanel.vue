@@ -1,18 +1,18 @@
 ﻿<template>
   <div>
     <b-sidebar
-      id="sidepanel"
-      title="Useful information"
+      id="leftsidepanel"
+      class="b-sidebar mr-5"
+      margin-left="100px"
+      title="Structure Panel"
       left
       backdrop-variant="transparent"
       backdrop
       shadow=true
+      width="400px"
+      p
+      no-close-on-backdrop=true
       v-model="isPanelOpen">
-      <div class="px-3 py-2">
-        <p>
-          Structure panel weeee :D
-        </p>
-      </div>
       <div>
     <vue-tree-list
       @click="onClick"
@@ -77,6 +77,7 @@ export default {
 
       onClick(params) {
         console.log(params)
+        this.$emit('structure-node-click', {nodeData: a.data, id: params.}) //TODO FIX THIS
       },
 
       addNode() {
@@ -114,5 +115,15 @@ export default {
 </script>
 
 <style scoped>
+
+/*.b-sidebar{
+  /*position: absolute;
+  padding: 10px;
+  margin-right: 200px;
+  background-color: blueviolet;
+}
+.b-avatar{
+  position: absolute;
+}*/
 
 </style>

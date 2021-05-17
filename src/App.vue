@@ -16,7 +16,7 @@
   <Searchbar id="search" v-on:input="onSearchInput" @button-click="onSearchReset"/>
   <InfoPanel ref="panel"></InfoPanel>
   <Statusbar></Statusbar>
-  <TreeList></TreeList>
+  <StructurePanel ref="structurepanel" ></StructurePanel>
 </div>
 </template>
 
@@ -81,6 +81,11 @@ export default {
     onNodeClick ({nodeData, id}) {
       this.$refs.panel.onNodeClick({nodeData, id})
     },
+
+    onStructurePanelNodeClick (id){
+      this.$refs.structurepanel.onClick(id) //TODO FIX THIS
+    },
+
     onSearchInput (text: string) {
       this.$refs.graph.searchFilter(text)
     },
@@ -97,5 +102,6 @@ export default {
   text-align: center;
   margin-top: 15px;
 }
+
 
 </style>

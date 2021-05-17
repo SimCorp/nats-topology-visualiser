@@ -393,7 +393,7 @@ svg {
   position: absolute;
   left: 0;
   bottom: 0;
-  margin-left: 420px;
+  margin-left: 720px;
   margin-bottom: 17px;
 }
 .zoomButtons {

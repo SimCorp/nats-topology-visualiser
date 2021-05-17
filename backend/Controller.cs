@@ -151,9 +151,43 @@ namespace backend
                 delNodeDisabled = true,
             };
             List<TreeNode> test = new List<TreeNode>();
-            test.Add(node1);
-            test.Add(node2);
-
+            var counter = 1;
+            foreach (var clusterNode in _dataStorage.processedClusters)
+            {
+                var clusterTreeNode = new TreeNode
+                {
+                    name = clusterNode.name,
+                    id = counter++,
+                    pid = 0,
+                    dragDisabled = true,
+                    addTreeNodeDisabled = true,
+                    addLeafNodeDisabled = true,
+                    editNodeDisabled = true,
+                    delNodeDisabled = true,
+                    children = new List<TreeNode>(),
+                };
+                var nodeServerCounter = counter+1;
+                foreach (var server in clusterNode.servers)
+                {
+                    var serverTreeNode = new TreeNode
+                    {
+                        name = server.server_name ,
+                        id = nodeServerCounter++,
+                        server_id = server.server_id,
+                        pid = counter,
+                        dragDisabled = true,
+                        addTreeNodeDisabled = true,
+                        addLeafNodeDisabled = true,
+                        editNodeDisabled = true,
+                        delNodeDisabled = true,
+                        isLeaf = true,
+                    };
+                    clusterTreeNode.children.Add(serverTreeNode);
+                }
+                
+                test.Add(clusterTreeNode);
+                counter = nodeServerCounter + 1;
+            }
             return test;
         }
         
