@@ -1,15 +1,16 @@
 ﻿<template>
   <div id='statusbar'>
-    <p id='status-bar' class='form-control'> Last updated: {{new Date(Date.parse(this.timeOfRequest)).toLocaleString("en-GB")}} </p>
+    <p id='status-bar' v-if="shouldDisplay" class='form-control'> Last updated: {{new Date(Date.parse(this.timeOfRequest)).toLocaleString("en-GB")}} </p>
   </div>
 </template>
 
-<script>
+<script lang="ts">
 
 export default {
   name: "Statusbar",
   props: {
-    timeOfRequest: String
+    timeOfRequest: String,
+    shouldDisplay: Boolean
   }
 }
 
