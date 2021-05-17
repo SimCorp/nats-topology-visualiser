@@ -5,6 +5,7 @@
   <Graph
     ref="graph"
     @node-click="onNodeClick"
+    :key="renderKey"
     v-if='dataLoaded'
     :servers='this.servers'
     :routes='this.routes'
@@ -15,6 +16,7 @@
     :dataLoaded='this.dataLoaded'
   >
   </Graph>
+  <b-button id="refresh" @click="refreshGraph" variant="info">Refresh</b-button>
   <Searchbar id="search" v-on:input="onSearchInput" @button-click="onSearchReset"/>
   <InfoPanel ref="panel"></InfoPanel>
   <Statusbar ref="status" :shouldDisplay="this.showStatus" :timeOfRequest="this.timeOfRequest"></Statusbar>
@@ -53,6 +55,7 @@ export default {
     dataLoaded: boolean;
     isPanelOpen: boolean;
     showStatus: boolean;
+    renderKey: number;
   } {
     return {
       servers: [],
@@ -64,7 +67,8 @@ export default {
       timeOfRequest: undefined,
       dataLoaded: false,
       isPanelOpen: false,
-      showStatus: false
+      showStatus: false,
+      renderKey: 0
     }
   },
   mounted: async function() {
@@ -100,13 +104,20 @@ export default {
     },
     displaySpinner (b: boolean) {
       const spinner = document.getElementById("load")
+      const refresh = document.getElementById("refresh")
       if (b) {
         spinner.style.display = "block"
+        refresh.style.display = "none"
         this.showStatus = false
       } else {
         spinner.style.display = "none"
+        refresh.style.display = "block"
         this.showStatus = true
       }
+    },
+    async refreshGraph () {
+      this.dataLoaded = await this.getData()
+      this.renderKey += 1
     }
   }
 }
@@ -125,5 +136,11 @@ export default {
   bottom: 48%;
   width: 3rem;
   height: 3rem;
+}
+
+#refresh {
+  position: fixed;
+  bottom: 70px;
+  left: 20px;
 }
 </style>
