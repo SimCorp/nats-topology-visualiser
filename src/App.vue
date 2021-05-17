@@ -1,6 +1,7 @@
 <template>
 <div id="app">
   <h1 id="title">Topology Visualizer</h1>
+  <b-spinner id="load" label="Loading..."></b-spinner>
   <Graph
     ref="graph"
     @node-click="onNodeClick"
@@ -16,7 +17,7 @@
   </Graph>
   <Searchbar id="search" v-on:input="onSearchInput" @button-click="onSearchReset"/>
   <InfoPanel ref="panel"></InfoPanel>
-  <Statusbar :timeOfRequest="this.timeOfRequest" ></Statusbar>
+  <Statusbar id="statusbar" :timeOfRequest="this.timeOfRequest" ></Statusbar>
 </div>
 </template>
 
@@ -64,8 +65,11 @@ export default {
       isPanelOpen: false,
     }
   },
-  created: async function(){
+  created: async function() {
+
+      this.displaySpinner(true)
       this.dataLoaded = await this.getData()
+      this.displaySpinner(false)
       console.log('app dataLoaded', this.$data)
   },
   methods: {
@@ -92,6 +96,14 @@ export default {
     },
     onSearchReset () {
       this.$refs.graph.searchReset()
+    },
+    displaySpinner (b: boolean) {
+      const spinner = document.getElementById("load")
+      if (b) {
+        spinner.style.display = "block"
+      } else {
+        spinner.style.display = "none"
+      }
     }
   }
 }
@@ -104,4 +116,11 @@ export default {
   margin-top: 15px;
 }
 
+#load {
+  position: fixed;
+  left: 48%;
+  bottom: 48%;
+  width: 3rem;
+  height: 3rem;
+}
 </style>
