@@ -19,11 +19,11 @@ export default {
 <style scoped>
 #status-bar {
   text-align: center;
-  width: 360px;
+  width: 320px;
   position: absolute;
   bottom: 0;
   left: 0;
-  margin-left: 50px;
+  margin-left: 20px;
   margin-bottom: 20px;
 }
 </style>
