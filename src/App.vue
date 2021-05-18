@@ -16,7 +16,11 @@
     :dataLoaded='this.dataLoaded'
   >
   </Graph>
-  <b-button id="refresh" @click="refreshGraph" variant="info">Refresh</b-button>
+  <b-button class="refresh" id="rb" @click="refreshGraph" variant="info">&#8635;</b-button>
+  <b-button class="refresh" id="rs" variant="info" disabled>
+    <b-spinner small></b-spinner>
+    <span class="sr-only">Loading...</span>
+  </b-button>
   <Searchbar id="search" v-on:input="onSearchInput" @button-click="onSearchReset"/>
   <InfoPanel ref="panel"></InfoPanel>
   <Statusbar ref="status" :shouldDisplay="this.showStatus" :timeOfRequest="this.timeOfRequest"></Statusbar>
@@ -102,9 +106,9 @@ export default {
     onSearchReset () {
       this.$refs.graph.searchReset()
     },
-    displaySpinner (b: boolean) {
+    displaySpinner (b: boolean) { // Used when reloading the page (F5)
       const spinner = document.getElementById("load")
-      const refresh = document.getElementById("refresh")
+      const refresh = document.getElementById("rb")
       if (b) {
         spinner.style.display = "block"
         refresh.style.display = "none"
@@ -115,8 +119,21 @@ export default {
         this.showStatus = true
       }
     },
+    displayRefreshLoad (b: boolean) { // Used when pushing the Refresh button
+      const spin = document.getElementById("rs")
+      const button = document.getElementById("rb")
+      if (b) {
+        spin.style.display = "block"
+        button.style.display = "none"
+      } else {
+        spin.style.display = "none"
+        button.style.display = "block"
+      }
+    },
     async refreshGraph () {
+      this.displayRefreshLoad(true)
       this.dataLoaded = await this.getData()
+      this.displayRefreshLoad(false)
       this.renderKey += 1
     }
   }
@@ -138,9 +155,13 @@ export default {
   height: 3rem;
 }
 
-#refresh {
+.refresh {
   position: fixed;
   bottom: 70px;
   left: 20px;
+}
+
+#rs {
+  display: none;
 }
 </style>
