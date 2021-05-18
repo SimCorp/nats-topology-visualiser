@@ -26,7 +26,11 @@ export default {
     onReset () {
       this.text = ''
       this.$emit('button-click')
+    },
+    changeText(text){
+      this.text = text
     }
+
   }
 }
 </script>

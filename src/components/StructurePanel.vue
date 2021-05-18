@@ -8,8 +8,11 @@
       left
       shadow=true
       width="400px"
-      v-model="isPanelOpen">
+      v-model="isPanelOpen"
+      no-header
+      >
       <div>
+        <h1>Structure Panel</h1>
     <vue-tree-list
       @click="onClick"
 
@@ -27,7 +30,6 @@
       <span class="icon" slot="treeNodeIcon">🌲</span>
     </vue-tree-list>
   </div>
-    <p>{{this.data}}</p>
     </b-sidebar>
   </div>
 </template>
@@ -68,8 +70,11 @@ export default {
     },
 
       onClick(params) {
-        console.log(params)
-        //this.$emit('structure-node-click', {nodeData: a.data, id: params.}) //TODO FIX THIS
+        console.log(params.server_id)
+        console.log(params.name)
+        if (params.server_id != null){
+          this.$emit('structure-node-click', {name: (params.name).toString(), server_id: (params.server_id).toString()})
+        }
       },
 
       addNode() {

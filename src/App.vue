@@ -13,10 +13,10 @@
     :dataLoaded='this.dataLoaded'
   >
   </Graph>
-  <Searchbar id="search" v-on:input="onSearchInput" @button-click="onSearchReset"/>
+  <Searchbar ref="search" id="search" v-on:input="onSearchInput" @button-click="onSearchReset"/>
   <InfoPanel ref="panel"></InfoPanel>
   <Statusbar></Statusbar>
-  <StructurePanel ref="structurepanel" id="structurePanel" ></StructurePanel>
+  <StructurePanel ref="structurepanel" id="structurePanel" v-on:structure-node-click="onStructureNodeClick"></StructurePanel>
 </div>
 </template>
 
@@ -85,16 +85,28 @@ export default {
       this.$refs.panel.onNodeClick({nodeData, id})
     },
 
-    onStructurePanelNodeClick (id){
-      this.$refs.structurepanel.onClick(id) //TODO FIX THIS
-    },
-
     onSearchInput (text: string) {
       this.$refs.graph.searchFilter(text)
     },
+
     onSearchReset () {
       this.$refs.graph.searchReset()
+    },
+
+    onStructureNodeClick ({name, server_id}){
+      var nameStr = name.toString()
+      var idStr = server_id.toString()
+      //console.log(nameStr)
+      this.$refs.graph.searchFilter(nameStr)
+      this.$refs.search.changeText(nameStr)
+
+
+      axios.get('https://localhost:5001/varz/' + idStr).then(a => {
+            this.onNodeClick({nodeData: a.data, id: idStr})
+      })
+
     }
+
   }
 }
 
