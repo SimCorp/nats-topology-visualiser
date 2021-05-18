@@ -16,11 +16,7 @@
     :dataLoaded='this.dataLoaded'
   >
   </Graph>
-  <b-button class="refresh" id="rb" @click="refreshGraph" variant="info">&#8635;</b-button>
-  <b-button class="refresh" id="rs" variant="info" disabled>
-    <b-spinner small></b-spinner>
-    <span class="sr-only">Loading...</span>
-  </b-button>
+  <Refresh ref="refresh" @button-click="refreshGraph"/>
   <Searchbar id="search" v-on:input="onSearchInput" @button-click="onSearchReset"/>
   <InfoPanel ref="panel"></InfoPanel>
   <Statusbar ref="status" :shouldDisplay="this.showStatus" :timeOfRequest="this.timeOfRequest"></Statusbar>
@@ -39,10 +35,12 @@ import InfoPanel from '@/components/InfoPanel.vue'
 import Searchbar from "@/components/Searchbar.vue"
 import LeafDatum from './components/Graph/LeafDatum'
 import Varz from './components/Graph/Varz'
+import Refresh from "@/components/Refresh.vue";
 
 export default {
   name: 'App',
   components: {
+    Refresh,
     Graph,
     Statusbar,
     Searchbar,
@@ -119,21 +117,10 @@ export default {
         this.showStatus = true
       }
     },
-    displayRefreshLoad (b: boolean) { // Used when pushing the Refresh button
-      const spin = document.getElementById("rs")
-      const button = document.getElementById("rb")
-      if (b) {
-        spin.style.display = "block"
-        button.style.display = "none"
-      } else {
-        spin.style.display = "none"
-        button.style.display = "block"
-      }
-    },
     async refreshGraph () {
-      this.displayRefreshLoad(true)
+      this.$refs.refresh.displayRefreshLoad(true)
       this.dataLoaded = await this.getData()
-      this.displayRefreshLoad(false)
+      this.$refs.refresh.displayRefreshLoad(false)
       this.renderKey += 1
     }
   }
@@ -153,15 +140,5 @@ export default {
   bottom: 48%;
   width: 3rem;
   height: 3rem;
-}
-
-.refresh {
-  position: fixed;
-  bottom: 70px;
-  left: 20px;
-}
-
-#rs {
-  display: none;
 }
 </style>
