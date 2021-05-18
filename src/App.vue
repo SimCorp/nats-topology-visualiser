@@ -1,7 +1,6 @@
 <template>
 <div id="app">
   <h1 id="title">Topology Visualizer</h1>
-  <b-spinner id="load" label="Loading..."></b-spinner>
   <Graph
     ref="graph"
     @node-click="onNodeClick"
@@ -14,8 +13,7 @@
     :leafs='this.leafs'
     :varz='this.varz'
     :dataLoaded='this.dataLoaded'
-  >
-  </Graph>
+  ></Graph>
   <Refresh ref="refresh" @button-click="refreshGraph"/>
   <Searchbar id="search" v-on:input="onSearchInput" @button-click="onSearchReset"/>
   <InfoPanel ref="panel"></InfoPanel>
@@ -35,7 +33,7 @@ import InfoPanel from '@/components/InfoPanel.vue'
 import Searchbar from "@/components/Searchbar.vue"
 import LeafDatum from './components/Graph/LeafDatum'
 import Varz from './components/Graph/Varz'
-import Refresh from "@/components/Refresh.vue";
+import Refresh from "@/components/Refresh.vue"
 
 export default {
   name: 'App',
@@ -74,10 +72,9 @@ export default {
     }
   },
   mounted: async function() {
-      this.displaySpinner(true)
+      this.showStatus = this.$refs.refresh.displayReloadSpinner(true)
       this.dataLoaded = await this.getData()
-      this.displaySpinner(false)
-      console.log('app dataLoaded', this.$data)
+      this.showStatus = this.$refs.refresh.displayReloadSpinner(false)
   },
   methods: {
     async getData (): Promise<boolean> {
@@ -104,24 +101,11 @@ export default {
     onSearchReset () {
       this.$refs.graph.searchReset()
     },
-    displaySpinner (b: boolean) { // Used when reloading the page (F5)
-      const spinner = document.getElementById("load")
-      const refresh = document.getElementById("rb")
-      if (b) {
-        spinner.style.display = "block"
-        refresh.style.display = "none"
-        this.showStatus = false
-      } else {
-        spinner.style.display = "none"
-        refresh.style.display = "block"
-        this.showStatus = true
-      }
-    },
     async refreshGraph () {
-      this.$refs.refresh.displayRefreshLoad(true)
+      this.$refs.refresh.displayRefreshSpinner(true)
       this.dataLoaded = await this.getData()
-      this.$refs.refresh.displayRefreshLoad(false)
-      this.renderKey += 1
+      this.$refs.refresh.displayRefreshSpinner(false)
+      this.renderKey += 1 // Tells the Graph component to completely reload
     }
   }
 }
@@ -132,13 +116,5 @@ export default {
 #title {
   text-align: center;
   margin-top: 15px;
-}
-
-#load {
-  position: fixed;
-  left: 48%;
-  bottom: 48%;
-  width: 3rem;
-  height: 3rem;
 }
 </style>
