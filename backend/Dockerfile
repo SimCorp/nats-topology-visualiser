@@ -5,6 +5,6 @@ RUN dotnet publish -o /app/
 
 FROM mcr.microsoft.com/dotnet/aspnet:5.0 AS runtime
 WORKDIR /app/
-EXPOSE 80
+EXPOSE 443
 ENTRYPOINT ["dotnet", "backend.dll"]
 COPY --from=build /app/ .
