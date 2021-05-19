@@ -8,7 +8,8 @@
     "serve": "vue-cli-service serve",
     "test:unit": "vue-cli-service test:unit",
     "lint": "vue-cli-service lint",
-    "backend": "dotnet build && dotnet run --project backend/backend.csproj"
+    "backend": "dotnet build && dotnet run --project backend/backend.csproj",
+    "build": "vue-cli-service build"
   },
   "repository": {
     "type": "git",
