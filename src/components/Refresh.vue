@@ -12,31 +12,31 @@
 </div>
 </template>
 
-<script>
+<script lang="ts">
 export default {
 name: "Refresh",
   methods: {
-    displayRefreshSpinner (b) { // Used when clicking the Refresh button
+    displayRefreshSpinner (b: boolean) { // Used when clicking the Refresh button
       const spin = document.getElementById("rs")
       const button = document.getElementById("rb")
       if (b) {
-        spin.style.display = "block"
-        button.style.display = "none"
+        spin!.style.display = "block"
+        button!.style.display = "none"
       } else {
-        spin.style.display = "none"
-        button.style.display = "block"
+        spin!.style.display = "none"
+        button!.style.display = "block"
       }
     },
-    displayReloadSpinner (b) { // Used when reloading the page (F5)
+    displayReloadSpinner (b: boolean) { // Used when reloading the page (F5)
       const spinner = document.getElementById("load")
       const refresh = document.getElementById("rb")
       if (b) {
-        spinner.style.display = "block"
-        refresh.style.display = "none"
+        spinner!.style.display = "block"
+        refresh!.style.display = "none"
         return false // Tells App whether the Statusbar should be shown
       } else {
-        spinner.style.display = "none"
-        refresh.style.display = "block"
+        spinner!.style.display = "none"
+        refresh!.style.display = "block"
         return true
       }
     },
