@@ -1,9 +1,10 @@
-FROM mcr.microsoft.com/dotnet/aspnet:5.0
+FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
+WORKDIR /src/
+COPY . .
+RUN dotnet publish -o /app/
 
-COPY ./publish /publish 
-COPY ./.env /publish/.env 
-
-WORKDIR /publish
-EXPOSE 5000
+FROM mcr.microsoft.com/dotnet/aspnet:5.0 AS runtime
+WORKDIR /app/
+EXPOSE 80
 ENTRYPOINT ["dotnet", "backend.dll"]
-
+COPY --from=build /app/ .
