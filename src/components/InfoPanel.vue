@@ -21,40 +21,43 @@
 </template>
 
 <script lang="ts">
-import SidebarPanel from 'bootstrap-vue'
+import Varz from './Graph/Varz';
+import { Component, Prop, Vue } from 'vue-property-decorator'
 
-export default {
-  name: "InfoPanel",
-  components: { SidebarPanel },
-  data () {
-    return {
-      isPanelOpen: false,
-      nodeData: null,
-      rootName: 'node',
-      errorId: ''
+@Component
+export default class InfoPanel extends Vue {
+
+  @Prop()
+  isPanelOpen!: boolean
+  @Prop()
+  nodeData!: Varz|string
+  @Prop()
+  rootName!: string
+  @Prop()
+  errorId!: string
+
+  onNodeClick (nodeData: Varz|string, id: string) {
+
+    if (!this.isPanelOpen) {
+      this.isPanelOpen = true
     }
-  },
-  methods: {
-    onNodeClick ({nodeData, id}) {
-      if (!this.$data.isPanelOpen) {
-        this.$data.isPanelOpen = true
-      }
 
-      const info = document.getElementById("info")
-      const error = document.getElementById("error")
+    const info = document.getElementById("info")
+    const error = document.getElementById("error")
 
-      if (nodeData === '') {
-        info.style.display = "none"
-        error.style.display = "block"
-        this.errorId = id
-      } else {
-        info.style.display = "block"
-        error.style.display = "none"
-        this.nodeData = nodeData
-      }
+    if (nodeData === '') {
+      info!.style.display = "none"
+      error!.style.display = "block"
+      this.errorId = id
+    } else {
+      info!.style.display = "block"
+      error!.style.display = "none"
+      this.nodeData = nodeData
     }
   }
+
 }
+
 </script>
 
 <style scoped>

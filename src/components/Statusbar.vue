@@ -5,13 +5,17 @@
 </template>
 
 <script lang="ts">
+import { Component, Prop, Vue } from 'vue-property-decorator'
 
-export default {
-  name: "Statusbar",
-  props: {
-    timeOfRequest: String,
-    shouldDisplay: Boolean
-  }
+@Component
+export default class Statusbar extends Vue {
+
+  @Prop()
+  timeOfRequest!: string
+  
+  @Prop()
+  shouldDisplay!: boolean
+  
 }
 
 </script>
