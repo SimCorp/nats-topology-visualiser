@@ -130,13 +130,54 @@ namespace backend
         [ProducesResponseType(Status200OK)]
         public ActionResult<IEnumerable<TreeNode>> GetTreeViewData()
         {
+            HashSet<string> used_servers = new HashSet<string>();
+
             List<TreeNode> test = new List<TreeNode>();
-            var counter = 1;
-            foreach (var clusterNode in _dataStorage.processedClusters)
+            
+
+            Dictionary<string, int> cluster_toId = new Dictionary<string, int>();
+
+            UF uf = new UF(_dataStorage.processedClusters.Count);
+
+            var count = 0;
+            foreach (var cluster in _dataStorage.processedClusters)
             {
-                var clusterTreeNode = new TreeNode
+                Console.WriteLine(cluster.name);
+                cluster_toId.Add(cluster.name, count++);
+            }
+
+            foreach (var item in _dataStorage.gatewayLinks)
+            {
+                var p = cluster_toId[item.source];
+                var q = cluster_toId[item.target];
+
+                uf.union(p, q);
+            }
+
+            Dictionary<int, HashSet<ClusterNode>> idTo_supercluster = new Dictionary<int, HashSet<ClusterNode>>();
+
+            var i = 0;
+            foreach (var item in _dataStorage.processedClusters)
+            {
+                if (!idTo_supercluster.ContainsKey(uf.id[i])) {
+                    idTo_supercluster.Add(uf.id[i], new HashSet<ClusterNode>());
+                }
+
+                var set = idTo_supercluster[uf.id[i]];
+                set.Add(item);
+
+                idTo_supercluster.Remove(uf.id[i]);
+
+                idTo_supercluster.Add(uf.id[i], set);
+                i++;
+            }
+                
+            var counter = 1;
+            foreach (var Supercluster in idTo_supercluster.Values)
+            {
+                var SuperClusterTreeNode = new TreeNode
                 {
-                    name = clusterNode.name,
+                    name = "supercluster " + counter,
                     id = counter++,
                     pid = 0,
                     dragDisabled = true,
@@ -146,15 +187,58 @@ namespace backend
                     delNodeDisabled = true,
                     children = new List<TreeNode>(),
                 };
-                var nodeServerCounter = counter+1;
-                foreach (var server in clusterNode.servers)
+                test.Add(SuperClusterTreeNode);
+
+                var ClusterCounter = counter+1;
+                foreach (var cluster in Supercluster)
                 {
-                    var serverTreeNode = new TreeNode
+                    var clusterTreeNode = new TreeNode
                     {
-                        name = server.server_name ,
-                        id = nodeServerCounter++,
-                        server_id = server.server_id,
+                        name = cluster.name,
+                        id = ClusterCounter++,
                         pid = counter,
+                        dragDisabled = true,
+                        addTreeNodeDisabled = true,
+                        addLeafNodeDisabled = true,
+                        editNodeDisabled = true,
+                        delNodeDisabled = true,
+                        children = new List<TreeNode>(),
+                    };
+                    SuperClusterTreeNode.children.Add(clusterTreeNode);
+
+                    var nodeServerCounter = ClusterCounter+1;
+                    foreach (var server in cluster.servers)
+                    {
+                        used_servers.Add(server.server_id);
+                        var serverTreeNode = new TreeNode
+                        {
+                            name = server.server_name ,
+                            id = nodeServerCounter++,
+                            server_id = server.server_id,
+                            pid = ClusterCounter,
+                            dragDisabled = true,
+                            addTreeNodeDisabled = true,
+                            addLeafNodeDisabled = true,
+                            editNodeDisabled = true,
+                            delNodeDisabled = true,
+                            isLeaf = true,
+                        };
+
+                        clusterTreeNode.children.Add(serverTreeNode);
+                    }
+                }
+            }
+
+            //Process servers not in any clusters
+            foreach (var server in _dataStorage.servers)
+            {
+                if(!used_servers.Contains(server.server_id)) {
+                    var soloServerTreeNode = new TreeNode
+                    {
+                        name = server.server_name,
+                        id = counter++,
+                        server_id = server.server_id,
+                        pid = 0,
                         dragDisabled = true,
                         addTreeNodeDisabled = true,
                         addLeafNodeDisabled = true,
@@ -162,14 +246,53 @@ namespace backend
                         delNodeDisabled = true,
                         isLeaf = true,
                     };
-                    clusterTreeNode.children.Add(serverTreeNode);
+                    used_servers.Add(server.server_id);
+                    test.Add(soloServerTreeNode);
                 }
-                
-                test.Add(clusterTreeNode);
-                counter = nodeServerCounter + 1;
             }
+
+
             return test;
+        }  
+    }
+
+     class UF {
+        public int[] id;
+        private int size;
+
+
+
+        public UF(int n){
+            this.size = n;
+            id = new int[n];
+            for (int i = 0; i < n; i++)
+            {
+                id[i] = i;
+            }
         }
-        
+
+        public int find(int p) {
+            return id[p];
+        }
+
+        public bool connected(int p, int q){
+            return id[p] == id[q];
+        }
+
+        public void union(int p, int q){
+            int pID = id[p];
+            int qID = id[q];
+
+            if (pID == qID){
+                return;
+            }
+
+            for (int i = 0; i < this.size; i++){
+                if (id[i] == pID) {
+                    id[i] = qID;
+                }
+            }
+        }
+
     }
 }
