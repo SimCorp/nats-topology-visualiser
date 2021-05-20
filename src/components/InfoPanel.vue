@@ -27,14 +27,10 @@ import { Component, Prop, Vue } from 'vue-property-decorator'
 @Component
 export default class InfoPanel extends Vue {
 
-  @Prop()
-  isPanelOpen!: boolean
-  @Prop()
-  nodeData!: Varz|string
-  @Prop()
-  rootName!: string
-  @Prop()
-  errorId!: string
+  isPanelOpen = false
+  nodeData: Varz|string = ""
+  rootName = ""
+  errorId = ""
 
   onNodeClick (nodeData: Varz|string, id: string) {
 

@@ -29,8 +29,6 @@ import VueZoomer from 'vue-zoomer'
 @Component
 export default class extends Vue {
   @Prop()
-  svg!: Selection<SVGSVGElement, unknown, HTMLElement, HTMLElement>
-  @Prop()
   servers!: ServerDatum[]
   @Prop()
   routes!: RouteDatum[]
@@ -42,6 +40,7 @@ export default class extends Vue {
   leafs!: LeafDatum[]
   @Prop()
   varz!: Varz[]
+  svg!: Selection<SVGSVGElement, unknown, HTMLElement, HTMLElement>
 
   mounted () {
     const width = window.innerWidth
