@@ -51,12 +51,8 @@ namespace backend
             {
                 app.UseDeveloperExceptionPage();
             }
-            else
-            {
-                app.UseHsts();
-            }
-
-            app.UseHttpsRedirection();
+            
+            app.UsePathBase("/api");
 
             app.UseRouting();
 
