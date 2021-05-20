@@ -22,6 +22,7 @@
 </template>
 
 <script lang="ts">
+// @ts-nocheck
 import axios from 'axios'
 import Graph from '@/components/Graph/Graph.vue'
 import ServerDatum from './components/Graph/ServerDatum'
