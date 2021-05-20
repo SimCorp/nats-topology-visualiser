@@ -1,0 +1,38 @@
+name: Docker image
+
+on:
+  push:
+    branches:
+      - main
+      - feature/docker-deployment
+
+jobs:
+  docker:
+    name: Docker image build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Docker build
+        working-directory: ./backend
+        run: docker build -t ghcr.io/simcorp/nats-topology-visualiser-backend .
+      - name: Docker login
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+      - name: Docker push
+        run: docker push ghcr.io/simcorp/nats-topology-visualiser-backend
+
+  docker-front-end:
+    name: Docker image build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Docker build
+        working-directory: ./
+        run: docker build -t ghcr.io/simcorp/nats-topology-visualiser-frontend .
+      - name: Docker login
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+      - name: Docker push
+        run: docker push ghcr.io/simcorp/nats-topology-visualiser-frontend

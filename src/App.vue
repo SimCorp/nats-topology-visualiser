@@ -92,9 +92,14 @@ export default {
   },
   methods: {
     async getData (): Promise<boolean> {
-      const host = 'https://localhost:5001'
+
+      const host = 
+        (process.env.NODE_ENV === 'production')
+        ? ''
+        : 'https://localhost:5001'
+
       // TODO add type safety
-      const data = (await axios.get(`${host}/updateEverything`)).data
+      const data = (await axios.get(`${host}/api/updateEverything`)).data
 
       // TODO why no type errors?
       this.servers = data.processedServers
