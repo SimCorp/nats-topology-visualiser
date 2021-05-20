@@ -33,8 +33,7 @@ export default {
   width: 360px;
   position: absolute;
   bottom: 0;
-  left: 20px;
-  margin-left: 320px;
+  left: 37%;
   margin-bottom: 20px;
 }
 </style>

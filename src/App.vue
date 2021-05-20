@@ -1,6 +1,6 @@
 <template>
 <div id="app">
-  <h1 id="title">Topology Visualizer</h1>
+  <h2 id="title">Topology Visualizer</h2>
   <Graph
     ref="graph"
     @node-click="onNodeClick"
@@ -115,7 +115,7 @@ export default {
 <style scoped>
 #title {
   text-align: center;
-  margin-top: 15px;
+  margin-top: 10px;
 }
 
 

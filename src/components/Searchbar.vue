@@ -38,7 +38,6 @@ export default {
 <style scoped>
 #search-bar {
   width: 20%;
-  left: 20px;
-  margin-left: 320px;
+  left: 40%;
 }
 </style>
