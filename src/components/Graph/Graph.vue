@@ -27,7 +27,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator'
 import VueZoomer from 'vue-zoomer'
 
 @Component
-export default class extends Vue {
+export default class Graph extends Vue {
   @Prop()
   servers!: ServerDatum[]
   @Prop()
