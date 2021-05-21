@@ -31,7 +31,13 @@ namespace backend
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
             });
 
-            var AllowedHosts = Configuration.GetSection("CORS:AllowedHosts").Get<string[]>();
+            // var AllowedHosts = Configuration.GetSection("CORS:AllowedHosts").Get<string[]>();
+            var AllowedHosts = new string[] {
+                "http://localhost:8080",
+                "https://localhost:8080",
+                "http://localhost:80",
+                "https://localhost:80"
+            };
 
             services.AddCors(options =>
             {
