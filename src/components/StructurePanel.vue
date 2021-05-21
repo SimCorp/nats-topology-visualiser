@@ -21,7 +21,7 @@
         >
         <template v-slot:leafNameDisplay="slotProps">
           <span>
-            {{ slotProps.model.name }} <span class="muted">#{{ slotProps.model.id }}</span>
+            {{ slotProps.model.name }}
           </span>
         </template>
         <span class="icon" slot="leafNodeIcon">🍃</span>
