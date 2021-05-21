@@ -16,12 +16,22 @@ namespace backend
             this.dataStorage = dataStorage;
 
             SetEnv();
-        }
 
-        public void Parse()
-        {
             var options = ConnectionFactory.GetDefaultOptions();
             options.Url = Env.GetEnvironmentVariable("NATS_URL");
+            
+            Parse(options);
+        }
+
+        //Used to suply different credentials
+        public EventParser(DataStorage dataStorage, Options options){
+            this.dataStorage = dataStorage;
+            
+            Parse(options);
+        }
+
+        private void Parse(Options options)
+        {
 
             MessageHandler messageHandler = new MessageHandler(dataStorage);
 

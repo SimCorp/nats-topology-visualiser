@@ -22,6 +22,11 @@ jobs:
           fetch-depth: 0
       - name: Set current commit sha as env var
         run: echo COMMIT_SHA=$(git rev-parse HEAD) >> $GITHUB_ENV
+      - name: build docker image
+        working-directory:  ./tests/backend.Tests
+        run: |
+          docker build -t test-image:latest .
+          docker run -d --network="host" -p 4222:4222 test-image:latest
       - name: Test code
         run: dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
       - name: Upload code

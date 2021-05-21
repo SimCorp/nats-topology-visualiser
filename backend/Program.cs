@@ -23,7 +23,7 @@ namespace backend
         public static void UpdateData() 
         {
             eventParser = new EventParser(new DataStorage());
-            eventParser.Parse();
+            //eventParser.Parse();
 
             dateOfNatsRequest = DateTime.Now;
 
