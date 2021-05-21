@@ -7,11 +7,6 @@ namespace backend.Tests
 {
     public class HelperTests
     {
-        [Fact]
-        public void EnvTest()
-        {
-            Assert.Throws<Exception>(() => DotEnv.Load(""));
-        }
 
         [Fact]
         public void EnvTestWorks()
