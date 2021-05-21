@@ -31,14 +31,14 @@ namespace backend
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
             });
 
-            // var AllowedHosts = Configuration.GetSection("CORS:AllowedHosts").Get<string[]>();
+            var AllowedHosts = Configuration.GetSection("CORS:AllowedHosts").Get<string[]>();
 
             services.AddCors(options =>
             {
                 options.AddPolicy(
                     name: MyAllowSpecificOrigins,
                     builder => {
-                        builder.WithOrigins("*");
+                        builder.WithOrigins(AllowedHosts);
                     }
                 );
             });
