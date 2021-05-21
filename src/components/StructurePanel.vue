@@ -50,13 +50,17 @@ export default {
       data: Tree
     }
   },
+
+  props: {
+    treeNodes: [],
+  },
+
   methods: {
     async getData () {
-      const TreeViewData = await axios.get('https://localhost:5001/TreeViewData')
-      this.data = new Tree(TreeViewData.data)
-      console.log("TEST TEST TEST")
-      console.log(this.data)
-      console.log("TEST TEST TEST")
+      console.log(this.treeNodes)
+      console.log("hej")
+      this.data = new Tree(this.treeNodes)
+
     },
     onNodeClick () {
       if (!this.$data.isPanelOpen) {

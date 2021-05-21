@@ -1,27 +1,16 @@
 ﻿<template>
   <div id='statusbar'>
-    <p id='status-bar' class='form-control'> Last updated: {{this.timeOfReq}} </p>
+    <p id='status-bar' v-if="shouldDisplay" class='form-control'> Last updated: {{new Date(Date.parse(this.timeOfRequest)).toLocaleString("en-GB")}} </p>
   </div>
 </template>
 
-<script>
-import axios from "axios";
+<script lang="ts">
 
 export default {
   name: "Statusbar",
-  async mounted () {
-    await this.getData()
-  },
-  data() {
-    return {
-      timeOfReq: String
-    }
-  },
-  methods: {
-    async getData () {
-      const timeOfRequest = await axios.get('https://localhost:5001/timeOfRequest')
-      this.timeOfReq = timeOfRequest.data.toString()
-    }
+  props: {
+    timeOfRequest: String,
+    shouldDisplay: Boolean
   }
 }
 
@@ -30,8 +19,9 @@ export default {
 <style scoped>
 #status-bar {
   text-align: center;
-  width: 360px;
+  width: 320px;
   position: absolute;
+  display: inline-block;
   bottom: 0;
   left: 550px;
   margin-bottom: 20px;
