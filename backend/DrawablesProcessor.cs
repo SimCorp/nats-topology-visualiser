@@ -504,17 +504,18 @@ namespace backend
                 i++;
             }
 
-            var counter = 1;
+var counter = 1;
             foreach (var Supercluster in idTo_supercluster.Values)
             {
-                if (Supercluster.Count == 1)
-                {
+
+                if (Supercluster.Count == 1) {
+                    var ClusterCounter = counter+1;
                     foreach (var cluster in Supercluster)
                     {
                         var clusterTreeNode = new TreeNode
                         {
                             name = cluster.name,
-                            id = counter++,
+                            id = ClusterCounter++,
                             pid = 0,
                             dragDisabled = true,
                             addTreeNodeDisabled = true,
@@ -523,16 +524,17 @@ namespace backend
                             delNodeDisabled = true,
                             children = new List<TreeNode>(),
                         };
-                        var nodeServerCounter = counter + 1;
+
+                        var nodeServerCounter = ClusterCounter+1;
                         foreach (var server in cluster.servers)
                         {
                             used_servers.Add(server.server_id);
                             var serverTreeNode = new TreeNode
                             {
-                                name = server.server_name,
+                                name = server.server_name ,
                                 id = nodeServerCounter++,
                                 server_id = server.server_id,
-                                pid = counter,
+                                pid = ClusterCounter,
                                 dragDisabled = true,
                                 addTreeNodeDisabled = true,
                                 addLeafNodeDisabled = true,
@@ -543,12 +545,12 @@ namespace backend
 
                             clusterTreeNode.children.Add(serverTreeNode);
                         }
-
                         test.Add(clusterTreeNode);
                     }
                 }
-                else
-                {
+                else {
+
+
                     var SuperClusterTreeNode = new TreeNode
                     {
                         name = "supercluster " + counter,
@@ -562,7 +564,8 @@ namespace backend
                         children = new List<TreeNode>(),
                     };
                     test.Add(SuperClusterTreeNode);
-                    var ClusterCounter = counter + 1;
+
+                    var ClusterCounter = counter+1;
                     foreach (var cluster in Supercluster)
                     {
                         var clusterTreeNode = new TreeNode
@@ -579,13 +582,13 @@ namespace backend
                         };
                         SuperClusterTreeNode.children.Add(clusterTreeNode);
 
-                        var nodeServerCounter = ClusterCounter + 1;
+                        var nodeServerCounter = ClusterCounter+1;
                         foreach (var server in cluster.servers)
                         {
                             used_servers.Add(server.server_id);
                             var serverTreeNode = new TreeNode
                             {
-                                name = server.server_name,
+                                name = server.server_name ,
                                 id = nodeServerCounter++,
                                 server_id = server.server_id,
                                 pid = ClusterCounter,
@@ -599,32 +602,31 @@ namespace backend
 
                             clusterTreeNode.children.Add(serverTreeNode);
                         }
-                    }
+                    }    
                 }
+            }
 
-                //Process servers not in any clusters
-                foreach (var server in _dataStorage.servers)
-                {
-                    if (!used_servers.Contains(server.server_id))
+            //Process servers not in any clusters
+            foreach (var server in _dataStorage.servers)
+            {
+                if(!used_servers.Contains(server.server_id)) {
+                    var soloServerTreeNode = new TreeNode
                     {
-                        var soloServerTreeNode = new TreeNode
-                        {
-                            name = server.server_name,
-                            id = counter++,
-                            server_id = server.server_id,
-                            pid = 0,
-                            dragDisabled = true,
-                            addTreeNodeDisabled = true,
-                            addLeafNodeDisabled = true,
-                            editNodeDisabled = true,
-                            delNodeDisabled = true,
-                            isLeaf = true,
-                        };
-                        used_servers.Add(server.server_id);
-                        test.Add(soloServerTreeNode);
-                    }
+                        name = server.server_name,
+                        id = counter++,
+                        server_id = server.server_id,
+                        pid = 0,
+                        dragDisabled = true,
+                        addTreeNodeDisabled = true,
+                        addLeafNodeDisabled = true,
+                        editNodeDisabled = true,
+                        delNodeDisabled = true,
+                        isLeaf = true,
+                    };
+                    used_servers.Add(server.server_id);
+                    test.Add(soloServerTreeNode);
                 }
-
+            }
                 _dataStorage.treeNodes = test;
             }
         }
@@ -675,4 +677,3 @@ namespace backend
             }
         }
     }
-}

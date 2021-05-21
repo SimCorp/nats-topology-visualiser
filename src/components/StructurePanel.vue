@@ -107,14 +107,4 @@ export default {
   margin-right: 13px;
 }
 
-/*.b-sidebar{
-  /*position: absolute;
-  padding: 10px;
-  margin-right: 200px;
-  background-color: blueviolet;
-}
-.b-avatar{
-  position: absolute;
-}*/
-
 </style>
