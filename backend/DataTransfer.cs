@@ -14,7 +14,7 @@ namespace backend
         public List<GatewayLink> gatewayLinks {get; set;}
         public List<LeafLink> leafLinks {get; set;}
         public List<Server> varz {get; set;}
-
+        public List<TreeNode> treeNodes { get; set; }
         public DateTime timeOfRequest {get; set;}
     }
 }

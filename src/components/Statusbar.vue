@@ -21,9 +21,9 @@ export default {
   text-align: center;
   width: 320px;
   position: absolute;
+  display: inline-block;
   bottom: 0;
-  left: 0;
-  margin-left: 20px;
+  left: 41%;
   margin-bottom: 20px;
 }
 </style>

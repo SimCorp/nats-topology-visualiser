@@ -26,7 +26,11 @@ export default {
     onReset () {
       this.text = ''
       this.$emit('button-click')
+    },
+    changeText(text){
+      this.text = text
     }
+
   }
 }
 </script>
@@ -34,6 +38,6 @@ export default {
 <style scoped>
 #search-bar {
   width: 20%;
-  left: 20px;
+  left: 40%;
 }
 </style>
