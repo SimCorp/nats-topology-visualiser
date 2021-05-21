@@ -16,13 +16,28 @@ namespace backend
 
         private readonly DataStorage _dataStorage;
 
-        private static String timeOfRequest;
-
         public Controller(DataStorage dataStorage)
         {
             _dataStorage = dataStorage;
         }
 
+        [HttpGet("/updateEverything")]
+        [ProducesResponseType(Status200OK)]
+        public ActionResult<DataTransfer> GetData()
+        {
+            Program.UpdateData();
+            return new DataTransfer {
+                processedServers = _dataStorage.processedServers,
+                links = _dataStorage.links,
+                processedClusters = _dataStorage.processedClusters,
+                gatewayLinks = _dataStorage.gatewayLinks,
+                leafLinks = _dataStorage.leafLinks,
+                varz = _dataStorage.servers,
+                treeNodes = _dataStorage.treeNodes,
+                timeOfRequest = Program.dateOfNatsRequest
+            };
+        }
+        
         [HttpGet("/nodes")]
         [ProducesResponseType(Status200OK)]
         public ActionResult<IEnumerable<ServerNode>> GetNodes()
@@ -46,10 +61,9 @@ namespace backend
         
         [HttpGet("/timeOfRequest")]
         [ProducesResponseType(Status200OK)]
-        public ActionResult<String> GetTimeOfRequest()
+        public ActionResult<DateTime> GetTimeOfRequest()
         {
-            timeOfRequest = Program.dateOfNatsRequest.ToString("hh:mm tt - dd MMMM yyyy");
-            return timeOfRequest;
+            return Program.dateOfNatsRequest;
         }
 
         [HttpGet("/iptoserverid")]
@@ -70,22 +84,7 @@ namespace backend
         [ProducesResponseType(Status200OK)]
         public ActionResult<IEnumerable<GatewayLink>> GetGatewayLinks()
         {   
-            var gatewayLinks = new List<GatewayLink>();
-            foreach (var cluster in _dataStorage.clusterConnectionErrors)
-            {
-                var split = cluster.Key.Split(" NAMESPLIT ");
-                var source = split[0];
-                var target = split[1];
-                var link = new GatewayLink (source, target, cluster.Value.Count > 0);
-                link.errors = cluster.Value;
-                foreach (var err in cluster.Value)
-                {
-                    link.errorsAsString += "\n" + err;
-                }
-                gatewayLinks.Add(link);
-            }
-
-            return gatewayLinks;
+            return _dataStorage.gatewayLinks;
         }
 
         [HttpGet("/varz")]
@@ -139,6 +138,13 @@ namespace backend
         public ActionResult<IEnumerable<Leaf>> GetLeafz()
         {   
             return _dataStorage.leafs;
+        }
+        
+        [HttpGet("/TreeViewData")]
+        [ProducesResponseType(Status200OK)]
+        public ActionResult<IEnumerable<TreeNode>> GetTreeViewData()
+        {
+            return _dataStorage.treeNodes;
         }
     }
 }

@@ -22,7 +22,6 @@
 
 <script lang="ts">
 import SidebarPanel from 'bootstrap-vue'
-
 export default {
   name: "InfoPanel",
   components: { SidebarPanel },
@@ -39,7 +38,6 @@ export default {
       if (!this.$data.isPanelOpen) {
         this.$data.isPanelOpen = true
       }
-
       const info = document.getElementById("info")
       const error = document.getElementById("error")
 
@@ -58,7 +56,6 @@ export default {
 </script>
 
 <style scoped>
-
 #errorid {
   word-wrap: break-word;
   color: #268bd2;
@@ -69,5 +66,4 @@ export default {
 #error {
   font-weight: 600;
 }
-
 </style>

@@ -8,7 +8,8 @@
     "serve": "vue-cli-service serve",
     "test:unit": "vue-cli-service test:unit",
     "lint": "vue-cli-service lint",
-    "backend": "dotnet build && dotnet run --project backend/backend.csproj"
+    "backend": "dotnet build && dotnet run --project backend/backend.csproj",
+    "build": "vue-cli-service build"
   },
   "repository": {
     "type": "git",
@@ -37,6 +38,7 @@
     "vue-panzoom": "^1.1.6",
     "vue-property-decorator": "^9.1.2",
     "vue-router": "^3.2.0",
+    "vue-tree-list": "^1.5.0",
     "vue-zoomer": "^0.3.9",
     "yargs-parser": ">=13.1.2"
   },
