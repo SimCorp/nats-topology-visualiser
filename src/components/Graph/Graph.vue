@@ -399,9 +399,9 @@ svg {
 }
 #zoomButtons {
   position: absolute;
-  left: 900px;
+  left: 44.5%;
   bottom: 0;
-  margin-bottom: 17px;
+  margin-bottom: 65px;
   margin-left: 50px;
 }
 .zoomButtons {

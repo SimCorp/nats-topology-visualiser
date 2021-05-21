@@ -23,7 +23,7 @@ export default {
   position: absolute;
   display: inline-block;
   bottom: 0;
-  left: 550px;
+  left: 41%;
   margin-bottom: 20px;
 }
 </style>

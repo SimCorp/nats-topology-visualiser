@@ -1,7 +1,5 @@
 ﻿<template>
 <div id="refresher">
-  <!-- Spinner on page reload -->
-  <b-spinner id="load" label="Loading..."></b-spinner>
   <!-- Reload button -->
   <b-button class="refresh" id="rb" @click="refreshGraph" variant="info">&#8635;</b-button>
   <!-- Reload button spinner -->
@@ -27,19 +25,6 @@ name: "Refresh",
         button.style.display = "block"
       }
     },
-    displayReloadSpinner (b) { // Used when reloading the page (F5)
-      const spinner = document.getElementById("load")
-      const refresh = document.getElementById("rb")
-      if (b) {
-        spinner.style.display = "block"
-        refresh.style.display = "none"
-        return false // Tells App whether the Statusbar should be shown
-      } else {
-        spinner.style.display = "none"
-        refresh.style.display = "block"
-        return true
-      }
-    },
     refreshGraph () {
       this.$emit('button-click')
     }
@@ -50,19 +35,11 @@ name: "Refresh",
 <style scoped>
 .refresh {
   position: fixed;
-  bottom: 70px;
-  left: 20px;
+  bottom: 20px;
+  left: 1050px;
 }
 
 #rs {
   display: none;
-}
-
-#load {
-  position: relative;
-  left: 48%;
-  bottom: 48%;
-  width: 3rem;
-  height: 3rem;
 }
 </style>
