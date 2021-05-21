@@ -1,4 +1,4 @@
-name: Docker image
+name: Build front- and back-end docker images
 
 on:
   push:
@@ -7,8 +7,8 @@ on:
       - feature/docker-deployment
 
 jobs:
-  docker:
-    name: Docker image build
+  docker-back-end:
+    name: Build and push back-end docker image
     runs-on: ubuntu-latest
 
     steps:
@@ -23,7 +23,7 @@ jobs:
         run: docker push ghcr.io/simcorp/nats-topology-visualiser-backend
 
   docker-front-end:
-    name: Docker image build
+    name: Build and push front-end docker image
     runs-on: ubuntu-latest
 
     steps:
