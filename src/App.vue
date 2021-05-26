@@ -103,7 +103,7 @@ export default {
         : 'https://localhost:5001'
 
       // TODO add type safety
-      let mockData = true
+      let mockData = false
       const data =
         (mockData)
         ? (await (await fetch('./mock-data-updateeverything.json')).json())
