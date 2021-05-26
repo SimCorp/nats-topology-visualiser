@@ -31,17 +31,24 @@ namespace backend
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
             });
 
-            var AllowedHosts = Configuration.GetSection("CORS:AllowedHosts").Get<string[]>();
+            // var AllowedHosts = Configuration.GetSection("CORS:AllowedHosts").Get<string[]>();
+            var AllowedHosts = new string[] {
+                "http://localhost:8080",
+                "https://localhost:8080",
+                "http://localhost:80",
+                "https://localhost:80"
+            };
 
             services.AddCors(options =>
-                {
-                    options.AddPolicy(name: MyAllowSpecificOrigins,
-                                  builder =>
-                                  {
-                                      builder.WithOrigins(AllowedHosts);
-                                });
-                });
-        }
+            {
+                options.AddPolicy(
+                    name: MyAllowSpecificOrigins,
+                    builder => {
+                        builder.WithOrigins(AllowedHosts);
+                    }
+                );
+            });
+        } 
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -50,12 +57,8 @@ namespace backend
             {
                 app.UseDeveloperExceptionPage();
             }
-            else
-            {
-                app.UseHsts();
-            }
-
-            app.UseHttpsRedirection();
+            
+            app.UsePathBase("/api");
 
             app.UseRouting();
 
@@ -71,7 +74,8 @@ namespace backend
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+
+                c.SwaggerEndpoint("/api/swagger/v1/swagger.json", "My API V1");
                 c.RoutePrefix = string.Empty;
             });
         }

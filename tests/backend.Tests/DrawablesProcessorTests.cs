@@ -231,7 +231,11 @@ namespace backend.Tests
 
             data.foundServers.Add("ijkl");
 
-            var dp = new DrawablesProcessor(data);
+            var dp = new DrawablesProcessor(data, "");
+            dp.ProcessServers();
+            dp.ProcessClusters();
+            dp.ProcessLinks();
+            dp.ProcessLeafs();
             Assert.Equal(3, data.clusterConnectionErrors.Count);
             Assert.Equal(2, data.errorClusters.Count);
         }

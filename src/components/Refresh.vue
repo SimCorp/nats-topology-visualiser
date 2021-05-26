@@ -1,7 +1,5 @@
 ﻿<template>
 <div id="refresher">
-  <!-- Spinner on page reload -->
-  <b-spinner id="load" label="Loading..."></b-spinner>
   <!-- Reload button -->
   <b-button class="refresh" id="rb" @click="refreshGraph" variant="info">&#8635;</b-button>
   <!-- Reload button spinner -->
@@ -18,7 +16,7 @@ import Vue from "vue"
 
 @Component
 export default class Refresh extends Vue {
-  
+
   displayRefreshSpinner (b: boolean) { // Used when clicking the Refresh button
     const spin = document.getElementById("rs")
     const button = document.getElementById("rb")
@@ -54,20 +52,12 @@ export default class Refresh extends Vue {
 
 <style scoped>
 .refresh {
-  position: fixed;
-  bottom: 70px;
-  left: 20px;
+  /* position: fixed;
+  bottom: 20px;
+  left: 1050px; */
 }
 
 #rs {
   display: none;
-}
-
-#load {
-  position: fixed;
-  left: 48%;
-  bottom: 48%;
-  width: 3rem;
-  height: 3rem;
 }
 </style>

@@ -7,19 +7,19 @@ namespace backend.helpers
     {
         public static void Load(string filePath)
         {
-            if (!File.Exists(filePath))
-                throw new Exception(filePath + " file not found");
-
-            foreach (var line in File.ReadAllLines(filePath))
+            if (File.Exists(filePath))
             {
-                var parts = line.Split(
-                    '=',
-                    StringSplitOptions.RemoveEmptyEntries);
+                foreach (var line in File.ReadAllLines(filePath))
+                {
+                    var parts = line.Split(
+                        '=',
+                        StringSplitOptions.RemoveEmptyEntries);
 
-                if (parts.Length != 2)
-                    continue;
+                    if (parts.Length != 2)
+                        continue;
 
-                Environment.SetEnvironmentVariable(parts[0], parts[1]);
+                    Environment.SetEnvironmentVariable(parts[0], parts[1]);
+                }
             }
         }
     }

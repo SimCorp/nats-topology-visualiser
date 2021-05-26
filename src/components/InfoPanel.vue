@@ -23,6 +23,7 @@
 <script lang="ts">
 import Varz from './Graph/Varz';
 import { Component, Prop, Vue } from 'vue-property-decorator'
+import SidebarPanel from 'bootstrap-vue'
 
 @Component
 export default class InfoPanel extends Vue {
@@ -57,7 +58,6 @@ export default class InfoPanel extends Vue {
 </script>
 
 <style scoped>
-
 #errorid {
   word-wrap: break-word;
   color: #268bd2;
@@ -68,5 +68,4 @@ export default class InfoPanel extends Vue {
 #error {
   font-weight: 600;
 }
-
 </style>

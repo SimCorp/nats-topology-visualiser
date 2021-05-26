@@ -27,14 +27,21 @@ export default class Searchbar extends Vue {
   onReset () {
     this.text = ''
     this.$emit('button-click')
+
+  changeText(text){
+    this.text = text
   }
   
 }
 </script>
 
 <style scoped>
+#searchbar {
+  /* width: 100%; */
+  width: 20em;
+}
 #search-bar {
-  width: 20%;
-  left: 20px;
+  width: 20em;
+  margin-top: 0 !important;
 }
 </style>

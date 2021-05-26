@@ -33,10 +33,11 @@ namespace backend
                 gatewayLinks = _dataStorage.gatewayLinks,
                 leafLinks = _dataStorage.leafLinks,
                 varz = _dataStorage.servers,
+                treeNodes = _dataStorage.treeNodes,
                 timeOfRequest = Program.dateOfNatsRequest
             };
         }
-
+        
         [HttpGet("/nodes")]
         [ProducesResponseType(Status200OK)]
         public ActionResult<IEnumerable<ServerNode>> GetNodes()
@@ -137,6 +138,13 @@ namespace backend
         public ActionResult<IEnumerable<Leaf>> GetLeafz()
         {   
             return _dataStorage.leafs;
+        }
+        
+        [HttpGet("/TreeViewData")]
+        [ProducesResponseType(Status200OK)]
+        public ActionResult<IEnumerable<TreeNode>> GetTreeViewData()
+        {
+            return _dataStorage.treeNodes;
         }
     }
 }

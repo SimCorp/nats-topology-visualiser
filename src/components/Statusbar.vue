@@ -24,10 +24,6 @@ export default class Statusbar extends Vue {
 #status-bar {
   text-align: center;
   width: 320px;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  margin-left: 20px;
-  margin-bottom: 20px;
+  margin: 0;
 }
 </style>
