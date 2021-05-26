@@ -1,0 +1,3549 @@
+{
+  "processedServers": [
+    {
+      "server_id": "ND4A3SSJCAZHXIFGRGVFRHTP3RHD5ZCGGGX5W6EQ764NUARQJSGUBVBM",
+      "server_name": "Unknown name",
+      "ntv_error": true,
+      "ntv_cluster": "bb3",
+      "clients": []
+    },
+    {
+      "server_id": "NDEH6X2ZWPXBKE24RMJ7PDRKB5QNLAJXXPIEBKMOIVTTJX35OI2R4R3O",
+      "server_name": "Unknown name",
+      "ntv_error": true,
+      "ntv_cluster": "bb3",
+      "clients": []
+    },
+    {
+      "server_id": "NBHNA5GZAUHPUL5GKVKPC5BT5EGGBNCH5ZZILMRMC47F3XQA34UVE7ON",
+      "server_name": "Unknown name",
+      "ntv_error": true,
+      "ntv_cluster": "bb2",
+      "clients": []
+    },
+    {
+      "server_id": "NBSVZLRQX46X2Y7NVSKXIPQBHF7WJOQ4CKZNXMUYUQS63CN5D2WTT5CV",
+      "server_name": "Unknown name",
+      "ntv_error": true,
+      "ntv_cluster": "bb3",
+      "clients": []
+    },
+    {
+      "server_id": "NC3N5J4SOAHH334OCT4SPU73PAPXIEAZQIFGMW5CC5FRTQTTGPALIUV3",
+      "server_name": "Unknown name",
+      "ntv_error": true,
+      "ntv_cluster": "bb3",
+      "clients": []
+    },
+    {
+      "server_id": "NCO7H5NNTGCONTX3YUPS2OTJGWAIUZOUOWAXZBFPWFAYIC2BR6RZQRCE",
+      "server_name": "Unknown name",
+      "ntv_error": true,
+      "ntv_cluster": "bb2",
+      "clients": []
+    },
+    {
+      "server_id": "NBH4SXYZWNU32BBQRP6WBFL5BHK4OR4YLERGEIV43JGBZNVV65II5WXQ",
+      "server_name": "Unknown name",
+      "ntv_error": true,
+      "ntv_cluster": "bb2",
+      "clients": []
+    },
+    {
+      "server_id": "NDAXEFGVR22TGTBCW6ZN6OLO3H2J7V5TMBNQSPJXQQTBITUPTLUADHBC",
+      "server_name": "Unknown name",
+      "ntv_error": true,
+      "ntv_cluster": "bb3",
+      "clients": []
+    },
+    {
+      "server_id": "NA7Y3OBIDTLDTJWEFLPORC3EFOJOVLRDFDSA5XCG4XHAC2EVOSY3TISA",
+      "server_name": "Unknown name",
+      "ntv_error": true,
+      "ntv_cluster": "bb2",
+      "clients": []
+    },
+    {
+      "server_id": "NB3YHPV2TIWCQKHLFHMHPV7JA6C27ZD5CA246VTQQ3XA6LXFHYFSDTEC",
+      "server_name": "nats-server-78ff66cd78-cb6kl",
+      "ntv_error": false,
+      "ntv_cluster": "bb1",
+      "clients": []
+    },
+    {
+      "server_id": "NA4X5IR2CVWIMITKWBNQSNZKRXJJUNXHULIXBA4ETE7IVQBQ3RLLFCQO",
+      "server_name": "nats-server-78ff66cd78-szr2q",
+      "ntv_error": false,
+      "ntv_cluster": "bb1",
+      "clients": []
+    },
+    {
+      "server_id": "NASBNBEYAGQ6SHM426ZVVP452JWTVUIJ4TRHTEXDYBL44RPXTOLDJ5QQ",
+      "server_name": "nats-server-78ff66cd78-rqv4k",
+      "ntv_error": false,
+      "ntv_cluster": "cluster nr:1",
+      "clients": []
+    },
+    {
+      "server_id": "NBLNS7JHCYRE3X6GQEHK2GUBM2JM24XTJD3A6ECPPMULJR3A5JMPYYLW",
+      "server_name": "nats-server-78ff66cd78-vxhbb",
+      "ntv_error": false,
+      "ntv_cluster": "bb1",
+      "clients": []
+    },
+    {
+      "server_id": "NBE3SKWIIGM7P47EEI4O3KXHWHCR4JEJDMM5VTHJTUFPLPBXORPNJKJJ",
+      "server_name": "nats-server-78ff66cd78-x4k7q",
+      "ntv_error": false,
+      "ntv_cluster": "cluster nr:1",
+      "clients": []
+    },
+    {
+      "server_id": "NB24KR5O52UWDX7ONYAKQJI4ZEQXXUX6EB2E7ASKGHOCOBBXHHUSYNI7",
+      "server_name": "nats-server-78ff66cd78-g4t79",
+      "ntv_error": false,
+      "ntv_cluster": "ehkd2",
+      "clients": []
+    },
+    {
+      "server_id": "NDNMYQD7UFJ4K427NLJMIOEL5JLH2ZMECMVDMQOW5PXIGTFMTVYBGPJC",
+      "server_name": "nats-server-78ff66cd78-lh25j",
+      "ntv_error": false,
+      "ntv_cluster": "ehkd2",
+      "clients": []
+    },
+    {
+      "server_id": "NBXRCM24NOQ25L3UR7J3XQCWGWQR3LMMP37UO3SICQKQ5HVLSIWS4XS2",
+      "server_name": "nats-server-78ff66cd78-rf8bk",
+      "ntv_error": false,
+      "ntv_cluster": "ehkd2",
+      "clients": []
+    },
+    {
+      "server_id": "NB2MWNAZCB76MUIBENTOGDDN2ZJ4NQUI7AH32NUEHBIOHLT7WG5GXAUM",
+      "server_name": "nats-server-7574d6cbd4-wl7qt",
+      "ntv_error": false,
+      "ntv_cluster": "ehkd1",
+      "clients": []
+    },
+    {
+      "server_id": "NCK5VSAQ3N5JOLU6QM3GXRBXAZUHDFVJ36P3TEVSMXW2BUPSKXL5TSC4",
+      "server_name": "nats-server-78ff66cd78-qh9v4",
+      "ntv_error": false,
+      "ntv_cluster": "ehkd2",
+      "clients": []
+    },
+    {
+      "server_id": "NCUDI35PBXMY3F35BUUNUEAQEZ2EW6NZFP3CKJFYA7KK37LBXB25GL3N",
+      "server_name": "nats-server-7574d6cbd4-l77dd",
+      "ntv_error": false,
+      "ntv_cluster": "ehkd1",
+      "clients": []
+    },
+    {
+      "server_id": "NAY4CKPRON2M5L6VKNXLL4KUPJVT7RQKQPC5BE7FYOMK7UIA5XTIDE3T",
+      "server_name": "nats-server-7574d6cbd4-z6xvg",
+      "ntv_error": false,
+      "ntv_cluster": "ehkd1",
+      "clients": [
+        {
+          "ip": "213.32.243.163",
+          "port": 3373
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "source": "NA4X5IR2CVWIMITKWBNQSNZKRXJJUNXHULIXBA4ETE7IVQBQ3RLLFCQO",
+      "target": "NB3YHPV2TIWCQKHLFHMHPV7JA6C27ZD5CA246VTQQ3XA6LXFHYFSDTEC",
+      "ntv_error": false
+    },
+    {
+      "source": "NA4X5IR2CVWIMITKWBNQSNZKRXJJUNXHULIXBA4ETE7IVQBQ3RLLFCQO",
+      "target": "NBLNS7JHCYRE3X6GQEHK2GUBM2JM24XTJD3A6ECPPMULJR3A5JMPYYLW",
+      "ntv_error": false
+    },
+    {
+      "source": "NB3YHPV2TIWCQKHLFHMHPV7JA6C27ZD5CA246VTQQ3XA6LXFHYFSDTEC",
+      "target": "NA4X5IR2CVWIMITKWBNQSNZKRXJJUNXHULIXBA4ETE7IVQBQ3RLLFCQO",
+      "ntv_error": false
+    },
+    {
+      "source": "NB3YHPV2TIWCQKHLFHMHPV7JA6C27ZD5CA246VTQQ3XA6LXFHYFSDTEC",
+      "target": "NBLNS7JHCYRE3X6GQEHK2GUBM2JM24XTJD3A6ECPPMULJR3A5JMPYYLW",
+      "ntv_error": false
+    },
+    {
+      "source": "NBLNS7JHCYRE3X6GQEHK2GUBM2JM24XTJD3A6ECPPMULJR3A5JMPYYLW",
+      "target": "NB3YHPV2TIWCQKHLFHMHPV7JA6C27ZD5CA246VTQQ3XA6LXFHYFSDTEC",
+      "ntv_error": false
+    },
+    {
+      "source": "NBLNS7JHCYRE3X6GQEHK2GUBM2JM24XTJD3A6ECPPMULJR3A5JMPYYLW",
+      "target": "NA4X5IR2CVWIMITKWBNQSNZKRXJJUNXHULIXBA4ETE7IVQBQ3RLLFCQO",
+      "ntv_error": false
+    },
+    {
+      "source": "NBE3SKWIIGM7P47EEI4O3KXHWHCR4JEJDMM5VTHJTUFPLPBXORPNJKJJ",
+      "target": "NASBNBEYAGQ6SHM426ZVVP452JWTVUIJ4TRHTEXDYBL44RPXTOLDJ5QQ",
+      "ntv_error": false
+    },
+    {
+      "source": "NASBNBEYAGQ6SHM426ZVVP452JWTVUIJ4TRHTEXDYBL44RPXTOLDJ5QQ",
+      "target": "NBE3SKWIIGM7P47EEI4O3KXHWHCR4JEJDMM5VTHJTUFPLPBXORPNJKJJ",
+      "ntv_error": false
+    },
+    {
+      "source": "NCK5VSAQ3N5JOLU6QM3GXRBXAZUHDFVJ36P3TEVSMXW2BUPSKXL5TSC4",
+      "target": "NB24KR5O52UWDX7ONYAKQJI4ZEQXXUX6EB2E7ASKGHOCOBBXHHUSYNI7",
+      "ntv_error": false
+    },
+    {
+      "source": "NCK5VSAQ3N5JOLU6QM3GXRBXAZUHDFVJ36P3TEVSMXW2BUPSKXL5TSC4",
+      "target": "NDNMYQD7UFJ4K427NLJMIOEL5JLH2ZMECMVDMQOW5PXIGTFMTVYBGPJC",
+      "ntv_error": false
+    },
+    {
+      "source": "NCK5VSAQ3N5JOLU6QM3GXRBXAZUHDFVJ36P3TEVSMXW2BUPSKXL5TSC4",
+      "target": "NBXRCM24NOQ25L3UR7J3XQCWGWQR3LMMP37UO3SICQKQ5HVLSIWS4XS2",
+      "ntv_error": false
+    },
+    {
+      "source": "NB2MWNAZCB76MUIBENTOGDDN2ZJ4NQUI7AH32NUEHBIOHLT7WG5GXAUM",
+      "target": "NCUDI35PBXMY3F35BUUNUEAQEZ2EW6NZFP3CKJFYA7KK37LBXB25GL3N",
+      "ntv_error": false
+    },
+    {
+      "source": "NB2MWNAZCB76MUIBENTOGDDN2ZJ4NQUI7AH32NUEHBIOHLT7WG5GXAUM",
+      "target": "NAY4CKPRON2M5L6VKNXLL4KUPJVT7RQKQPC5BE7FYOMK7UIA5XTIDE3T",
+      "ntv_error": false
+    },
+    {
+      "source": "NB24KR5O52UWDX7ONYAKQJI4ZEQXXUX6EB2E7ASKGHOCOBBXHHUSYNI7",
+      "target": "NBXRCM24NOQ25L3UR7J3XQCWGWQR3LMMP37UO3SICQKQ5HVLSIWS4XS2",
+      "ntv_error": false
+    },
+    {
+      "source": "NB24KR5O52UWDX7ONYAKQJI4ZEQXXUX6EB2E7ASKGHOCOBBXHHUSYNI7",
+      "target": "NCK5VSAQ3N5JOLU6QM3GXRBXAZUHDFVJ36P3TEVSMXW2BUPSKXL5TSC4",
+      "ntv_error": false
+    },
+    {
+      "source": "NB24KR5O52UWDX7ONYAKQJI4ZEQXXUX6EB2E7ASKGHOCOBBXHHUSYNI7",
+      "target": "NDNMYQD7UFJ4K427NLJMIOEL5JLH2ZMECMVDMQOW5PXIGTFMTVYBGPJC",
+      "ntv_error": false
+    },
+    {
+      "source": "NDNMYQD7UFJ4K427NLJMIOEL5JLH2ZMECMVDMQOW5PXIGTFMTVYBGPJC",
+      "target": "NB24KR5O52UWDX7ONYAKQJI4ZEQXXUX6EB2E7ASKGHOCOBBXHHUSYNI7",
+      "ntv_error": false
+    },
+    {
+      "source": "NDNMYQD7UFJ4K427NLJMIOEL5JLH2ZMECMVDMQOW5PXIGTFMTVYBGPJC",
+      "target": "NBXRCM24NOQ25L3UR7J3XQCWGWQR3LMMP37UO3SICQKQ5HVLSIWS4XS2",
+      "ntv_error": false
+    },
+    {
+      "source": "NDNMYQD7UFJ4K427NLJMIOEL5JLH2ZMECMVDMQOW5PXIGTFMTVYBGPJC",
+      "target": "NCK5VSAQ3N5JOLU6QM3GXRBXAZUHDFVJ36P3TEVSMXW2BUPSKXL5TSC4",
+      "ntv_error": false
+    },
+    {
+      "source": "NBXRCM24NOQ25L3UR7J3XQCWGWQR3LMMP37UO3SICQKQ5HVLSIWS4XS2",
+      "target": "NDNMYQD7UFJ4K427NLJMIOEL5JLH2ZMECMVDMQOW5PXIGTFMTVYBGPJC",
+      "ntv_error": false
+    },
+    {
+      "source": "NBXRCM24NOQ25L3UR7J3XQCWGWQR3LMMP37UO3SICQKQ5HVLSIWS4XS2",
+      "target": "NB24KR5O52UWDX7ONYAKQJI4ZEQXXUX6EB2E7ASKGHOCOBBXHHUSYNI7",
+      "ntv_error": false
+    },
+    {
+      "source": "NBXRCM24NOQ25L3UR7J3XQCWGWQR3LMMP37UO3SICQKQ5HVLSIWS4XS2",
+      "target": "NCK5VSAQ3N5JOLU6QM3GXRBXAZUHDFVJ36P3TEVSMXW2BUPSKXL5TSC4",
+      "ntv_error": false
+    },
+    {
+      "source": "NCUDI35PBXMY3F35BUUNUEAQEZ2EW6NZFP3CKJFYA7KK37LBXB25GL3N",
+      "target": "NAY4CKPRON2M5L6VKNXLL4KUPJVT7RQKQPC5BE7FYOMK7UIA5XTIDE3T",
+      "ntv_error": false
+    },
+    {
+      "source": "NCUDI35PBXMY3F35BUUNUEAQEZ2EW6NZFP3CKJFYA7KK37LBXB25GL3N",
+      "target": "NB2MWNAZCB76MUIBENTOGDDN2ZJ4NQUI7AH32NUEHBIOHLT7WG5GXAUM",
+      "ntv_error": false
+    },
+    {
+      "source": "NAY4CKPRON2M5L6VKNXLL4KUPJVT7RQKQPC5BE7FYOMK7UIA5XTIDE3T",
+      "target": "NB2MWNAZCB76MUIBENTOGDDN2ZJ4NQUI7AH32NUEHBIOHLT7WG5GXAUM",
+      "ntv_error": false
+    },
+    {
+      "source": "NAY4CKPRON2M5L6VKNXLL4KUPJVT7RQKQPC5BE7FYOMK7UIA5XTIDE3T",
+      "target": "NCUDI35PBXMY3F35BUUNUEAQEZ2EW6NZFP3CKJFYA7KK37LBXB25GL3N",
+      "ntv_error": false
+    }
+  ],
+  "processedClusters": [
+    {
+      "name": "bb3",
+      "servers": [
+        {
+          "server_id": "ND4A3SSJCAZHXIFGRGVFRHTP3RHD5ZCGGGX5W6EQ764NUARQJSGUBVBM",
+          "server_name": "Unknown name",
+          "ntv_error": true,
+          "ntv_cluster": "bb3",
+          "clients": []
+        },
+        {
+          "server_id": "NDEH6X2ZWPXBKE24RMJ7PDRKB5QNLAJXXPIEBKMOIVTTJX35OI2R4R3O",
+          "server_name": "Unknown name",
+          "ntv_error": true,
+          "ntv_cluster": "bb3",
+          "clients": []
+        },
+        {
+          "server_id": "NBSVZLRQX46X2Y7NVSKXIPQBHF7WJOQ4CKZNXMUYUQS63CN5D2WTT5CV",
+          "server_name": "Unknown name",
+          "ntv_error": true,
+          "ntv_cluster": "bb3",
+          "clients": []
+        },
+        {
+          "server_id": "NC3N5J4SOAHH334OCT4SPU73PAPXIEAZQIFGMW5CC5FRTQTTGPALIUV3",
+          "server_name": "Unknown name",
+          "ntv_error": true,
+          "ntv_cluster": "bb3",
+          "clients": []
+        },
+        {
+          "server_id": "NDAXEFGVR22TGTBCW6ZN6OLO3H2J7V5TMBNQSPJXQQTBITUPTLUADHBC",
+          "server_name": "Unknown name",
+          "ntv_error": true,
+          "ntv_cluster": "bb3",
+          "clients": []
+        }
+      ]
+    },
+    {
+      "name": "bb2",
+      "servers": [
+        {
+          "server_id": "NBHNA5GZAUHPUL5GKVKPC5BT5EGGBNCH5ZZILMRMC47F3XQA34UVE7ON",
+          "server_name": "Unknown name",
+          "ntv_error": true,
+          "ntv_cluster": "bb2",
+          "clients": []
+        },
+        {
+          "server_id": "NCO7H5NNTGCONTX3YUPS2OTJGWAIUZOUOWAXZBFPWFAYIC2BR6RZQRCE",
+          "server_name": "Unknown name",
+          "ntv_error": true,
+          "ntv_cluster": "bb2",
+          "clients": []
+        },
+        {
+          "server_id": "NBH4SXYZWNU32BBQRP6WBFL5BHK4OR4YLERGEIV43JGBZNVV65II5WXQ",
+          "server_name": "Unknown name",
+          "ntv_error": true,
+          "ntv_cluster": "bb2",
+          "clients": []
+        },
+        {
+          "server_id": "NA7Y3OBIDTLDTJWEFLPORC3EFOJOVLRDFDSA5XCG4XHAC2EVOSY3TISA",
+          "server_name": "Unknown name",
+          "ntv_error": true,
+          "ntv_cluster": "bb2",
+          "clients": []
+        }
+      ]
+    },
+    {
+      "name": "ehkd1",
+      "servers": [
+        {
+          "server_id": "NAY4CKPRON2M5L6VKNXLL4KUPJVT7RQKQPC5BE7FYOMK7UIA5XTIDE3T",
+          "server_name": "nats-server-7574d6cbd4-z6xvg",
+          "ntv_error": false,
+          "ntv_cluster": "ehkd1",
+          "clients": [
+            {
+              "ip": "213.32.243.163",
+              "port": 3373
+            }
+          ]
+        },
+        {
+          "server_id": "NCUDI35PBXMY3F35BUUNUEAQEZ2EW6NZFP3CKJFYA7KK37LBXB25GL3N",
+          "server_name": "nats-server-7574d6cbd4-l77dd",
+          "ntv_error": false,
+          "ntv_cluster": "ehkd1",
+          "clients": []
+        },
+        {
+          "server_id": "NB2MWNAZCB76MUIBENTOGDDN2ZJ4NQUI7AH32NUEHBIOHLT7WG5GXAUM",
+          "server_name": "nats-server-7574d6cbd4-wl7qt",
+          "ntv_error": false,
+          "ntv_cluster": "ehkd1",
+          "clients": []
+        }
+      ]
+    },
+    {
+      "name": "ehkd2",
+      "servers": [
+        {
+          "server_id": "NBXRCM24NOQ25L3UR7J3XQCWGWQR3LMMP37UO3SICQKQ5HVLSIWS4XS2",
+          "server_name": "nats-server-78ff66cd78-rf8bk",
+          "ntv_error": false,
+          "ntv_cluster": "ehkd2",
+          "clients": []
+        },
+        {
+          "server_id": "NDNMYQD7UFJ4K427NLJMIOEL5JLH2ZMECMVDMQOW5PXIGTFMTVYBGPJC",
+          "server_name": "nats-server-78ff66cd78-lh25j",
+          "ntv_error": false,
+          "ntv_cluster": "ehkd2",
+          "clients": []
+        },
+        {
+          "server_id": "NB24KR5O52UWDX7ONYAKQJI4ZEQXXUX6EB2E7ASKGHOCOBBXHHUSYNI7",
+          "server_name": "nats-server-78ff66cd78-g4t79",
+          "ntv_error": false,
+          "ntv_cluster": "ehkd2",
+          "clients": []
+        },
+        {
+          "server_id": "NCK5VSAQ3N5JOLU6QM3GXRBXAZUHDFVJ36P3TEVSMXW2BUPSKXL5TSC4",
+          "server_name": "nats-server-78ff66cd78-qh9v4",
+          "ntv_error": false,
+          "ntv_cluster": "ehkd2",
+          "clients": []
+        }
+      ]
+    },
+    {
+      "name": "cluster nr:1",
+      "servers": [
+        {
+          "server_id": "NASBNBEYAGQ6SHM426ZVVP452JWTVUIJ4TRHTEXDYBL44RPXTOLDJ5QQ",
+          "server_name": "nats-server-78ff66cd78-rqv4k",
+          "ntv_error": false,
+          "ntv_cluster": "cluster nr:1",
+          "clients": []
+        },
+        {
+          "server_id": "NBE3SKWIIGM7P47EEI4O3KXHWHCR4JEJDMM5VTHJTUFPLPBXORPNJKJJ",
+          "server_name": "nats-server-78ff66cd78-x4k7q",
+          "ntv_error": false,
+          "ntv_cluster": "cluster nr:1",
+          "clients": []
+        }
+      ]
+    },
+    {
+      "name": "bb1",
+      "servers": [
+        {
+          "server_id": "NBLNS7JHCYRE3X6GQEHK2GUBM2JM24XTJD3A6ECPPMULJR3A5JMPYYLW",
+          "server_name": "nats-server-78ff66cd78-vxhbb",
+          "ntv_error": false,
+          "ntv_cluster": "bb1",
+          "clients": []
+        },
+        {
+          "server_id": "NB3YHPV2TIWCQKHLFHMHPV7JA6C27ZD5CA246VTQQ3XA6LXFHYFSDTEC",
+          "server_name": "nats-server-78ff66cd78-cb6kl",
+          "ntv_error": false,
+          "ntv_cluster": "bb1",
+          "clients": []
+        },
+        {
+          "server_id": "NA4X5IR2CVWIMITKWBNQSNZKRXJJUNXHULIXBA4ETE7IVQBQ3RLLFCQO",
+          "server_name": "nats-server-78ff66cd78-szr2q",
+          "ntv_error": false,
+          "ntv_cluster": "bb1",
+          "clients": []
+        }
+      ]
+    }
+  ],
+  "gatewayLinks": [
+    {
+      "errors": [
+        "Outbound gateway to crashed server. From NBLNS7JHCYRE3X6GQEHK2GUBM2JM24XTJD3A6ECPPMULJR3A5JMPYYLW to NA7Y3OBIDTLDTJWEFLPORC3EFOJOVLRDFDSA5XCG4XHAC2EVOSY3TISA",
+        "Outbound gateway to crashed server. From NA4X5IR2CVWIMITKWBNQSNZKRXJJUNXHULIXBA4ETE7IVQBQ3RLLFCQO to NBHNA5GZAUHPUL5GKVKPC5BT5EGGBNCH5ZZILMRMC47F3XQA34UVE7ON",
+        "Inbound gateway to crashed server. To NA4X5IR2CVWIMITKWBNQSNZKRXJJUNXHULIXBA4ETE7IVQBQ3RLLFCQO from NBH4SXYZWNU32BBQRP6WBFL5BHK4OR4YLERGEIV43JGBZNVV65II5WXQ",
+        "Inbound gateway to crashed server. To NA4X5IR2CVWIMITKWBNQSNZKRXJJUNXHULIXBA4ETE7IVQBQ3RLLFCQO from NCO7H5NNTGCONTX3YUPS2OTJGWAIUZOUOWAXZBFPWFAYIC2BR6RZQRCE",
+        "Outbound gateway to crashed server. From NB3YHPV2TIWCQKHLFHMHPV7JA6C27ZD5CA246VTQQ3XA6LXFHYFSDTEC to NCO7H5NNTGCONTX3YUPS2OTJGWAIUZOUOWAXZBFPWFAYIC2BR6RZQRCE",
+        "Inbound gateway to crashed server. To NB3YHPV2TIWCQKHLFHMHPV7JA6C27ZD5CA246VTQQ3XA6LXFHYFSDTEC from NA7Y3OBIDTLDTJWEFLPORC3EFOJOVLRDFDSA5XCG4XHAC2EVOSY3TISA",
+        "Inbound gateway to crashed server. To NB3YHPV2TIWCQKHLFHMHPV7JA6C27ZD5CA246VTQQ3XA6LXFHYFSDTEC from NBHNA5GZAUHPUL5GKVKPC5BT5EGGBNCH5ZZILMRMC47F3XQA34UVE7ON"
+      ],
+      "errorsAsString": "bb1 to/from bb2\nOutbound gateway to crashed server. From NBLNS7JHCYRE3X6GQEHK2GUBM2JM24XTJD3A6ECPPMULJR3A5JMPYYLW to NA7Y3OBIDTLDTJWEFLPORC3EFOJOVLRDFDSA5XCG4XHAC2EVOSY3TISA\nOutbound gateway to crashed server. From NA4X5IR2CVWIMITKWBNQSNZKRXJJUNXHULIXBA4ETE7IVQBQ3RLLFCQO to NBHNA5GZAUHPUL5GKVKPC5BT5EGGBNCH5ZZILMRMC47F3XQA34UVE7ON\nInbound gateway to crashed server. To NA4X5IR2CVWIMITKWBNQSNZKRXJJUNXHULIXBA4ETE7IVQBQ3RLLFCQO from NBH4SXYZWNU32BBQRP6WBFL5BHK4OR4YLERGEIV43JGBZNVV65II5WXQ\nInbound gateway to crashed server. To NA4X5IR2CVWIMITKWBNQSNZKRXJJUNXHULIXBA4ETE7IVQBQ3RLLFCQO from NCO7H5NNTGCONTX3YUPS2OTJGWAIUZOUOWAXZBFPWFAYIC2BR6RZQRCE\nOutbound gateway to crashed server. From NB3YHPV2TIWCQKHLFHMHPV7JA6C27ZD5CA246VTQQ3XA6LXFHYFSDTEC to NCO7H5NNTGCONTX3YUPS2OTJGWAIUZOUOWAXZBFPWFAYIC2BR6RZQRCE\nInbound gateway to crashed server. To NB3YHPV2TIWCQKHLFHMHPV7JA6C27ZD5CA246VTQQ3XA6LXFHYFSDTEC from NA7Y3OBIDTLDTJWEFLPORC3EFOJOVLRDFDSA5XCG4XHAC2EVOSY3TISA\nInbound gateway to crashed server. To NB3YHPV2TIWCQKHLFHMHPV7JA6C27ZD5CA246VTQQ3XA6LXFHYFSDTEC from NBHNA5GZAUHPUL5GKVKPC5BT5EGGBNCH5ZZILMRMC47F3XQA34UVE7ON",
+      "source": "bb1",
+      "target": "bb2",
+      "ntv_error": true
+    },
+    {
+      "errors": [
+        "Outbound gateway to crashed server. From NBLNS7JHCYRE3X6GQEHK2GUBM2JM24XTJD3A6ECPPMULJR3A5JMPYYLW to NDAXEFGVR22TGTBCW6ZN6OLO3H2J7V5TMBNQSPJXQQTBITUPTLUADHBC",
+        "Outbound gateway to crashed server. From NA4X5IR2CVWIMITKWBNQSNZKRXJJUNXHULIXBA4ETE7IVQBQ3RLLFCQO to NBSVZLRQX46X2Y7NVSKXIPQBHF7WJOQ4CKZNXMUYUQS63CN5D2WTT5CV",
+        "Inbound gateway to crashed server. To NA4X5IR2CVWIMITKWBNQSNZKRXJJUNXHULIXBA4ETE7IVQBQ3RLLFCQO from NC3N5J4SOAHH334OCT4SPU73PAPXIEAZQIFGMW5CC5FRTQTTGPALIUV3",
+        "Inbound gateway to crashed server. To NA4X5IR2CVWIMITKWBNQSNZKRXJJUNXHULIXBA4ETE7IVQBQ3RLLFCQO from NDAXEFGVR22TGTBCW6ZN6OLO3H2J7V5TMBNQSPJXQQTBITUPTLUADHBC",
+        "Inbound gateway to crashed server. To NA4X5IR2CVWIMITKWBNQSNZKRXJJUNXHULIXBA4ETE7IVQBQ3RLLFCQO from NBSVZLRQX46X2Y7NVSKXIPQBHF7WJOQ4CKZNXMUYUQS63CN5D2WTT5CV",
+        "Outbound gateway to crashed server. From NB3YHPV2TIWCQKHLFHMHPV7JA6C27ZD5CA246VTQQ3XA6LXFHYFSDTEC to ND4A3SSJCAZHXIFGRGVFRHTP3RHD5ZCGGGX5W6EQ764NUARQJSGUBVBM",
+        "Inbound gateway to crashed server. To NB3YHPV2TIWCQKHLFHMHPV7JA6C27ZD5CA246VTQQ3XA6LXFHYFSDTEC from NDEH6X2ZWPXBKE24RMJ7PDRKB5QNLAJXXPIEBKMOIVTTJX35OI2R4R3O",
+        "Inbound gateway to crashed server. To NB3YHPV2TIWCQKHLFHMHPV7JA6C27ZD5CA246VTQQ3XA6LXFHYFSDTEC from ND4A3SSJCAZHXIFGRGVFRHTP3RHD5ZCGGGX5W6EQ764NUARQJSGUBVBM"
+      ],
+      "errorsAsString": "bb1 to/from bb3\nOutbound gateway to crashed server. From NBLNS7JHCYRE3X6GQEHK2GUBM2JM24XTJD3A6ECPPMULJR3A5JMPYYLW to NDAXEFGVR22TGTBCW6ZN6OLO3H2J7V5TMBNQSPJXQQTBITUPTLUADHBC\nOutbound gateway to crashed server. From NA4X5IR2CVWIMITKWBNQSNZKRXJJUNXHULIXBA4ETE7IVQBQ3RLLFCQO to NBSVZLRQX46X2Y7NVSKXIPQBHF7WJOQ4CKZNXMUYUQS63CN5D2WTT5CV\nInbound gateway to crashed server. To NA4X5IR2CVWIMITKWBNQSNZKRXJJUNXHULIXBA4ETE7IVQBQ3RLLFCQO from NC3N5J4SOAHH334OCT4SPU73PAPXIEAZQIFGMW5CC5FRTQTTGPALIUV3\nInbound gateway to crashed server. To NA4X5IR2CVWIMITKWBNQSNZKRXJJUNXHULIXBA4ETE7IVQBQ3RLLFCQO from NDAXEFGVR22TGTBCW6ZN6OLO3H2J7V5TMBNQSPJXQQTBITUPTLUADHBC\nInbound gateway to crashed server. To NA4X5IR2CVWIMITKWBNQSNZKRXJJUNXHULIXBA4ETE7IVQBQ3RLLFCQO from NBSVZLRQX46X2Y7NVSKXIPQBHF7WJOQ4CKZNXMUYUQS63CN5D2WTT5CV\nOutbound gateway to crashed server. From NB3YHPV2TIWCQKHLFHMHPV7JA6C27ZD5CA246VTQQ3XA6LXFHYFSDTEC to ND4A3SSJCAZHXIFGRGVFRHTP3RHD5ZCGGGX5W6EQ764NUARQJSGUBVBM\nInbound gateway to crashed server. To NB3YHPV2TIWCQKHLFHMHPV7JA6C27ZD5CA246VTQQ3XA6LXFHYFSDTEC from NDEH6X2ZWPXBKE24RMJ7PDRKB5QNLAJXXPIEBKMOIVTTJX35OI2R4R3O\nInbound gateway to crashed server. To NB3YHPV2TIWCQKHLFHMHPV7JA6C27ZD5CA246VTQQ3XA6LXFHYFSDTEC from ND4A3SSJCAZHXIFGRGVFRHTP3RHD5ZCGGGX5W6EQ764NUARQJSGUBVBM",
+      "source": "bb1",
+      "target": "bb3",
+      "ntv_error": true
+    },
+    {
+      "errors": [],
+      "errorsAsString": "ehkd2 to/from ehkd1",
+      "source": "ehkd2",
+      "target": "ehkd1",
+      "ntv_error": false
+    }
+  ],
+  "leafLinks": [
+    {
+      "connections": [
+        {
+          "account": "AcmeCorp",
+          "ip": "10.240.0.8",
+          "port": 49178,
+          "in_msgs": 0,
+          "out_msgs": 0,
+          "in_bytes": 0,
+          "out_bytes": 0,
+          "subscriptions": 4
+        },
+        {
+          "account": "SYS",
+          "ip": "10.240.0.8",
+          "port": 49180,
+          "in_msgs": 4284656,
+          "out_msgs": 3790024,
+          "in_bytes": 3765036213,
+          "out_bytes": 2839300999,
+          "subscriptions": 52
+        },
+        {
+          "account": "SYS",
+          "ip": "10.240.0.18",
+          "port": 7422,
+          "in_msgs": 3790024,
+          "out_msgs": 4284656,
+          "in_bytes": 2839300999,
+          "out_bytes": 3765036213,
+          "subscriptions": 279
+        },
+        {
+          "account": "BigBank",
+          "ip": "10.240.0.18",
+          "port": 7422,
+          "in_msgs": 0,
+          "out_msgs": 0,
+          "in_bytes": 0,
+          "out_bytes": 0,
+          "subscriptions": 4
+        }
+      ],
+      "source": "NB2MWNAZCB76MUIBENTOGDDN2ZJ4NQUI7AH32NUEHBIOHLT7WG5GXAUM",
+      "target": "NASBNBEYAGQ6SHM426ZVVP452JWTVUIJ4TRHTEXDYBL44RPXTOLDJ5QQ",
+      "ntv_error": false
+    },
+    {
+      "connections": [
+        {
+          "account": "AcmeCorp",
+          "ip": "10.240.0.61",
+          "port": 35078,
+          "in_msgs": 0,
+          "out_msgs": 0,
+          "in_bytes": 0,
+          "out_bytes": 0,
+          "subscriptions": 4
+        },
+        {
+          "account": "SYS",
+          "ip": "10.240.0.61",
+          "port": 35080,
+          "in_msgs": 523942,
+          "out_msgs": 3415216,
+          "in_bytes": 299647588,
+          "out_bytes": 2585275574,
+          "subscriptions": 52
+        },
+        {
+          "account": "BigBank",
+          "ip": "10.240.0.18",
+          "port": 7422,
+          "in_msgs": 0,
+          "out_msgs": 0,
+          "in_bytes": 0,
+          "out_bytes": 0,
+          "subscriptions": 5
+        },
+        {
+          "account": "SYS",
+          "ip": "10.240.0.18",
+          "port": 7422,
+          "in_msgs": 3415216,
+          "out_msgs": 523942,
+          "in_bytes": 2585275574,
+          "out_bytes": 299647588,
+          "subscriptions": 256
+        }
+      ],
+      "source": "NB2MWNAZCB76MUIBENTOGDDN2ZJ4NQUI7AH32NUEHBIOHLT7WG5GXAUM",
+      "target": "NBE3SKWIIGM7P47EEI4O3KXHWHCR4JEJDMM5VTHJTUFPLPBXORPNJKJJ",
+      "ntv_error": false
+    },
+    {
+      "connections": [
+        {
+          "account": "BigBank",
+          "ip": "10.240.0.40",
+          "port": 59410,
+          "in_msgs": 0,
+          "out_msgs": 0,
+          "in_bytes": 0,
+          "out_bytes": 0,
+          "subscriptions": 3
+        },
+        {
+          "account": "SYS",
+          "ip": "10.240.0.40",
+          "port": 59408,
+          "in_msgs": 2347474,
+          "out_msgs": 5316333,
+          "in_bytes": 2207170747,
+          "out_bytes": 3656786631,
+          "subscriptions": 39
+        },
+        {
+          "account": "BigBank",
+          "ip": "10.240.0.8",
+          "port": 7422,
+          "in_msgs": 0,
+          "out_msgs": 0,
+          "in_bytes": 0,
+          "out_bytes": 0,
+          "subscriptions": 7
+        },
+        {
+          "account": "SYS",
+          "ip": "10.240.0.8",
+          "port": 7422,
+          "in_msgs": 5316333,
+          "out_msgs": 2347474,
+          "in_bytes": 3656786631,
+          "out_bytes": 2207170747,
+          "subscriptions": 304
+        }
+      ],
+      "source": "NASBNBEYAGQ6SHM426ZVVP452JWTVUIJ4TRHTEXDYBL44RPXTOLDJ5QQ",
+      "target": "NA4X5IR2CVWIMITKWBNQSNZKRXJJUNXHULIXBA4ETE7IVQBQ3RLLFCQO",
+      "ntv_error": false
+    },
+    {
+      "connections": [
+        {
+          "account": "BigBank",
+          "ip": "10.240.0.28",
+          "port": 34334,
+          "in_msgs": 0,
+          "out_msgs": 0,
+          "in_bytes": 0,
+          "out_bytes": 0,
+          "subscriptions": 3
+        },
+        {
+          "account": "SYS",
+          "ip": "10.240.0.28",
+          "port": 34336,
+          "in_msgs": 1065741,
+          "out_msgs": 4702970,
+          "in_bytes": 1098856516,
+          "out_bytes": 3284519565,
+          "subscriptions": 39
+        },
+        {
+          "account": "SYS",
+          "ip": "10.240.0.8",
+          "port": 7422,
+          "in_msgs": 4702970,
+          "out_msgs": 1065741,
+          "in_bytes": 3284519565,
+          "out_bytes": 1098856516,
+          "subscriptions": 349
+        },
+        {
+          "account": "BigBank",
+          "ip": "10.240.0.8",
+          "port": 7422,
+          "in_msgs": 0,
+          "out_msgs": 0,
+          "in_bytes": 0,
+          "out_bytes": 0,
+          "subscriptions": 8
+        }
+      ],
+      "source": "NASBNBEYAGQ6SHM426ZVVP452JWTVUIJ4TRHTEXDYBL44RPXTOLDJ5QQ",
+      "target": "NB3YHPV2TIWCQKHLFHMHPV7JA6C27ZD5CA246VTQQ3XA6LXFHYFSDTEC",
+      "ntv_error": false
+    },
+    {
+      "connections": [
+        {
+          "account": "SYS",
+          "ip": "10.240.0.59",
+          "port": 48748,
+          "in_msgs": 3748,
+          "out_msgs": 29412,
+          "in_bytes": 2686577,
+          "out_bytes": 21570368,
+          "subscriptions": 39
+        },
+        {
+          "account": "BigBank",
+          "ip": "10.240.0.59",
+          "port": 48750,
+          "in_msgs": 0,
+          "out_msgs": 0,
+          "in_bytes": 0,
+          "out_bytes": 0,
+          "subscriptions": 3
+        },
+        {
+          "account": "SYS",
+          "ip": "10.240.0.61",
+          "port": 7422,
+          "in_msgs": 29412,
+          "out_msgs": 3748,
+          "in_bytes": 21570368,
+          "out_bytes": 2686577,
+          "subscriptions": 349
+        },
+        {
+          "account": "BigBank",
+          "ip": "10.240.0.61",
+          "port": 7422,
+          "in_msgs": 0,
+          "out_msgs": 0,
+          "in_bytes": 0,
+          "out_bytes": 0,
+          "subscriptions": 8
+        }
+      ],
+      "source": "NBE3SKWIIGM7P47EEI4O3KXHWHCR4JEJDMM5VTHJTUFPLPBXORPNJKJJ",
+      "target": "NBLNS7JHCYRE3X6GQEHK2GUBM2JM24XTJD3A6ECPPMULJR3A5JMPYYLW",
+      "ntv_error": false
+    }
+  ],
+  "varz": [
+    {
+      "server_id": "NAY4CKPRON2M5L6VKNXLL4KUPJVT7RQKQPC5BE7FYOMK7UIA5XTIDE3T",
+      "server_name": "nats-server-7574d6cbd4-z6xvg",
+      "version": "2.2.0-beta.90",
+      "proto": 1,
+      "git_commit": "bec42c04",
+      "go": "go1.15.8",
+      "host": "0.0.0.0",
+      "port": 4222,
+      "auth_required": true,
+      "connect_urls": null,
+      "max_connections": 65536,
+      "ping_interval": 120000000000,
+      "ping_max": 2,
+      "http_host": "127.0.0.1",
+      "http_port": 8222,
+      "http_base_path": "",
+      "https_port": 0,
+      "auth_timeout": 2,
+      "max_control_line": 4096,
+      "max_payload": 1048576,
+      "max_pending": 67108864,
+      "cluster": {
+        "name": "ehkd1",
+        "addr": "0.0.0.0",
+        "cluster_port": 6222,
+        "auth_timeout": 2,
+        "urls": [
+          "nats-server-internal:6222"
+        ],
+        "tls_timeout": 2
+      },
+      "gateway": {
+        "server_id": "NAY4CKPRON2M5L6VKNXLL4KUPJVT7RQKQPC5BE7FYOMK7UIA5XTIDE3T",
+        "now": "2021-05-26T11:00:47.903140391Z",
+        "name": "ehkd1",
+        "host": "10.240.0.114",
+        "port": 5222,
+        "inbound_gateways": {},
+        "outbound_gateways": {
+          "ehkd2": {
+            "configured": true,
+            "connection": {
+              "cid": 3,
+              "ip": "10.240.0.9",
+              "port": 5222,
+              "start": "2021-02-24T14:25:20.066233501Z",
+              "last_activity": "2021-05-26T11:00:45.943040825Z",
+              "rtt": "336µs",
+              "uptime": "90d20h35m27s",
+              "idle": "1s",
+              "pending_bytes": 0,
+              "in_msgs": 0,
+              "out_msgs": 266530,
+              "in_bytes": 0,
+              "out_bytes": 249465267,
+              "subscriptions": 71,
+              "name": "NBXRCM24NOQ25L3UR7J3XQCWGWQR3LMMP37UO3SICQKQ5HVLSIWS4XS2"
+            }
+          }
+        }
+      },
+      "route": {
+        "server_id": "NAY4CKPRON2M5L6VKNXLL4KUPJVT7RQKQPC5BE7FYOMK7UIA5XTIDE3T",
+        "now": "2021-05-26T11:00:45.943010325Z",
+        "num_routes": 2,
+        "routes": [
+          {
+            "rid": 2,
+            "remote_id": "NB2MWNAZCB76MUIBENTOGDDN2ZJ4NQUI7AH32NUEHBIOHLT7WG5GXAUM",
+            "did_solicit": true,
+            "is_configured": true,
+            "ip": "10.240.0.18",
+            "port": 6222,
+            "pending_size": 0,
+            "rtt": "238µs",
+            "in_msgs": 6569417,
+            "out_msgs": 268902,
+            "in_bytes": 5362738633,
+            "out_bytes": 251597083,
+            "subscriptions": 208
+          },
+          {
+            "rid": 4,
+            "remote_id": "NCUDI35PBXMY3F35BUUNUEAQEZ2EW6NZFP3CKJFYA7KK37LBXB25GL3N",
+            "did_solicit": true,
+            "is_configured": false,
+            "ip": "10.240.0.35",
+            "port": 6222,
+            "pending_size": 0,
+            "rtt": "221µs",
+            "in_msgs": 1055394,
+            "out_msgs": 268836,
+            "in_bytes": 766582087,
+            "out_bytes": 251530463,
+            "subscriptions": 35
+          }
+        ]
+      },
+      "connection": {
+        "server_id": "NAY4CKPRON2M5L6VKNXLL4KUPJVT7RQKQPC5BE7FYOMK7UIA5XTIDE3T",
+        "now": "2021-05-26T11:00:43.897890431Z",
+        "num_connections": 1,
+        "offset": 0,
+        "limit": 1024,
+        "connections": [
+          {
+            "cid": 655,
+            "ip": "213.32.243.163",
+            "port": 3373,
+            "start": "2021-05-26T11:00:41.8080631Z",
+            "last_activity": "2021-05-26T11:00:43.8854652Z",
+            "rtt": "49.901725ms",
+            "uptime": "2s",
+            "pending_byten": 0,
+            "in_msgs": 1,
+            "out_msgs": 12,
+            "in_bytes": 0,
+            "out_bytes": 22407,
+            "subscriptions": 1,
+            "lang": ".NET",
+            "version": "0.12.0.0"
+          }
+        ]
+      },
+      "jetstream": {
+        "config": {
+          "max_memory": 0,
+          "max_storage": 0
+        },
+        "stats": null
+      },
+      "leaf": {
+        "server_id": "NAY4CKPRON2M5L6VKNXLL4KUPJVT7RQKQPC5BE7FYOMK7UIA5XTIDE3T",
+        "now": "2021-05-26T11:00:49.901571847Z",
+        "leafnodes": 0,
+        "leafs": null
+      },
+      "tls_timeout": 2,
+      "write_deadline": 10000000000,
+      "start": "2021-02-24T14:25:19.06350958Z",
+      "now": "2021-05-26T11:00:41.892804659Z",
+      "uptime": "90d20h35m22s",
+      "mem": 20992000,
+      "cores": 4,
+      "gomaxprocs": 4,
+      "cpu": 0,
+      "connections": 1,
+      "total_connections": 651,
+      "routes": 2,
+      "remotes": 2,
+      "leafnodes": 0,
+      "in_msgs": 7627217,
+      "out_msgs": 832552,
+      "in_bytes": 6129289653,
+      "out_bytes": 781964539,
+      "slow_consumers": 0,
+      "subscriptions": 0,
+      "http_req_stats": {
+        "/": 0,
+        "/connz": 0,
+        "/gatewayz": 0,
+        "/routez": 0,
+        "/subsz": 0,
+        "/varz": 0
+      }
+    },
+    {
+      "server_id": "NCUDI35PBXMY3F35BUUNUEAQEZ2EW6NZFP3CKJFYA7KK37LBXB25GL3N",
+      "server_name": "nats-server-7574d6cbd4-l77dd",
+      "version": "2.2.0-beta.90",
+      "proto": 1,
+      "git_commit": "bec42c04",
+      "go": "go1.15.8",
+      "host": "0.0.0.0",
+      "port": 4222,
+      "auth_required": true,
+      "connect_urls": null,
+      "max_connections": 65536,
+      "ping_interval": 120000000000,
+      "ping_max": 2,
+      "http_host": "127.0.0.1",
+      "http_port": 8222,
+      "http_base_path": "",
+      "https_port": 0,
+      "auth_timeout": 2,
+      "max_control_line": 4096,
+      "max_payload": 1048576,
+      "max_pending": 67108864,
+      "cluster": {
+        "name": "ehkd1",
+        "addr": "0.0.0.0",
+        "cluster_port": 6222,
+        "auth_timeout": 2,
+        "urls": [
+          "nats-server-internal:6222"
+        ],
+        "tls_timeout": 2
+      },
+      "gateway": {
+        "server_id": "NCUDI35PBXMY3F35BUUNUEAQEZ2EW6NZFP3CKJFYA7KK37LBXB25GL3N",
+        "now": "2021-05-26T11:00:47.904236813Z",
+        "name": "ehkd1",
+        "host": "10.240.0.35",
+        "port": 5222,
+        "inbound_gateways": {
+          "ehkd2": [
+            {
+              "configured": false,
+              "connection": {
+                "cid": 4,
+                "ip": "10.240.0.49",
+                "port": 60368,
+                "start": "2021-02-24T14:25:20.994254553Z",
+                "last_activity": "2021-05-26T11:00:45.943887343Z",
+                "rtt": "189µs",
+                "uptime": "90d20h35m26s",
+                "idle": "1s",
+                "pending_bytes": 0,
+                "in_msgs": 530470,
+                "out_msgs": 0,
+                "in_bytes": 404558671,
+                "out_bytes": 0,
+                "subscriptions": 0,
+                "name": "NCK5VSAQ3N5JOLU6QM3GXRBXAZUHDFVJ36P3TEVSMXW2BUPSKXL5TSC4"
+              }
+            }
+          ]
+        },
+        "outbound_gateways": {
+          "ehkd2": {
+            "configured": true,
+            "connection": {
+              "cid": 5,
+              "ip": "10.240.0.9",
+              "port": 5222,
+              "start": "2021-02-24T14:25:21.904615357Z",
+              "last_activity": "2021-05-26T11:00:31.066550257Z",
+              "rtt": "260µs",
+              "uptime": "90d20h35m25s",
+              "idle": "16s",
+              "pending_bytes": 0,
+              "in_msgs": 0,
+              "out_msgs": 527179,
+              "in_bytes": 0,
+              "out_bytes": 364142730,
+              "subscriptions": 71,
+              "name": "NBXRCM24NOQ25L3UR7J3XQCWGWQR3LMMP37UO3SICQKQ5HVLSIWS4XS2"
+            }
+          }
+        }
+      },
+      "route": {
+        "server_id": "NCUDI35PBXMY3F35BUUNUEAQEZ2EW6NZFP3CKJFYA7KK37LBXB25GL3N",
+        "now": "2021-05-26T11:00:45.943174728Z",
+        "num_routes": 2,
+        "routes": [
+          {
+            "rid": 3,
+            "remote_id": "NAY4CKPRON2M5L6VKNXLL4KUPJVT7RQKQPC5BE7FYOMK7UIA5XTIDE3T",
+            "did_solicit": false,
+            "is_configured": false,
+            "ip": "10.240.0.114",
+            "port": 44480,
+            "pending_size": 0,
+            "rtt": "261µs",
+            "in_msgs": 268836,
+            "out_msgs": 1052961,
+            "in_bytes": 251530463,
+            "out_bytes": 764253727,
+            "subscriptions": 36
+          },
+          {
+            "rid": 2,
+            "remote_id": "NB2MWNAZCB76MUIBENTOGDDN2ZJ4NQUI7AH32NUEHBIOHLT7WG5GXAUM",
+            "did_solicit": true,
+            "is_configured": true,
+            "ip": "10.240.0.18",
+            "port": 6222,
+            "pending_size": 0,
+            "rtt": "295µs",
+            "in_msgs": 6568407,
+            "out_msgs": 1052898,
+            "in_bytes": 5361636927,
+            "out_bytes": 764199981,
+            "subscriptions": 208
+          }
+        ]
+      },
+      "connection": {
+        "server_id": "NCUDI35PBXMY3F35BUUNUEAQEZ2EW6NZFP3CKJFYA7KK37LBXB25GL3N",
+        "now": "2021-05-26T11:00:43.898908852Z",
+        "num_connections": 0,
+        "offset": 0,
+        "limit": 1024,
+        "connections": []
+      },
+      "jetstream": {
+        "config": {
+          "max_memory": 0,
+          "max_storage": 0
+        },
+        "stats": null
+      },
+      "leaf": {
+        "server_id": "NCUDI35PBXMY3F35BUUNUEAQEZ2EW6NZFP3CKJFYA7KK37LBXB25GL3N",
+        "now": "2021-05-26T11:00:49.901759051Z",
+        "leafnodes": 0,
+        "leafs": null
+      },
+      "tls_timeout": 2,
+      "write_deadline": 10000000000,
+      "start": "2021-02-24T14:25:20.902825554Z",
+      "now": "2021-05-26T11:00:41.893235768Z",
+      "uptime": "90d20h35m20s",
+      "mem": 21684224,
+      "cores": 4,
+      "gomaxprocs": 4,
+      "cpu": 0,
+      "connections": 0,
+      "total_connections": 614,
+      "routes": 2,
+      "remotes": 2,
+      "leafnodes": 0,
+      "in_msgs": 7370014,
+      "out_msgs": 2660335,
+      "in_bytes": 6017717258,
+      "out_bytes": 1920846904,
+      "slow_consumers": 0,
+      "subscriptions": 0,
+      "http_req_stats": {
+        "/": 0,
+        "/connz": 0,
+        "/gatewayz": 0,
+        "/routez": 0,
+        "/subsz": 0,
+        "/varz": 0
+      }
+    },
+    {
+      "server_id": "NCK5VSAQ3N5JOLU6QM3GXRBXAZUHDFVJ36P3TEVSMXW2BUPSKXL5TSC4",
+      "server_name": "nats-server-78ff66cd78-qh9v4",
+      "version": "2.2.0-beta.90",
+      "proto": 1,
+      "git_commit": "bec42c04",
+      "go": "go1.15.8",
+      "host": "0.0.0.0",
+      "port": 4222,
+      "auth_required": true,
+      "connect_urls": null,
+      "max_connections": 65536,
+      "ping_interval": 120000000000,
+      "ping_max": 2,
+      "http_host": "127.0.0.1",
+      "http_port": 8222,
+      "http_base_path": "",
+      "https_port": 0,
+      "auth_timeout": 2,
+      "max_control_line": 4096,
+      "max_payload": 1048576,
+      "max_pending": 67108864,
+      "cluster": {
+        "name": "ehkd2",
+        "addr": "0.0.0.0",
+        "cluster_port": 6222,
+        "auth_timeout": 2,
+        "urls": [
+          "nats-server-internal:6222"
+        ],
+        "tls_timeout": 2
+      },
+      "gateway": {
+        "server_id": "NCK5VSAQ3N5JOLU6QM3GXRBXAZUHDFVJ36P3TEVSMXW2BUPSKXL5TSC4",
+        "now": "2021-05-26T11:00:47.914469523Z",
+        "name": "ehkd2",
+        "host": "10.240.0.49",
+        "port": 5222,
+        "inbound_gateways": {},
+        "outbound_gateways": {
+          "ehkd1": {
+            "configured": true,
+            "connection": {
+              "cid": 4,
+              "ip": "10.240.0.35",
+              "port": 5222,
+              "start": "2021-02-24T14:25:20.994212952Z",
+              "last_activity": "2021-05-26T11:00:47.914428622Z",
+              "rtt": "449µs",
+              "uptime": "90d20h35m26s",
+              "idle": "0s",
+              "pending_bytes": 0,
+              "in_msgs": 0,
+              "out_msgs": 530470,
+              "in_bytes": 0,
+              "out_bytes": 404558671,
+              "subscriptions": 233,
+              "name": "NCUDI35PBXMY3F35BUUNUEAQEZ2EW6NZFP3CKJFYA7KK37LBXB25GL3N"
+            }
+          }
+        }
+      },
+      "route": {
+        "server_id": "NCK5VSAQ3N5JOLU6QM3GXRBXAZUHDFVJ36P3TEVSMXW2BUPSKXL5TSC4",
+        "now": "2021-05-26T11:00:45.943426533Z",
+        "num_routes": 3,
+        "routes": [
+          {
+            "rid": 5,
+            "remote_id": "NB24KR5O52UWDX7ONYAKQJI4ZEQXXUX6EB2E7ASKGHOCOBBXHHUSYNI7",
+            "did_solicit": true,
+            "is_configured": false,
+            "ip": "10.240.0.32",
+            "port": 6222,
+            "pending_size": 0,
+            "rtt": "58µs",
+            "in_msgs": 523352,
+            "out_msgs": 523344,
+            "in_bytes": 397739338,
+            "out_bytes": 397731557,
+            "subscriptions": 35
+          },
+          {
+            "rid": 3,
+            "remote_id": "NDNMYQD7UFJ4K427NLJMIOEL5JLH2ZMECMVDMQOW5PXIGTFMTVYBGPJC",
+            "did_solicit": false,
+            "is_configured": false,
+            "ip": "10.240.0.74",
+            "port": 52628,
+            "pending_size": 0,
+            "rtt": "157µs",
+            "in_msgs": 5503270,
+            "out_msgs": 523351,
+            "in_bytes": 4541385032,
+            "out_bytes": 397737433,
+            "subscriptions": 35
+          },
+          {
+            "rid": 2,
+            "remote_id": "NBXRCM24NOQ25L3UR7J3XQCWGWQR3LMMP37UO3SICQKQ5HVLSIWS4XS2",
+            "did_solicit": true,
+            "is_configured": true,
+            "ip": "10.240.0.9",
+            "port": 6222,
+            "pending_size": 0,
+            "rtt": "161µs",
+            "in_msgs": 1317055,
+            "out_msgs": 523352,
+            "in_bytes": 1016207991,
+            "out_bytes": 397737852,
+            "subscriptions": 35
+          }
+        ]
+      },
+      "connection": {
+        "server_id": "NCK5VSAQ3N5JOLU6QM3GXRBXAZUHDFVJ36P3TEVSMXW2BUPSKXL5TSC4",
+        "now": "2021-05-26T11:00:43.898548744Z",
+        "num_connections": 0,
+        "offset": 0,
+        "limit": 1024,
+        "connections": []
+      },
+      "jetstream": {
+        "config": {
+          "max_memory": 0,
+          "max_storage": 0
+        },
+        "stats": null
+      },
+      "leaf": {
+        "server_id": "NCK5VSAQ3N5JOLU6QM3GXRBXAZUHDFVJ36P3TEVSMXW2BUPSKXL5TSC4",
+        "now": "2021-05-26T11:00:49.90221846Z",
+        "leafnodes": 0,
+        "leafs": null
+      },
+      "tls_timeout": 2,
+      "write_deadline": 10000000000,
+      "start": "2021-02-24T14:25:19.992285647Z",
+      "now": "2021-05-26T11:00:41.893500073Z",
+      "uptime": "90d20h35m21s",
+      "mem": 15822848,
+      "cores": 4,
+      "gomaxprocs": 4,
+      "cpu": 0,
+      "connections": 0,
+      "total_connections": 0,
+      "routes": 3,
+      "remotes": 3,
+      "leafnodes": 0,
+      "in_msgs": 7343669,
+      "out_msgs": 2100514,
+      "in_bytes": 5955326606,
+      "out_bytes": 1597762064,
+      "slow_consumers": 0,
+      "subscriptions": 0,
+      "http_req_stats": {
+        "/": 0,
+        "/connz": 0,
+        "/gatewayz": 0,
+        "/routez": 0,
+        "/subsz": 0,
+        "/varz": 0
+      }
+    },
+    {
+      "server_id": "NB2MWNAZCB76MUIBENTOGDDN2ZJ4NQUI7AH32NUEHBIOHLT7WG5GXAUM",
+      "server_name": "nats-server-7574d6cbd4-wl7qt",
+      "version": "2.2.0-beta.80",
+      "proto": 1,
+      "git_commit": "82de5a3c",
+      "go": "go1.15.8",
+      "host": "0.0.0.0",
+      "port": 4222,
+      "auth_required": true,
+      "connect_urls": null,
+      "max_connections": 65536,
+      "ping_interval": 120000000000,
+      "ping_max": 2,
+      "http_host": "127.0.0.1",
+      "http_port": 8222,
+      "http_base_path": "",
+      "https_port": 0,
+      "auth_timeout": 2,
+      "max_control_line": 4096,
+      "max_payload": 1048576,
+      "max_pending": 67108864,
+      "cluster": {
+        "name": "ehkd1",
+        "addr": "0.0.0.0",
+        "cluster_port": 6222,
+        "auth_timeout": 2,
+        "urls": [
+          "nats-server-internal:6222"
+        ],
+        "tls_timeout": 2
+      },
+      "gateway": {
+        "server_id": "NB2MWNAZCB76MUIBENTOGDDN2ZJ4NQUI7AH32NUEHBIOHLT7WG5GXAUM",
+        "now": "2021-05-26T11:00:47.904636122Z",
+        "name": "ehkd1",
+        "host": "10.240.0.18",
+        "port": 5222,
+        "inbound_gateways": {
+          "ehkd2": [
+            {
+              "configured": false,
+              "connection": {
+                "cid": 11478,
+                "ip": "10.240.0.32",
+                "port": 42536,
+                "start": "2021-02-24T14:25:24.732265169Z",
+                "last_activity": "2021-05-26T11:00:45.943523035Z",
+                "rtt": "217µs",
+                "uptime": "90d20h35m23s",
+                "idle": "1s",
+                "pending_bytes": 0,
+                "in_msgs": 530470,
+                "out_msgs": 0,
+                "in_bytes": 404561790,
+                "out_bytes": 0,
+                "subscriptions": 0,
+                "name": "NB24KR5O52UWDX7ONYAKQJI4ZEQXXUX6EB2E7ASKGHOCOBBXHHUSYNI7"
+              }
+            },
+            {
+              "configured": false,
+              "connection": {
+                "cid": 25,
+                "ip": "10.240.0.74",
+                "port": 35982,
+                "start": "2021-02-16T10:12:15.513083012Z",
+                "last_activity": "2021-05-26T11:00:47.904593221Z",
+                "rtt": "263µs",
+                "uptime": "99d0h48m32s",
+                "idle": "0s",
+                "pending_bytes": 0,
+                "in_msgs": 577586,
+                "out_msgs": 0,
+                "in_bytes": 447415277,
+                "out_bytes": 0,
+                "subscriptions": 0,
+                "name": "NDNMYQD7UFJ4K427NLJMIOEL5JLH2ZMECMVDMQOW5PXIGTFMTVYBGPJC"
+              }
+            },
+            {
+              "configured": false,
+              "connection": {
+                "cid": 12,
+                "ip": "10.240.0.9",
+                "port": 47744,
+                "start": "2021-02-16T10:06:22.151279346Z",
+                "last_activity": "2021-05-26T11:00:45.943375732Z",
+                "rtt": "327µs",
+                "uptime": "99d0h54m25s",
+                "idle": "1s",
+                "pending_bytes": 0,
+                "in_msgs": 577612,
+                "out_msgs": 0,
+                "in_bytes": 445886762,
+                "out_bytes": 0,
+                "subscriptions": 0,
+                "name": "NBXRCM24NOQ25L3UR7J3XQCWGWQR3LMMP37UO3SICQKQ5HVLSIWS4XS2"
+              }
+            }
+          ]
+        },
+        "outbound_gateways": {
+          "ehkd2": {
+            "configured": true,
+            "connection": {
+              "cid": 6,
+              "ip": "10.240.0.74",
+              "port": 5222,
+              "start": "2021-02-16T08:51:53.133198307Z",
+              "last_activity": "2021-05-26T11:00:47.457306576Z",
+              "rtt": "287µs",
+              "uptime": "99d2h8m54s",
+              "idle": "0s",
+              "pending_bytes": 0,
+              "in_msgs": 0,
+              "out_msgs": 5390053,
+              "in_bytes": 0,
+              "out_bytes": 4448698607,
+              "subscriptions": 71,
+              "name": "NDNMYQD7UFJ4K427NLJMIOEL5JLH2ZMECMVDMQOW5PXIGTFMTVYBGPJC"
+            }
+          }
+        }
+      },
+      "route": {
+        "server_id": "NB2MWNAZCB76MUIBENTOGDDN2ZJ4NQUI7AH32NUEHBIOHLT7WG5GXAUM",
+        "now": "2021-05-26T11:00:45.943140427Z",
+        "num_routes": 2,
+        "routes": [
+          {
+            "rid": 11477,
+            "remote_id": "NCUDI35PBXMY3F35BUUNUEAQEZ2EW6NZFP3CKJFYA7KK37LBXB25GL3N",
+            "did_solicit": false,
+            "is_configured": false,
+            "ip": "10.240.0.35",
+            "port": 37794,
+            "pending_size": 0,
+            "rtt": "287µs",
+            "in_msgs": 1055274,
+            "out_msgs": 6561480,
+            "in_bytes": 766481200,
+            "out_bytes": 5354477751,
+            "subscriptions": 35
+          },
+          {
+            "rid": 11476,
+            "remote_id": "NAY4CKPRON2M5L6VKNXLL4KUPJVT7RQKQPC5BE7FYOMK7UIA5XTIDE3T",
+            "did_solicit": false,
+            "is_configured": false,
+            "ip": "10.240.0.114",
+            "port": 51136,
+            "pending_size": 0,
+            "rtt": "291µs",
+            "in_msgs": 268902,
+            "out_msgs": 6562118,
+            "in_bytes": 251597083,
+            "out_bytes": 5355200685,
+            "subscriptions": 36
+          }
+        ]
+      },
+      "connection": {
+        "server_id": "NB2MWNAZCB76MUIBENTOGDDN2ZJ4NQUI7AH32NUEHBIOHLT7WG5GXAUM",
+        "now": "2021-05-26T11:00:43.900380982Z",
+        "num_connections": 0,
+        "offset": 0,
+        "limit": 1024,
+        "connections": []
+      },
+      "jetstream": {
+        "config": {
+          "max_memory": 0,
+          "max_storage": 0
+        },
+        "stats": null
+      },
+      "leaf": {
+        "server_id": "NB2MWNAZCB76MUIBENTOGDDN2ZJ4NQUI7AH32NUEHBIOHLT7WG5GXAUM",
+        "now": "2021-05-26T11:00:49.901762251Z",
+        "leafnodes": 4,
+        "leafs": [
+          {
+            "account": "AcmeCorp",
+            "ip": "10.240.0.8",
+            "port": 49178,
+            "in_msgs": 0,
+            "out_msgs": 0,
+            "in_bytes": 0,
+            "out_bytes": 0,
+            "subscriptions": 4
+          },
+          {
+            "account": "SYS",
+            "ip": "10.240.0.8",
+            "port": 49180,
+            "in_msgs": 4284656,
+            "out_msgs": 3790024,
+            "in_bytes": 3765036213,
+            "out_bytes": 2839300999,
+            "subscriptions": 52
+          },
+          {
+            "account": "AcmeCorp",
+            "ip": "10.240.0.61",
+            "port": 35078,
+            "in_msgs": 0,
+            "out_msgs": 0,
+            "in_bytes": 0,
+            "out_bytes": 0,
+            "subscriptions": 4
+          },
+          {
+            "account": "SYS",
+            "ip": "10.240.0.61",
+            "port": 35080,
+            "in_msgs": 523942,
+            "out_msgs": 3415216,
+            "in_bytes": 299647588,
+            "out_bytes": 2585275574,
+            "subscriptions": 52
+          }
+        ]
+      },
+      "tls_timeout": 2,
+      "write_deadline": 10000000000,
+      "start": "2021-02-16T08:51:52.129256343Z",
+      "now": "2021-05-26T11:00:41.893556574Z",
+      "uptime": "99d2h8m49s",
+      "mem": 110239744,
+      "cores": 4,
+      "gomaxprocs": 4,
+      "cpu": 0,
+      "connections": 0,
+      "total_connections": 673,
+      "routes": 2,
+      "remotes": 2,
+      "leafnodes": 4,
+      "in_msgs": 8024807,
+      "out_msgs": 26943788,
+      "in_bytes": 6522119971,
+      "out_bytes": 21519288291,
+      "slow_consumers": 0,
+      "subscriptions": 0,
+      "http_req_stats": {
+        "/": 0,
+        "/connz": 0,
+        "/gatewayz": 0,
+        "/routez": 0,
+        "/subsz": 0,
+        "/varz": 0
+      }
+    },
+    {
+      "server_id": "NBXRCM24NOQ25L3UR7J3XQCWGWQR3LMMP37UO3SICQKQ5HVLSIWS4XS2",
+      "server_name": "nats-server-78ff66cd78-rf8bk",
+      "version": "2.2.0-beta.80",
+      "proto": 1,
+      "git_commit": "82de5a3c",
+      "go": "go1.15.8",
+      "host": "0.0.0.0",
+      "port": 4222,
+      "auth_required": true,
+      "connect_urls": null,
+      "max_connections": 65536,
+      "ping_interval": 120000000000,
+      "ping_max": 2,
+      "http_host": "127.0.0.1",
+      "http_port": 8222,
+      "http_base_path": "",
+      "https_port": 0,
+      "auth_timeout": 2,
+      "max_control_line": 4096,
+      "max_payload": 1048576,
+      "max_pending": 67108864,
+      "cluster": {
+        "name": "ehkd2",
+        "addr": "0.0.0.0",
+        "cluster_port": 6222,
+        "auth_timeout": 2,
+        "urls": [
+          "nats-server-internal:6222"
+        ],
+        "tls_timeout": 2
+      },
+      "gateway": {
+        "server_id": "NBXRCM24NOQ25L3UR7J3XQCWGWQR3LMMP37UO3SICQKQ5HVLSIWS4XS2",
+        "now": "2021-05-26T11:00:47.903769204Z",
+        "name": "ehkd2",
+        "host": "10.240.0.9",
+        "port": 5222,
+        "inbound_gateways": {
+          "ehkd1": [
+            {
+              "configured": false,
+              "connection": {
+                "cid": 24,
+                "ip": "10.240.0.114",
+                "port": 43010,
+                "start": "2021-02-24T14:25:20.066441805Z",
+                "last_activity": "2021-05-26T11:00:45.943156528Z",
+                "rtt": "249µs",
+                "uptime": "90d20h35m27s",
+                "idle": "1s",
+                "pending_bytes": 0,
+                "in_msgs": 266530,
+                "out_msgs": 0,
+                "in_bytes": 249465267,
+                "out_bytes": 0,
+                "subscriptions": 0,
+                "name": "NAY4CKPRON2M5L6VKNXLL4KUPJVT7RQKQPC5BE7FYOMK7UIA5XTIDE3T"
+              }
+            },
+            {
+              "configured": false,
+              "connection": {
+                "cid": 25,
+                "ip": "10.240.0.35",
+                "port": 35840,
+                "start": "2021-02-24T14:25:21.904619957Z",
+                "last_activity": "2021-05-26T11:00:31.066783162Z",
+                "rtt": "263µs",
+                "uptime": "90d20h35m25s",
+                "idle": "16s",
+                "pending_bytes": 0,
+                "in_msgs": 527179,
+                "out_msgs": 0,
+                "in_bytes": 364142730,
+                "out_bytes": 0,
+                "subscriptions": 0,
+                "name": "NCUDI35PBXMY3F35BUUNUEAQEZ2EW6NZFP3CKJFYA7KK37LBXB25GL3N"
+              }
+            }
+          ]
+        },
+        "outbound_gateways": {
+          "ehkd1": {
+            "configured": true,
+            "connection": {
+              "cid": 18,
+              "ip": "10.240.0.18",
+              "port": 5222,
+              "start": "2021-02-16T10:06:22.151310247Z",
+              "last_activity": "2021-05-26T11:00:47.902982088Z",
+              "rtt": "135µs",
+              "uptime": "99d0h54m25s",
+              "idle": "0s",
+              "pending_bytes": 0,
+              "in_msgs": 0,
+              "out_msgs": 577612,
+              "in_bytes": 0,
+              "out_bytes": 445886762,
+              "subscriptions": 249,
+              "name": "NB2MWNAZCB76MUIBENTOGDDN2ZJ4NQUI7AH32NUEHBIOHLT7WG5GXAUM"
+            }
+          }
+        }
+      },
+      "route": {
+        "server_id": "NBXRCM24NOQ25L3UR7J3XQCWGWQR3LMMP37UO3SICQKQ5HVLSIWS4XS2",
+        "now": "2021-05-26T11:00:45.943135427Z",
+        "num_routes": 3,
+        "routes": [
+          {
+            "rid": 9,
+            "remote_id": "NDNMYQD7UFJ4K427NLJMIOEL5JLH2ZMECMVDMQOW5PXIGTFMTVYBGPJC",
+            "did_solicit": true,
+            "is_configured": true,
+            "ip": "10.240.0.74",
+            "port": 6222,
+            "pending_size": 0,
+            "rtt": "144µs",
+            "in_msgs": 5961134,
+            "out_msgs": 1365139,
+            "in_bytes": 4889184217,
+            "out_bytes": 1052251315,
+            "subscriptions": 35
+          },
+          {
+            "rid": 27,
+            "remote_id": "NB24KR5O52UWDX7ONYAKQJI4ZEQXXUX6EB2E7ASKGHOCOBBXHHUSYNI7",
+            "did_solicit": true,
+            "is_configured": false,
+            "ip": "10.240.0.32",
+            "port": 6222,
+            "pending_size": 0,
+            "rtt": "151µs",
+            "in_msgs": 523352,
+            "out_msgs": 1317045,
+            "in_bytes": 397739338,
+            "out_bytes": 1016200028,
+            "subscriptions": 35
+          },
+          {
+            "rid": 23,
+            "remote_id": "NCK5VSAQ3N5JOLU6QM3GXRBXAZUHDFVJ36P3TEVSMXW2BUPSKXL5TSC4",
+            "did_solicit": false,
+            "is_configured": false,
+            "ip": "10.240.0.49",
+            "port": 43328,
+            "pending_size": 0,
+            "rtt": "196µs",
+            "in_msgs": 523352,
+            "out_msgs": 1317055,
+            "in_bytes": 397737852,
+            "out_bytes": 1016207991,
+            "subscriptions": 35
+          }
+        ]
+      },
+      "connection": {
+        "server_id": "NBXRCM24NOQ25L3UR7J3XQCWGWQR3LMMP37UO3SICQKQ5HVLSIWS4XS2",
+        "now": "2021-05-26T11:00:43.898142236Z",
+        "num_connections": 0,
+        "offset": 0,
+        "limit": 1024,
+        "connections": []
+      },
+      "jetstream": {
+        "config": {
+          "max_memory": 0,
+          "max_storage": 0
+        },
+        "stats": null
+      },
+      "leaf": {
+        "server_id": "NBXRCM24NOQ25L3UR7J3XQCWGWQR3LMMP37UO3SICQKQ5HVLSIWS4XS2",
+        "now": "2021-05-26T11:00:49.901793951Z",
+        "leafnodes": 0,
+        "leafs": null
+      },
+      "tls_timeout": 2,
+      "write_deadline": 10000000000,
+      "start": "2021-02-16T07:35:05.652236366Z",
+      "now": "2021-05-26T11:00:41.893177367Z",
+      "uptime": "99d3h25m36s",
+      "mem": 21151744,
+      "cores": 4,
+      "gomaxprocs": 4,
+      "cpu": 0,
+      "connections": 0,
+      "total_connections": 0,
+      "routes": 3,
+      "remotes": 3,
+      "leafnodes": 0,
+      "in_msgs": 8011093,
+      "out_msgs": 4673637,
+      "in_bytes": 6444115128,
+      "out_bytes": 3603095370,
+      "slow_consumers": 0,
+      "subscriptions": 0,
+      "http_req_stats": {
+        "/": 0,
+        "/connz": 0,
+        "/gatewayz": 0,
+        "/routez": 0,
+        "/subsz": 0,
+        "/varz": 0
+      }
+    },
+    {
+      "server_id": "NDNMYQD7UFJ4K427NLJMIOEL5JLH2ZMECMVDMQOW5PXIGTFMTVYBGPJC",
+      "server_name": "nats-server-78ff66cd78-lh25j",
+      "version": "2.2.0-beta.80",
+      "proto": 1,
+      "git_commit": "82de5a3c",
+      "go": "go1.15.8",
+      "host": "0.0.0.0",
+      "port": 4222,
+      "auth_required": true,
+      "connect_urls": null,
+      "max_connections": 65536,
+      "ping_interval": 120000000000,
+      "ping_max": 2,
+      "http_host": "127.0.0.1",
+      "http_port": 8222,
+      "http_base_path": "",
+      "https_port": 0,
+      "auth_timeout": 2,
+      "max_control_line": 4096,
+      "max_payload": 1048576,
+      "max_pending": 67108864,
+      "cluster": {
+        "name": "ehkd2",
+        "addr": "0.0.0.0",
+        "cluster_port": 6222,
+        "auth_timeout": 2,
+        "urls": [
+          "nats-server-internal:6222"
+        ],
+        "tls_timeout": 2
+      },
+      "gateway": {
+        "server_id": "NDNMYQD7UFJ4K427NLJMIOEL5JLH2ZMECMVDMQOW5PXIGTFMTVYBGPJC",
+        "now": "2021-05-26T11:00:47.904169612Z",
+        "name": "ehkd2",
+        "host": "10.240.0.74",
+        "port": 5222,
+        "inbound_gateways": {
+          "ehkd1": [
+            {
+              "configured": false,
+              "connection": {
+                "cid": 7,
+                "ip": "10.240.0.18",
+                "port": 55846,
+                "start": "2021-02-16T08:51:53.133227507Z",
+                "last_activity": "2021-05-26T11:00:47.457454079Z",
+                "rtt": "131µs",
+                "uptime": "99d2h8m54s",
+                "idle": "0s",
+                "pending_bytes": 0,
+                "in_msgs": 5390053,
+                "out_msgs": 0,
+                "in_bytes": 4448698607,
+                "out_bytes": 0,
+                "subscriptions": 0,
+                "name": "NB2MWNAZCB76MUIBENTOGDDN2ZJ4NQUI7AH32NUEHBIOHLT7WG5GXAUM"
+              }
+            }
+          ]
+        },
+        "outbound_gateways": {
+          "ehkd1": {
+            "configured": true,
+            "connection": {
+              "cid": 13,
+              "ip": "10.240.0.18",
+              "port": 5222,
+              "start": "2021-02-16T10:12:15.513070511Z",
+              "last_activity": "2021-05-26T11:00:47.90308689Z",
+              "rtt": "205µs",
+              "uptime": "99d0h48m32s",
+              "idle": "0s",
+              "pending_bytes": 0,
+              "in_msgs": 0,
+              "out_msgs": 577585,
+              "in_bytes": 0,
+              "out_bytes": 447414040,
+              "subscriptions": 249,
+              "name": "NB2MWNAZCB76MUIBENTOGDDN2ZJ4NQUI7AH32NUEHBIOHLT7WG5GXAUM"
+            }
+          }
+        }
+      },
+      "route": {
+        "server_id": "NDNMYQD7UFJ4K427NLJMIOEL5JLH2ZMECMVDMQOW5PXIGTFMTVYBGPJC",
+        "now": "2021-05-26T11:00:45.94327643Z",
+        "num_routes": 3,
+        "routes": [
+          {
+            "rid": 20,
+            "remote_id": "NB24KR5O52UWDX7ONYAKQJI4ZEQXXUX6EB2E7ASKGHOCOBBXHHUSYNI7",
+            "did_solicit": false,
+            "is_configured": false,
+            "ip": "10.240.0.32",
+            "port": 41896,
+            "pending_size": 0,
+            "rtt": "87µs",
+            "in_msgs": 523355,
+            "out_msgs": 5503246,
+            "in_bytes": 397740596,
+            "out_bytes": 4541373066,
+            "subscriptions": 35
+          },
+          {
+            "rid": 4,
+            "remote_id": "NBXRCM24NOQ25L3UR7J3XQCWGWQR3LMMP37UO3SICQKQ5HVLSIWS4XS2",
+            "did_solicit": true,
+            "is_configured": true,
+            "ip": "10.240.0.9",
+            "port": 50178,
+            "pending_size": 0,
+            "rtt": "114µs",
+            "in_msgs": 1365139,
+            "out_msgs": 5961134,
+            "in_bytes": 1052251315,
+            "out_bytes": 4889184217,
+            "subscriptions": 35
+          },
+          {
+            "rid": 19,
+            "remote_id": "NCK5VSAQ3N5JOLU6QM3GXRBXAZUHDFVJ36P3TEVSMXW2BUPSKXL5TSC4",
+            "did_solicit": true,
+            "is_configured": false,
+            "ip": "10.240.0.49",
+            "port": 6222,
+            "pending_size": 0,
+            "rtt": "178µs",
+            "in_msgs": 523351,
+            "out_msgs": 5503270,
+            "in_bytes": 397737433,
+            "out_bytes": 4541385032,
+            "subscriptions": 35
+          }
+        ]
+      },
+      "connection": {
+        "server_id": "NDNMYQD7UFJ4K427NLJMIOEL5JLH2ZMECMVDMQOW5PXIGTFMTVYBGPJC",
+        "now": "2021-05-26T11:00:43.898254738Z",
+        "num_connections": 0,
+        "offset": 0,
+        "limit": 1024,
+        "connections": []
+      },
+      "jetstream": {
+        "config": {
+          "max_memory": 0,
+          "max_storage": 0
+        },
+        "stats": null
+      },
+      "leaf": {
+        "server_id": "NDNMYQD7UFJ4K427NLJMIOEL5JLH2ZMECMVDMQOW5PXIGTFMTVYBGPJC",
+        "now": "2021-05-26T11:00:49.902484666Z",
+        "leafnodes": 0,
+        "leafs": null
+      },
+      "tls_timeout": 2,
+      "write_deadline": 10000000000,
+      "start": "2021-02-16T07:35:06.497998388Z",
+      "now": "2021-05-26T11:00:41.893379871Z",
+      "uptime": "99d3h25m35s",
+      "mem": 21704704,
+      "cores": 4,
+      "gomaxprocs": 4,
+      "cpu": 0,
+      "connections": 0,
+      "total_connections": 0,
+      "routes": 3,
+      "remotes": 3,
+      "leafnodes": 0,
+      "in_msgs": 8011090,
+      "out_msgs": 18461528,
+      "in_bytes": 6442048046,
+      "out_bytes": 15115385904,
+      "slow_consumers": 0,
+      "subscriptions": 0,
+      "http_req_stats": {
+        "/": 0,
+        "/connz": 0,
+        "/gatewayz": 0,
+        "/routez": 0,
+        "/subsz": 0,
+        "/varz": 0
+      }
+    },
+    {
+      "server_id": "NB24KR5O52UWDX7ONYAKQJI4ZEQXXUX6EB2E7ASKGHOCOBBXHHUSYNI7",
+      "server_name": "nats-server-78ff66cd78-g4t79",
+      "version": "2.2.0-beta.90",
+      "proto": 1,
+      "git_commit": "bec42c04",
+      "go": "go1.15.8",
+      "host": "0.0.0.0",
+      "port": 4222,
+      "auth_required": true,
+      "connect_urls": null,
+      "max_connections": 65536,
+      "ping_interval": 120000000000,
+      "ping_max": 2,
+      "http_host": "127.0.0.1",
+      "http_port": 8222,
+      "http_base_path": "",
+      "https_port": 0,
+      "auth_timeout": 2,
+      "max_control_line": 4096,
+      "max_payload": 1048576,
+      "max_pending": 67108864,
+      "cluster": {
+        "name": "ehkd2",
+        "addr": "0.0.0.0",
+        "cluster_port": 6222,
+        "auth_timeout": 2,
+        "urls": [
+          "nats-server-internal:6222"
+        ],
+        "tls_timeout": 2
+      },
+      "gateway": {
+        "server_id": "NB24KR5O52UWDX7ONYAKQJI4ZEQXXUX6EB2E7ASKGHOCOBBXHHUSYNI7",
+        "now": "2021-05-26T11:00:47.904013109Z",
+        "name": "ehkd2",
+        "host": "10.240.0.32",
+        "port": 5222,
+        "inbound_gateways": {},
+        "outbound_gateways": {
+          "ehkd1": {
+            "configured": true,
+            "connection": {
+              "cid": 6,
+              "ip": "10.240.0.18",
+              "port": 5222,
+              "start": "2021-02-24T14:25:24.732219368Z",
+              "last_activity": "2021-05-26T11:00:47.90311399Z",
+              "rtt": "152µs",
+              "uptime": "90d20h35m23s",
+              "idle": "0s",
+              "pending_bytes": 0,
+              "in_msgs": 0,
+              "out_msgs": 530470,
+              "in_bytes": 0,
+              "out_bytes": 404561790,
+              "subscriptions": 242,
+              "name": "NB2MWNAZCB76MUIBENTOGDDN2ZJ4NQUI7AH32NUEHBIOHLT7WG5GXAUM"
+            }
+          }
+        }
+      },
+      "route": {
+        "server_id": "NB24KR5O52UWDX7ONYAKQJI4ZEQXXUX6EB2E7ASKGHOCOBBXHHUSYNI7",
+        "now": "2021-05-26T11:00:45.943361632Z",
+        "num_routes": 3,
+        "routes": [
+          {
+            "rid": 5,
+            "remote_id": "NBXRCM24NOQ25L3UR7J3XQCWGWQR3LMMP37UO3SICQKQ5HVLSIWS4XS2",
+            "did_solicit": false,
+            "is_configured": false,
+            "ip": "10.240.0.9",
+            "port": 57754,
+            "pending_size": 0,
+            "rtt": "105µs",
+            "in_msgs": 1317045,
+            "out_msgs": 523352,
+            "in_bytes": 1016200028,
+            "out_bytes": 397739338,
+            "subscriptions": 35
+          },
+          {
+            "rid": 3,
+            "remote_id": "NCK5VSAQ3N5JOLU6QM3GXRBXAZUHDFVJ36P3TEVSMXW2BUPSKXL5TSC4",
+            "did_solicit": false,
+            "is_configured": false,
+            "ip": "10.240.0.49",
+            "port": 33626,
+            "pending_size": 0,
+            "rtt": "159µs",
+            "in_msgs": 523344,
+            "out_msgs": 523352,
+            "in_bytes": 397731557,
+            "out_bytes": 397739338,
+            "subscriptions": 35
+          },
+          {
+            "rid": 2,
+            "remote_id": "NDNMYQD7UFJ4K427NLJMIOEL5JLH2ZMECMVDMQOW5PXIGTFMTVYBGPJC",
+            "did_solicit": true,
+            "is_configured": true,
+            "ip": "10.240.0.74",
+            "port": 6222,
+            "pending_size": 0,
+            "rtt": "146µs",
+            "in_msgs": 5503246,
+            "out_msgs": 523355,
+            "in_bytes": 4541373066,
+            "out_bytes": 397740596,
+            "subscriptions": 35
+          }
+        ]
+      },
+      "connection": {
+        "server_id": "NB24KR5O52UWDX7ONYAKQJI4ZEQXXUX6EB2E7ASKGHOCOBBXHHUSYNI7",
+        "now": "2021-05-26T11:00:43.898557644Z",
+        "num_connections": 0,
+        "offset": 0,
+        "limit": 1024,
+        "connections": []
+      },
+      "jetstream": {
+        "config": {
+          "max_memory": 0,
+          "max_storage": 0
+        },
+        "stats": null
+      },
+      "leaf": {
+        "server_id": "NB24KR5O52UWDX7ONYAKQJI4ZEQXXUX6EB2E7ASKGHOCOBBXHHUSYNI7",
+        "now": "2021-05-26T11:00:49.902093158Z",
+        "leafnodes": 0,
+        "leafs": null
+      },
+      "tls_timeout": 2,
+      "write_deadline": 10000000000,
+      "start": "2021-02-24T14:25:23.730475166Z",
+      "now": "2021-05-26T11:00:41.893425072Z",
+      "uptime": "90d20h35m18s",
+      "mem": 17526784,
+      "cores": 4,
+      "gomaxprocs": 4,
+      "cpu": 0,
+      "connections": 0,
+      "total_connections": 0,
+      "routes": 3,
+      "remotes": 3,
+      "leafnodes": 0,
+      "in_msgs": 7343627,
+      "out_msgs": 2100526,
+      "in_bytes": 5955298896,
+      "out_bytes": 1597777610,
+      "slow_consumers": 0,
+      "subscriptions": 0,
+      "http_req_stats": {
+        "/": 0,
+        "/connz": 0,
+        "/gatewayz": 0,
+        "/routez": 0,
+        "/subsz": 0,
+        "/varz": 0
+      }
+    },
+    {
+      "server_id": "NBE3SKWIIGM7P47EEI4O3KXHWHCR4JEJDMM5VTHJTUFPLPBXORPNJKJJ",
+      "server_name": "nats-server-78ff66cd78-x4k7q",
+      "version": "2.2.0-beta.90",
+      "proto": 1,
+      "git_commit": "bec42c04",
+      "go": "go1.15.8",
+      "host": "0.0.0.0",
+      "port": 4222,
+      "auth_required": true,
+      "connect_urls": [
+        "10.240.0.61:4222",
+        "10.240.0.8:4222"
+      ],
+      "max_connections": 65536,
+      "ping_interval": 120000000000,
+      "ping_max": 2,
+      "http_host": "127.0.0.1",
+      "http_port": 8222,
+      "http_base_path": "",
+      "https_port": 0,
+      "auth_timeout": 2,
+      "max_control_line": 4096,
+      "max_payload": 1048576,
+      "max_pending": 67108864,
+      "cluster": {
+        "name": "kysa0LDtY8dXGl8FuM1trL",
+        "addr": "0.0.0.0",
+        "cluster_port": 6222,
+        "auth_timeout": 2,
+        "urls": [
+          "nats-server-internal:6222"
+        ],
+        "tls_timeout": 2
+      },
+      "gateway": {
+        "server_id": "NBE3SKWIIGM7P47EEI4O3KXHWHCR4JEJDMM5VTHJTUFPLPBXORPNJKJJ",
+        "now": "2021-05-26T11:00:47.906408458Z",
+        "name": null,
+        "host": null,
+        "port": 0,
+        "inbound_gateways": {},
+        "outbound_gateways": {}
+      },
+      "route": {
+        "server_id": "NBE3SKWIIGM7P47EEI4O3KXHWHCR4JEJDMM5VTHJTUFPLPBXORPNJKJJ",
+        "now": "2021-05-26T11:00:45.943633538Z",
+        "num_routes": 1,
+        "routes": [
+          {
+            "rid": 5,
+            "remote_id": "NASBNBEYAGQ6SHM426ZVVP452JWTVUIJ4TRHTEXDYBL44RPXTOLDJ5QQ",
+            "did_solicit": true,
+            "is_configured": true,
+            "ip": "10.240.0.8",
+            "port": 6222,
+            "pending_size": 0,
+            "rtt": "118µs",
+            "in_msgs": 3935002,
+            "out_msgs": 516817,
+            "in_bytes": 3474327449,
+            "out_bytes": 293469147,
+            "subscriptions": 179
+          }
+        ]
+      },
+      "connection": {
+        "server_id": "NBE3SKWIIGM7P47EEI4O3KXHWHCR4JEJDMM5VTHJTUFPLPBXORPNJKJJ",
+        "now": "2021-05-26T11:00:43.900684888Z",
+        "num_connections": 0,
+        "offset": 0,
+        "limit": 1024,
+        "connections": []
+      },
+      "jetstream": {
+        "config": {
+          "max_memory": 0,
+          "max_storage": 0
+        },
+        "stats": null
+      },
+      "leaf": {
+        "server_id": "NBE3SKWIIGM7P47EEI4O3KXHWHCR4JEJDMM5VTHJTUFPLPBXORPNJKJJ",
+        "now": "2021-05-26T11:00:49.902642769Z",
+        "leafnodes": 4,
+        "leafs": [
+          {
+            "account": "BigBank",
+            "ip": "10.240.0.18",
+            "port": 7422,
+            "in_msgs": 0,
+            "out_msgs": 0,
+            "in_bytes": 0,
+            "out_bytes": 0,
+            "subscriptions": 5
+          },
+          {
+            "account": "SYS",
+            "ip": "10.240.0.18",
+            "port": 7422,
+            "in_msgs": 3415216,
+            "out_msgs": 523942,
+            "in_bytes": 2585275574,
+            "out_bytes": 299647588,
+            "subscriptions": 256
+          },
+          {
+            "account": "SYS",
+            "ip": "10.240.0.59",
+            "port": 48748,
+            "in_msgs": 3748,
+            "out_msgs": 29412,
+            "in_bytes": 2686577,
+            "out_bytes": 21570368,
+            "subscriptions": 39
+          },
+          {
+            "account": "BigBank",
+            "ip": "10.240.0.59",
+            "port": 48750,
+            "in_msgs": 0,
+            "out_msgs": 0,
+            "in_bytes": 0,
+            "out_bytes": 0,
+            "subscriptions": 3
+          }
+        ]
+      },
+      "tls_timeout": 2,
+      "write_deadline": 10000000000,
+      "start": "2021-02-24T14:25:18.081089259Z",
+      "now": "2021-05-26T11:00:41.894162287Z",
+      "uptime": "90d20h35m23s",
+      "mem": 348459008,
+      "cores": 4,
+      "gomaxprocs": 4,
+      "cpu": 0,
+      "connections": 0,
+      "total_connections": 0,
+      "routes": 1,
+      "remotes": 1,
+      "leafnodes": 4,
+      "in_msgs": 7353958,
+      "out_msgs": 1092391,
+      "in_bytes": 6062281543,
+      "out_bytes": 624525492,
+      "slow_consumers": 0,
+      "subscriptions": 0,
+      "http_req_stats": {
+        "/": 0,
+        "/connz": 0,
+        "/gatewayz": 0,
+        "/routez": 0,
+        "/subsz": 0,
+        "/varz": 0
+      }
+    },
+    {
+      "server_id": "NBLNS7JHCYRE3X6GQEHK2GUBM2JM24XTJD3A6ECPPMULJR3A5JMPYYLW",
+      "server_name": "nats-server-78ff66cd78-vxhbb",
+      "version": "2.2.6",
+      "proto": 1,
+      "git_commit": "cf433ae0",
+      "go": "go1.16.4",
+      "host": "0.0.0.0",
+      "port": 4222,
+      "auth_required": true,
+      "connect_urls": [
+        "10.240.0.59:4222",
+        "10.240.0.40:4222",
+        "10.240.0.28:4222"
+      ],
+      "max_connections": 65536,
+      "ping_interval": 120000000000,
+      "ping_max": 2,
+      "http_host": "127.0.0.1",
+      "http_port": 8222,
+      "http_base_path": "",
+      "https_port": 0,
+      "auth_timeout": 2,
+      "max_control_line": 4096,
+      "max_payload": 1048576,
+      "max_pending": 67108864,
+      "cluster": {
+        "name": "bb1",
+        "addr": "0.0.0.0",
+        "cluster_port": 6222,
+        "auth_timeout": 2,
+        "urls": [
+          "nats-server-internal:6222"
+        ],
+        "tls_timeout": 2
+      },
+      "gateway": {
+        "server_id": "NBLNS7JHCYRE3X6GQEHK2GUBM2JM24XTJD3A6ECPPMULJR3A5JMPYYLW",
+        "now": "2021-05-26T11:00:47.906632462Z",
+        "name": "bb1",
+        "host": "10.240.0.59",
+        "port": 5222,
+        "inbound_gateways": {},
+        "outbound_gateways": {
+          "bb2": {
+            "configured": true,
+            "connection": {
+              "cid": 8,
+              "ip": "10.240.0.78",
+              "port": 5222,
+              "start": "2021-05-25T19:42:46.070698084Z",
+              "last_activity": "2021-05-26T11:00:46.061370655Z",
+              "rtt": "133µs",
+              "uptime": "15h18m1s",
+              "idle": "1s",
+              "pending_bytes": 0,
+              "in_msgs": 0,
+              "out_msgs": 33132,
+              "in_bytes": 0,
+              "out_bytes": 24235849,
+              "subscriptions": 71,
+              "name": "NA7Y3OBIDTLDTJWEFLPORC3EFOJOVLRDFDSA5XCG4XHAC2EVOSY3TISA"
+            }
+          },
+          "bb3": {
+            "configured": true,
+            "connection": {
+              "cid": 7,
+              "ip": "10.240.0.25",
+              "port": 5222,
+              "start": "2021-05-25T19:42:46.07003137Z",
+              "last_activity": "2021-05-26T11:00:46.061370655Z",
+              "rtt": "142µs",
+              "uptime": "15h18m1s",
+              "idle": "1s",
+              "pending_bytes": 0,
+              "in_msgs": 0,
+              "out_msgs": 14760,
+              "in_bytes": 0,
+              "out_bytes": 6255468,
+              "subscriptions": 63,
+              "name": "NDAXEFGVR22TGTBCW6ZN6OLO3H2J7V5TMBNQSPJXQQTBITUPTLUADHBC"
+            }
+          }
+        }
+      },
+      "route": {
+        "server_id": "NBLNS7JHCYRE3X6GQEHK2GUBM2JM24XTJD3A6ECPPMULJR3A5JMPYYLW",
+        "now": "2021-05-26T11:00:45.943818641Z",
+        "num_routes": 2,
+        "routes": [
+          {
+            "rid": 6,
+            "remote_id": "NB3YHPV2TIWCQKHLFHMHPV7JA6C27ZD5CA246VTQQ3XA6LXFHYFSDTEC",
+            "did_solicit": false,
+            "is_configured": false,
+            "ip": "10.240.0.28",
+            "port": 36790,
+            "pending_size": 0,
+            "rtt": "158µs",
+            "in_msgs": 18370,
+            "out_msgs": 3731,
+            "in_bytes": 18665179,
+            "out_bytes": 2670471,
+            "subscriptions": 35
+          },
+          {
+            "rid": 3,
+            "remote_id": "NA4X5IR2CVWIMITKWBNQSNZKRXJJUNXHULIXBA4ETE7IVQBQ3RLLFCQO",
+            "did_solicit": true,
+            "is_configured": true,
+            "ip": "10.240.0.40",
+            "port": 6222,
+            "pending_size": 0,
+            "rtt": "167µs",
+            "in_msgs": 22045,
+            "out_msgs": 3733,
+            "in_bytes": 23608703,
+            "out_bytes": 2671126,
+            "subscriptions": 35
+          }
+        ]
+      },
+      "connection": {
+        "server_id": "NBLNS7JHCYRE3X6GQEHK2GUBM2JM24XTJD3A6ECPPMULJR3A5JMPYYLW",
+        "now": "2021-05-26T11:00:43.900865992Z",
+        "num_connections": 0,
+        "offset": 0,
+        "limit": 1024,
+        "connections": []
+      },
+      "jetstream": {
+        "config": null,
+        "stats": null
+      },
+      "leaf": {
+        "server_id": "NBLNS7JHCYRE3X6GQEHK2GUBM2JM24XTJD3A6ECPPMULJR3A5JMPYYLW",
+        "now": "2021-05-26T11:00:49.903146279Z",
+        "leafnodes": 2,
+        "leafs": [
+          {
+            "account": "SYS",
+            "ip": "10.240.0.61",
+            "port": 7422,
+            "in_msgs": 29412,
+            "out_msgs": 3748,
+            "in_bytes": 21570368,
+            "out_bytes": 2686577,
+            "subscriptions": 349
+          },
+          {
+            "account": "BigBank",
+            "ip": "10.240.0.61",
+            "port": 7422,
+            "in_msgs": 0,
+            "out_msgs": 0,
+            "in_bytes": 0,
+            "out_bytes": 0,
+            "subscriptions": 8
+          }
+        ]
+      },
+      "tls_timeout": 2,
+      "write_deadline": 10000000000,
+      "start": "2021-05-25T19:42:45.067565675Z",
+      "now": "2021-05-26T11:00:41.894594496Z",
+      "uptime": "15h17m56s",
+      "mem": 21868544,
+      "cores": 4,
+      "gomaxprocs": 4,
+      "cpu": 0,
+      "connections": 0,
+      "total_connections": 0,
+      "routes": 2,
+      "remotes": 2,
+      "leafnodes": 2,
+      "in_msgs": 69817,
+      "out_msgs": 59089,
+      "in_bytes": 63838495,
+      "out_bytes": 38511434,
+      "slow_consumers": 0,
+      "subscriptions": 463,
+      "http_req_stats": {}
+    },
+    {
+      "server_id": "NASBNBEYAGQ6SHM426ZVVP452JWTVUIJ4TRHTEXDYBL44RPXTOLDJ5QQ",
+      "server_name": "nats-server-78ff66cd78-rqv4k",
+      "version": "2.2.0-beta.80",
+      "proto": 1,
+      "git_commit": "82de5a3c",
+      "go": "go1.15.8",
+      "host": "0.0.0.0",
+      "port": 4222,
+      "auth_required": true,
+      "connect_urls": [
+        "10.240.0.8:4222",
+        "10.240.0.61:4222"
+      ],
+      "max_connections": 65536,
+      "ping_interval": 120000000000,
+      "ping_max": 2,
+      "http_host": "127.0.0.1",
+      "http_port": 8222,
+      "http_base_path": "",
+      "https_port": 0,
+      "auth_timeout": 2,
+      "max_control_line": 4096,
+      "max_payload": 1048576,
+      "max_pending": 67108864,
+      "cluster": {
+        "name": "kysa0LDtY8dXGl8FuM1trL",
+        "addr": "0.0.0.0",
+        "cluster_port": 6222,
+        "auth_timeout": 2,
+        "urls": [
+          "nats-server-internal:6222"
+        ],
+        "tls_timeout": 2
+      },
+      "gateway": {
+        "server_id": "NASBNBEYAGQ6SHM426ZVVP452JWTVUIJ4TRHTEXDYBL44RPXTOLDJ5QQ",
+        "now": "2021-05-26T11:00:47.904703323Z",
+        "name": null,
+        "host": null,
+        "port": 0,
+        "inbound_gateways": {},
+        "outbound_gateways": {}
+      },
+      "route": {
+        "server_id": "NASBNBEYAGQ6SHM426ZVVP452JWTVUIJ4TRHTEXDYBL44RPXTOLDJ5QQ",
+        "now": "2021-05-26T11:00:45.943696939Z",
+        "num_routes": 1,
+        "routes": [
+          {
+            "rid": 22952,
+            "remote_id": "NBE3SKWIIGM7P47EEI4O3KXHWHCR4JEJDMM5VTHJTUFPLPBXORPNJKJJ",
+            "did_solicit": false,
+            "is_configured": false,
+            "ip": "10.240.0.61",
+            "port": 42352,
+            "pending_size": 0,
+            "rtt": "165µs",
+            "in_msgs": 516817,
+            "out_msgs": 3935002,
+            "in_bytes": 293469147,
+            "out_bytes": 3474327449,
+            "subscriptions": 166
+          }
+        ]
+      },
+      "connection": {
+        "server_id": "NASBNBEYAGQ6SHM426ZVVP452JWTVUIJ4TRHTEXDYBL44RPXTOLDJ5QQ",
+        "now": "2021-05-26T11:00:43.900509885Z",
+        "num_connections": 0,
+        "offset": 0,
+        "limit": 1024,
+        "connections": []
+      },
+      "jetstream": {
+        "config": {
+          "max_memory": 0,
+          "max_storage": 0
+        },
+        "stats": null
+      },
+      "leaf": {
+        "server_id": "NASBNBEYAGQ6SHM426ZVVP452JWTVUIJ4TRHTEXDYBL44RPXTOLDJ5QQ",
+        "now": "2021-05-26T11:00:49.902672169Z",
+        "leafnodes": 6,
+        "leafs": [
+          {
+            "account": "SYS",
+            "ip": "10.240.0.18",
+            "port": 7422,
+            "in_msgs": 3790024,
+            "out_msgs": 4284656,
+            "in_bytes": 2839300999,
+            "out_bytes": 3765036213,
+            "subscriptions": 279
+          },
+          {
+            "account": "BigBank",
+            "ip": "10.240.0.40",
+            "port": 59410,
+            "in_msgs": 0,
+            "out_msgs": 0,
+            "in_bytes": 0,
+            "out_bytes": 0,
+            "subscriptions": 3
+          },
+          {
+            "account": "SYS",
+            "ip": "10.240.0.40",
+            "port": 59408,
+            "in_msgs": 2347474,
+            "out_msgs": 5316333,
+            "in_bytes": 2207170747,
+            "out_bytes": 3656786631,
+            "subscriptions": 39
+          },
+          {
+            "account": "BigBank",
+            "ip": "10.240.0.28",
+            "port": 34334,
+            "in_msgs": 0,
+            "out_msgs": 0,
+            "in_bytes": 0,
+            "out_bytes": 0,
+            "subscriptions": 3
+          },
+          {
+            "account": "SYS",
+            "ip": "10.240.0.28",
+            "port": 34336,
+            "in_msgs": 1065741,
+            "out_msgs": 4702970,
+            "in_bytes": 1098856516,
+            "out_bytes": 3284519565,
+            "subscriptions": 39
+          },
+          {
+            "account": "BigBank",
+            "ip": "10.240.0.18",
+            "port": 7422,
+            "in_msgs": 0,
+            "out_msgs": 0,
+            "in_bytes": 0,
+            "out_bytes": 0,
+            "subscriptions": 4
+          }
+        ]
+      },
+      "tls_timeout": 2,
+      "write_deadline": 10000000000,
+      "start": "2021-02-16T07:35:12.855248081Z",
+      "now": "2021-05-26T11:00:41.894413892Z",
+      "uptime": "99d3h25m29s",
+      "mem": 350650368,
+      "cores": 4,
+      "gomaxprocs": 4,
+      "cpu": 0,
+      "connections": 0,
+      "total_connections": 0,
+      "routes": 1,
+      "remotes": 1,
+      "leafnodes": 6,
+      "in_msgs": 7867313,
+      "out_msgs": 22521575,
+      "in_bytes": 6511979482,
+      "out_bytes": 17932751576,
+      "slow_consumers": 0,
+      "subscriptions": 0,
+      "http_req_stats": {
+        "/": 0,
+        "/connz": 0,
+        "/gatewayz": 0,
+        "/routez": 0,
+        "/subsz": 0,
+        "/varz": 0
+      }
+    },
+    {
+      "server_id": "NA4X5IR2CVWIMITKWBNQSNZKRXJJUNXHULIXBA4ETE7IVQBQ3RLLFCQO",
+      "server_name": "nats-server-78ff66cd78-szr2q",
+      "version": "2.2.0-beta.80",
+      "proto": 1,
+      "git_commit": "82de5a3c",
+      "go": "go1.15.8",
+      "host": "0.0.0.0",
+      "port": 4222,
+      "auth_required": true,
+      "connect_urls": [
+        "10.240.0.40:4222",
+        "10.240.0.28:4222",
+        "10.240.0.59:4222"
+      ],
+      "max_connections": 65536,
+      "ping_interval": 120000000000,
+      "ping_max": 2,
+      "http_host": "127.0.0.1",
+      "http_port": 8222,
+      "http_base_path": "",
+      "https_port": 0,
+      "auth_timeout": 2,
+      "max_control_line": 4096,
+      "max_payload": 1048576,
+      "max_pending": 67108864,
+      "cluster": {
+        "name": "bb1",
+        "addr": "0.0.0.0",
+        "cluster_port": 6222,
+        "auth_timeout": 2,
+        "urls": [
+          "nats-server-internal:6222"
+        ],
+        "tls_timeout": 2
+      },
+      "gateway": {
+        "server_id": "NA4X5IR2CVWIMITKWBNQSNZKRXJJUNXHULIXBA4ETE7IVQBQ3RLLFCQO",
+        "now": "2021-05-26T11:00:47.904918627Z",
+        "name": "bb1",
+        "host": "10.240.0.40",
+        "port": 5222,
+        "inbound_gateways": {
+          "bb2": [
+            {
+              "configured": false,
+              "connection": {
+                "cid": 31,
+                "ip": "10.240.0.13",
+                "port": 40454,
+                "start": "2021-02-24T14:25:12.169673799Z",
+                "last_activity": "2021-05-26T11:00:38.539026794Z",
+                "rtt": "81µs",
+                "uptime": "90d20h35m35s",
+                "idle": "9s",
+                "pending_bytes": 0,
+                "in_msgs": 523349,
+                "out_msgs": 0,
+                "in_bytes": 433555027,
+                "out_bytes": 0,
+                "subscriptions": 0,
+                "name": "NBH4SXYZWNU32BBQRP6WBFL5BHK4OR4YLERGEIV43JGBZNVV65II5WXQ"
+              }
+            },
+            {
+              "configured": false,
+              "connection": {
+                "cid": 39,
+                "ip": "10.240.0.33",
+                "port": 57286,
+                "start": "2021-02-24T14:25:25.631973164Z",
+                "last_activity": "2021-05-26T11:00:43.813497298Z",
+                "rtt": "116µs",
+                "uptime": "90d20h35m22s",
+                "idle": "4s",
+                "pending_bytes": 0,
+                "in_msgs": 523353,
+                "out_msgs": 0,
+                "in_bytes": 437276233,
+                "out_bytes": 0,
+                "subscriptions": 0,
+                "name": "NCO7H5NNTGCONTX3YUPS2OTJGWAIUZOUOWAXZBFPWFAYIC2BR6RZQRCE"
+              }
+            }
+          ],
+          "bb3": [
+            {
+              "configured": false,
+              "connection": {
+                "cid": 18,
+                "ip": "10.240.0.58",
+                "port": 54424,
+                "start": "2021-02-16T07:36:01.952429304Z",
+                "last_activity": "2021-05-26T11:00:46.607899177Z",
+                "rtt": "129µs",
+                "uptime": "99d3h24m45s",
+                "idle": "1s",
+                "pending_bytes": 0,
+                "in_msgs": 571062,
+                "out_msgs": 0,
+                "in_bytes": 752415362,
+                "out_bytes": 0,
+                "subscriptions": 0,
+                "name": "NC3N5J4SOAHH334OCT4SPU73PAPXIEAZQIFGMW5CC5FRTQTTGPALIUV3"
+              }
+            },
+            {
+              "configured": false,
+              "connection": {
+                "cid": 45,
+                "ip": "10.240.0.25",
+                "port": 50460,
+                "start": "2021-05-25T19:37:17.191494278Z",
+                "last_activity": "2021-05-26T11:00:46.33284783Z",
+                "rtt": "129µs",
+                "uptime": "15h23m30s",
+                "idle": "1s",
+                "pending_bytes": 0,
+                "in_msgs": 3695,
+                "out_msgs": 0,
+                "in_bytes": 4911986,
+                "out_bytes": 0,
+                "subscriptions": 0,
+                "name": "NDAXEFGVR22TGTBCW6ZN6OLO3H2J7V5TMBNQSPJXQQTBITUPTLUADHBC"
+              }
+            },
+            {
+              "configured": false,
+              "connection": {
+                "cid": 47,
+                "ip": "10.240.0.20",
+                "port": 36712,
+                "start": "2021-05-25T19:37:19.234067555Z",
+                "last_activity": "2021-05-26T11:00:45.324466924Z",
+                "rtt": "131µs",
+                "uptime": "15h23m28s",
+                "idle": "2s",
+                "pending_bytes": 0,
+                "in_msgs": 3694,
+                "out_msgs": 0,
+                "in_bytes": 4911678,
+                "out_bytes": 0,
+                "subscriptions": 0,
+                "name": "NBSVZLRQX46X2Y7NVSKXIPQBHF7WJOQ4CKZNXMUYUQS63CN5D2WTT5CV"
+              }
+            }
+          ]
+        },
+        "outbound_gateways": {
+          "bb2": {
+            "configured": true,
+            "connection": {
+              "cid": 29,
+              "ip": "10.240.0.22",
+              "port": 5222,
+              "start": "2021-02-16T07:36:07.126692689Z",
+              "last_activity": "2021-05-26T11:00:45.943934144Z",
+              "rtt": "132µs",
+              "uptime": "99d3h24m40s",
+              "idle": "1s",
+              "pending_bytes": 0,
+              "in_msgs": 0,
+              "out_msgs": 5888178,
+              "in_bytes": 0,
+              "out_bytes": 4090664299,
+              "subscriptions": 71,
+              "name": "NBHNA5GZAUHPUL5GKVKPC5BT5EGGBNCH5ZZILMRMC47F3XQA34UVE7ON"
+            }
+          },
+          "bb3": {
+            "configured": true,
+            "connection": {
+              "cid": 37,
+              "ip": "10.240.0.20",
+              "port": 5222,
+              "start": "2021-02-24T14:25:16.972103948Z",
+              "last_activity": "2021-05-26T11:00:45.943934144Z",
+              "rtt": "174µs",
+              "uptime": "90d20h35m30s",
+              "idle": "1s",
+              "pending_bytes": 0,
+              "in_msgs": 0,
+              "out_msgs": 2610436,
+              "in_bytes": 0,
+              "out_bytes": 1116497064,
+              "subscriptions": 63,
+              "name": "NBSVZLRQX46X2Y7NVSKXIPQBHF7WJOQ4CKZNXMUYUQS63CN5D2WTT5CV"
+            }
+          }
+        }
+      },
+      "route": {
+        "server_id": "NA4X5IR2CVWIMITKWBNQSNZKRXJJUNXHULIXBA4ETE7IVQBQ3RLLFCQO",
+        "now": "2021-05-26T11:00:45.943914343Z",
+        "num_routes": 2,
+        "routes": [
+          {
+            "rid": 40,
+            "remote_id": "NB3YHPV2TIWCQKHLFHMHPV7JA6C27ZD5CA246VTQQ3XA6LXFHYFSDTEC",
+            "did_solicit": true,
+            "is_configured": true,
+            "ip": "10.240.0.28",
+            "port": 6222,
+            "pending_size": 0,
+            "rtt": "176µs",
+            "in_msgs": 1058637,
+            "out_msgs": 2101589,
+            "in_bytes": 1090560017,
+            "out_bytes": 1975252853,
+            "subscriptions": 35
+          },
+          {
+            "rid": 48,
+            "remote_id": "NBLNS7JHCYRE3X6GQEHK2GUBM2JM24XTJD3A6ECPPMULJR3A5JMPYYLW",
+            "did_solicit": false,
+            "is_configured": false,
+            "ip": "10.240.0.59",
+            "port": 46240,
+            "pending_size": 0,
+            "rtt": "130µs",
+            "in_msgs": 3733,
+            "out_msgs": 22045,
+            "in_bytes": 2671126,
+            "out_bytes": 23608703,
+            "subscriptions": 35
+          }
+        ]
+      },
+      "connection": {
+        "server_id": "NA4X5IR2CVWIMITKWBNQSNZKRXJJUNXHULIXBA4ETE7IVQBQ3RLLFCQO",
+        "now": "2021-05-26T11:00:43.900819291Z",
+        "num_connections": 0,
+        "offset": 0,
+        "limit": 1024,
+        "connections": []
+      },
+      "jetstream": {
+        "config": {
+          "max_memory": 0,
+          "max_storage": 0
+        },
+        "stats": null
+      },
+      "leaf": {
+        "server_id": "NA4X5IR2CVWIMITKWBNQSNZKRXJJUNXHULIXBA4ETE7IVQBQ3RLLFCQO",
+        "now": "2021-05-26T11:00:49.902871173Z",
+        "leafnodes": 2,
+        "leafs": [
+          {
+            "account": "BigBank",
+            "ip": "10.240.0.8",
+            "port": 7422,
+            "in_msgs": 0,
+            "out_msgs": 0,
+            "in_bytes": 0,
+            "out_bytes": 0,
+            "subscriptions": 7
+          },
+          {
+            "account": "SYS",
+            "ip": "10.240.0.8",
+            "port": 7422,
+            "in_msgs": 5316333,
+            "out_msgs": 2347474,
+            "in_bytes": 3656786631,
+            "out_bytes": 2207170747,
+            "subscriptions": 304
+          }
+        ]
+      },
+      "tls_timeout": 2,
+      "write_deadline": 10000000000,
+      "start": "2021-02-16T07:35:47.540996158Z",
+      "now": "2021-05-26T11:00:41.894953503Z",
+      "uptime": "99d3h24m54s",
+      "mem": 21389312,
+      "cores": 4,
+      "gomaxprocs": 4,
+      "cpu": 0,
+      "connections": 0,
+      "total_connections": 0,
+      "routes": 2,
+      "remotes": 2,
+      "leafnodes": 2,
+      "in_msgs": 10869727,
+      "out_msgs": 13394902,
+      "in_bytes": 9025464238,
+      "out_bytes": 9593880062,
+      "slow_consumers": 0,
+      "subscriptions": 0,
+      "http_req_stats": {
+        "/": 0,
+        "/connz": 0,
+        "/gatewayz": 0,
+        "/routez": 0,
+        "/subsz": 0,
+        "/varz": 0
+      }
+    },
+    {
+      "server_id": "NB3YHPV2TIWCQKHLFHMHPV7JA6C27ZD5CA246VTQQ3XA6LXFHYFSDTEC",
+      "server_name": "nats-server-78ff66cd78-cb6kl",
+      "version": "2.2.0-beta.90",
+      "proto": 1,
+      "git_commit": "bec42c04",
+      "go": "go1.15.8",
+      "host": "0.0.0.0",
+      "port": 4222,
+      "auth_required": true,
+      "connect_urls": [
+        "10.240.0.28:4222",
+        "10.240.0.59:4222",
+        "10.240.0.40:4222"
+      ],
+      "max_connections": 65536,
+      "ping_interval": 120000000000,
+      "ping_max": 2,
+      "http_host": "127.0.0.1",
+      "http_port": 8222,
+      "http_base_path": "",
+      "https_port": 0,
+      "auth_timeout": 2,
+      "max_control_line": 4096,
+      "max_payload": 1048576,
+      "max_pending": 67108864,
+      "cluster": {
+        "name": "bb1",
+        "addr": "0.0.0.0",
+        "cluster_port": 6222,
+        "auth_timeout": 2,
+        "urls": [
+          "nats-server-internal:6222"
+        ],
+        "tls_timeout": 2
+      },
+      "gateway": {
+        "server_id": "NB3YHPV2TIWCQKHLFHMHPV7JA6C27ZD5CA246VTQQ3XA6LXFHYFSDTEC",
+        "now": "2021-05-26T11:00:47.905950848Z",
+        "name": "bb1",
+        "host": "10.240.0.28",
+        "port": 5222,
+        "inbound_gateways": {
+          "bb2": [
+            {
+              "configured": false,
+              "connection": {
+                "cid": 10,
+                "ip": "10.240.0.78",
+                "port": 47678,
+                "start": "2021-05-25T19:37:17.129325076Z",
+                "last_activity": "2021-05-26T11:00:46.33044878Z",
+                "rtt": "106µs",
+                "uptime": "15h23m30s",
+                "idle": "1s",
+                "pending_bytes": 0,
+                "in_msgs": 3696,
+                "out_msgs": 0,
+                "in_bytes": 3086415,
+                "out_bytes": 0,
+                "subscriptions": 0,
+                "name": "NA7Y3OBIDTLDTJWEFLPORC3EFOJOVLRDFDSA5XCG4XHAC2EVOSY3TISA"
+              }
+            },
+            {
+              "configured": false,
+              "connection": {
+                "cid": 12,
+                "ip": "10.240.0.22",
+                "port": 54378,
+                "start": "2021-05-25T19:37:17.147709061Z",
+                "last_activity": "2021-05-26T11:00:38.099231363Z",
+                "rtt": "112µs",
+                "uptime": "15h23m30s",
+                "idle": "9s",
+                "pending_bytes": 0,
+                "in_msgs": 3696,
+                "out_msgs": 0,
+                "in_bytes": 3110885,
+                "out_bytes": 0,
+                "subscriptions": 0,
+                "name": "NBHNA5GZAUHPUL5GKVKPC5BT5EGGBNCH5ZZILMRMC47F3XQA34UVE7ON"
+              }
+            }
+          ],
+          "bb3": [
+            {
+              "configured": false,
+              "connection": {
+                "cid": 9,
+                "ip": "10.240.0.109",
+                "port": 47790,
+                "start": "2021-02-24T14:25:33.148412791Z",
+                "last_activity": "2021-05-26T11:00:37.556382616Z",
+                "rtt": "178µs",
+                "uptime": "90d20h35m14s",
+                "idle": "10s",
+                "pending_bytes": 0,
+                "in_msgs": 523338,
+                "out_msgs": 0,
+                "in_bytes": 688090486,
+                "out_bytes": 0,
+                "subscriptions": 0,
+                "name": "NDEH6X2ZWPXBKE24RMJ7PDRKB5QNLAJXXPIEBKMOIVTTJX35OI2R4R3O"
+              }
+            },
+            {
+              "configured": false,
+              "connection": {
+                "cid": 14,
+                "ip": "10.240.0.27",
+                "port": 60716,
+                "start": "2021-05-25T19:37:17.205687175Z",
+                "last_activity": "2021-05-26T11:00:44.179686717Z",
+                "rtt": "145µs",
+                "uptime": "15h23m30s",
+                "idle": "3s",
+                "pending_bytes": 0,
+                "in_msgs": 3694,
+                "out_msgs": 0,
+                "in_bytes": 4907899,
+                "out_bytes": 0,
+                "subscriptions": 0,
+                "name": "ND4A3SSJCAZHXIFGRGVFRHTP3RHD5ZCGGGX5W6EQ764NUARQJSGUBVBM"
+              }
+            }
+          ]
+        },
+        "outbound_gateways": {
+          "bb2": {
+            "configured": true,
+            "connection": {
+              "cid": 7,
+              "ip": "10.240.0.33",
+              "port": 5222,
+              "start": "2021-02-24T14:25:27.545039888Z",
+              "last_activity": "2021-05-26T11:00:47.456469859Z",
+              "rtt": "302µs",
+              "uptime": "90d20h35m20s",
+              "idle": "0s",
+              "pending_bytes": 0,
+              "in_msgs": 0,
+              "out_msgs": 5227169,
+              "in_bytes": 0,
+              "out_bytes": 3675877393,
+              "subscriptions": 71,
+              "name": "NCO7H5NNTGCONTX3YUPS2OTJGWAIUZOUOWAXZBFPWFAYIC2BR6RZQRCE"
+            }
+          },
+          "bb3": {
+            "configured": true,
+            "connection": {
+              "cid": 6,
+              "ip": "10.240.0.27",
+              "port": 5222,
+              "start": "2021-02-24T14:25:27.54412047Z",
+              "last_activity": "2021-05-26T11:00:47.456469859Z",
+              "rtt": "278µs",
+              "uptime": "90d20h35m20s",
+              "idle": "0s",
+              "pending_bytes": 0,
+              "in_msgs": 0,
+              "out_msgs": 2610424,
+              "in_bytes": 0,
+              "out_bytes": 1116465615,
+              "subscriptions": 63,
+              "name": "ND4A3SSJCAZHXIFGRGVFRHTP3RHD5ZCGGGX5W6EQ764NUARQJSGUBVBM"
+            }
+          }
+        }
+      },
+      "route": {
+        "server_id": "NB3YHPV2TIWCQKHLFHMHPV7JA6C27ZD5CA246VTQQ3XA6LXFHYFSDTEC",
+        "now": "2021-05-26T11:00:45.944010145Z",
+        "num_routes": 2,
+        "routes": [
+          {
+            "rid": 5,
+            "remote_id": "NA4X5IR2CVWIMITKWBNQSNZKRXJJUNXHULIXBA4ETE7IVQBQ3RLLFCQO",
+            "did_solicit": true,
+            "is_configured": true,
+            "ip": "10.240.0.40",
+            "port": 57506,
+            "pending_size": 0,
+            "rtt": "161µs",
+            "in_msgs": 2101589,
+            "out_msgs": 1058637,
+            "in_bytes": 1975252853,
+            "out_bytes": 1090560017,
+            "subscriptions": 35
+          },
+          {
+            "rid": 15,
+            "remote_id": "NBLNS7JHCYRE3X6GQEHK2GUBM2JM24XTJD3A6ECPPMULJR3A5JMPYYLW",
+            "did_solicit": true,
+            "is_configured": false,
+            "ip": "10.240.0.59",
+            "port": 6222,
+            "pending_size": 0,
+            "rtt": "172µs",
+            "in_msgs": 3731,
+            "out_msgs": 18370,
+            "in_bytes": 2670471,
+            "out_bytes": 18665179,
+            "subscriptions": 35
+          }
+        ]
+      },
+      "connection": {
+        "server_id": "NB3YHPV2TIWCQKHLFHMHPV7JA6C27ZD5CA246VTQQ3XA6LXFHYFSDTEC",
+        "now": "2021-05-26T11:00:43.900643487Z",
+        "num_connections": 0,
+        "offset": 0,
+        "limit": 1024,
+        "connections": []
+      },
+      "jetstream": {
+        "config": {
+          "max_memory": 0,
+          "max_storage": 0
+        },
+        "stats": null
+      },
+      "leaf": {
+        "server_id": "NB3YHPV2TIWCQKHLFHMHPV7JA6C27ZD5CA246VTQQ3XA6LXFHYFSDTEC",
+        "now": "2021-05-26T11:00:49.902926975Z",
+        "leafnodes": 2,
+        "leafs": [
+          {
+            "account": "SYS",
+            "ip": "10.240.0.8",
+            "port": 7422,
+            "in_msgs": 4702970,
+            "out_msgs": 1065741,
+            "in_bytes": 3284519565,
+            "out_bytes": 1098856516,
+            "subscriptions": 349
+          },
+          {
+            "account": "BigBank",
+            "ip": "10.240.0.8",
+            "port": 7422,
+            "in_msgs": 0,
+            "out_msgs": 0,
+            "in_bytes": 0,
+            "out_bytes": 0,
+            "subscriptions": 8
+          }
+        ]
+      },
+      "tls_timeout": 2,
+      "write_deadline": 10000000000,
+      "start": "2021-02-24T14:25:26.541708356Z",
+      "now": "2021-05-26T11:00:41.896190228Z",
+      "uptime": "90d20h35m15s",
+      "mem": 20447232,
+      "cores": 4,
+      "gomaxprocs": 4,
+      "cpu": 0,
+      "connections": 0,
+      "total_connections": 0,
+      "routes": 2,
+      "remotes": 2,
+      "leafnodes": 2,
+      "in_msgs": 9875118,
+      "out_msgs": 9980322,
+      "in_bytes": 8362116727,
+      "out_bytes": 7000413555,
+      "slow_consumers": 0,
+      "subscriptions": 0,
+      "http_req_stats": {
+        "/": 0,
+        "/connz": 0,
+        "/gatewayz": 0,
+        "/routez": 0,
+        "/subsz": 0,
+        "/varz": 0
+      }
+    }
+  ],
+  "treeNodes": [
+    {
+      "name": "supercluster 1",
+      "id": 1,
+      "server_id": null,
+      "pid": 0,
+      "dragDisabled": true,
+      "addTreeNodeDisabled": true,
+      "addLeafNodeDisabled": true,
+      "editNodeDisabled": true,
+      "delNodeDisabled": true,
+      "isLeaf": false,
+      "children": [
+        {
+          "name": "bb3",
+          "id": 3,
+          "server_id": null,
+          "pid": 2,
+          "dragDisabled": true,
+          "addTreeNodeDisabled": true,
+          "addLeafNodeDisabled": true,
+          "editNodeDisabled": true,
+          "delNodeDisabled": true,
+          "isLeaf": false,
+          "children": [
+            {
+              "name": "Unknown name",
+              "id": 5,
+              "server_id": "ND4A3SSJCAZHXIFGRGVFRHTP3RHD5ZCGGGX5W6EQ764NUARQJSGUBVBM",
+              "pid": 4,
+              "dragDisabled": true,
+              "addTreeNodeDisabled": true,
+              "addLeafNodeDisabled": true,
+              "editNodeDisabled": true,
+              "delNodeDisabled": true,
+              "isLeaf": true,
+              "children": null
+            },
+            {
+              "name": "Unknown name",
+              "id": 6,
+              "server_id": "NDEH6X2ZWPXBKE24RMJ7PDRKB5QNLAJXXPIEBKMOIVTTJX35OI2R4R3O",
+              "pid": 4,
+              "dragDisabled": true,
+              "addTreeNodeDisabled": true,
+              "addLeafNodeDisabled": true,
+              "editNodeDisabled": true,
+              "delNodeDisabled": true,
+              "isLeaf": true,
+              "children": null
+            },
+            {
+              "name": "Unknown name",
+              "id": 7,
+              "server_id": "NBSVZLRQX46X2Y7NVSKXIPQBHF7WJOQ4CKZNXMUYUQS63CN5D2WTT5CV",
+              "pid": 4,
+              "dragDisabled": true,
+              "addTreeNodeDisabled": true,
+              "addLeafNodeDisabled": true,
+              "editNodeDisabled": true,
+              "delNodeDisabled": true,
+              "isLeaf": true,
+              "children": null
+            },
+            {
+              "name": "Unknown name",
+              "id": 8,
+              "server_id": "NC3N5J4SOAHH334OCT4SPU73PAPXIEAZQIFGMW5CC5FRTQTTGPALIUV3",
+              "pid": 4,
+              "dragDisabled": true,
+              "addTreeNodeDisabled": true,
+              "addLeafNodeDisabled": true,
+              "editNodeDisabled": true,
+              "delNodeDisabled": true,
+              "isLeaf": true,
+              "children": null
+            },
+            {
+              "name": "Unknown name",
+              "id": 9,
+              "server_id": "NDAXEFGVR22TGTBCW6ZN6OLO3H2J7V5TMBNQSPJXQQTBITUPTLUADHBC",
+              "pid": 4,
+              "dragDisabled": true,
+              "addTreeNodeDisabled": true,
+              "addLeafNodeDisabled": true,
+              "editNodeDisabled": true,
+              "delNodeDisabled": true,
+              "isLeaf": true,
+              "children": null
+            }
+          ]
+        },
+        {
+          "name": "bb2",
+          "id": 4,
+          "server_id": null,
+          "pid": 2,
+          "dragDisabled": true,
+          "addTreeNodeDisabled": true,
+          "addLeafNodeDisabled": true,
+          "editNodeDisabled": true,
+          "delNodeDisabled": true,
+          "isLeaf": false,
+          "children": [
+            {
+              "name": "Unknown name",
+              "id": 6,
+              "server_id": "NBHNA5GZAUHPUL5GKVKPC5BT5EGGBNCH5ZZILMRMC47F3XQA34UVE7ON",
+              "pid": 5,
+              "dragDisabled": true,
+              "addTreeNodeDisabled": true,
+              "addLeafNodeDisabled": true,
+              "editNodeDisabled": true,
+              "delNodeDisabled": true,
+              "isLeaf": true,
+              "children": null
+            },
+            {
+              "name": "Unknown name",
+              "id": 7,
+              "server_id": "NCO7H5NNTGCONTX3YUPS2OTJGWAIUZOUOWAXZBFPWFAYIC2BR6RZQRCE",
+              "pid": 5,
+              "dragDisabled": true,
+              "addTreeNodeDisabled": true,
+              "addLeafNodeDisabled": true,
+              "editNodeDisabled": true,
+              "delNodeDisabled": true,
+              "isLeaf": true,
+              "children": null
+            },
+            {
+              "name": "Unknown name",
+              "id": 8,
+              "server_id": "NBH4SXYZWNU32BBQRP6WBFL5BHK4OR4YLERGEIV43JGBZNVV65II5WXQ",
+              "pid": 5,
+              "dragDisabled": true,
+              "addTreeNodeDisabled": true,
+              "addLeafNodeDisabled": true,
+              "editNodeDisabled": true,
+              "delNodeDisabled": true,
+              "isLeaf": true,
+              "children": null
+            },
+            {
+              "name": "Unknown name",
+              "id": 9,
+              "server_id": "NA7Y3OBIDTLDTJWEFLPORC3EFOJOVLRDFDSA5XCG4XHAC2EVOSY3TISA",
+              "pid": 5,
+              "dragDisabled": true,
+              "addTreeNodeDisabled": true,
+              "addLeafNodeDisabled": true,
+              "editNodeDisabled": true,
+              "delNodeDisabled": true,
+              "isLeaf": true,
+              "children": null
+            }
+          ]
+        },
+        {
+          "name": "bb1",
+          "id": 5,
+          "server_id": null,
+          "pid": 2,
+          "dragDisabled": true,
+          "addTreeNodeDisabled": true,
+          "addLeafNodeDisabled": true,
+          "editNodeDisabled": true,
+          "delNodeDisabled": true,
+          "isLeaf": false,
+          "children": [
+            {
+              "name": "nats-server-78ff66cd78-vxhbb",
+              "id": 7,
+              "server_id": "NBLNS7JHCYRE3X6GQEHK2GUBM2JM24XTJD3A6ECPPMULJR3A5JMPYYLW",
+              "pid": 6,
+              "dragDisabled": true,
+              "addTreeNodeDisabled": true,
+              "addLeafNodeDisabled": true,
+              "editNodeDisabled": true,
+              "delNodeDisabled": true,
+              "isLeaf": true,
+              "children": null
+            },
+            {
+              "name": "nats-server-78ff66cd78-cb6kl",
+              "id": 8,
+              "server_id": "NB3YHPV2TIWCQKHLFHMHPV7JA6C27ZD5CA246VTQQ3XA6LXFHYFSDTEC",
+              "pid": 6,
+              "dragDisabled": true,
+              "addTreeNodeDisabled": true,
+              "addLeafNodeDisabled": true,
+              "editNodeDisabled": true,
+              "delNodeDisabled": true,
+              "isLeaf": true,
+              "children": null
+            },
+            {
+              "name": "nats-server-78ff66cd78-szr2q",
+              "id": 9,
+              "server_id": "NA4X5IR2CVWIMITKWBNQSNZKRXJJUNXHULIXBA4ETE7IVQBQ3RLLFCQO",
+              "pid": 6,
+              "dragDisabled": true,
+              "addTreeNodeDisabled": true,
+              "addLeafNodeDisabled": true,
+              "editNodeDisabled": true,
+              "delNodeDisabled": true,
+              "isLeaf": true,
+              "children": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "supercluster 2",
+      "id": 2,
+      "server_id": null,
+      "pid": 0,
+      "dragDisabled": true,
+      "addTreeNodeDisabled": true,
+      "addLeafNodeDisabled": true,
+      "editNodeDisabled": true,
+      "delNodeDisabled": true,
+      "isLeaf": false,
+      "children": [
+        {
+          "name": "ehkd1",
+          "id": 4,
+          "server_id": null,
+          "pid": 3,
+          "dragDisabled": true,
+          "addTreeNodeDisabled": true,
+          "addLeafNodeDisabled": true,
+          "editNodeDisabled": true,
+          "delNodeDisabled": true,
+          "isLeaf": false,
+          "children": [
+            {
+              "name": "nats-server-7574d6cbd4-z6xvg",
+              "id": 6,
+              "server_id": "NAY4CKPRON2M5L6VKNXLL4KUPJVT7RQKQPC5BE7FYOMK7UIA5XTIDE3T",
+              "pid": 5,
+              "dragDisabled": true,
+              "addTreeNodeDisabled": true,
+              "addLeafNodeDisabled": true,
+              "editNodeDisabled": true,
+              "delNodeDisabled": true,
+              "isLeaf": true,
+              "children": null
+            },
+            {
+              "name": "nats-server-7574d6cbd4-l77dd",
+              "id": 7,
+              "server_id": "NCUDI35PBXMY3F35BUUNUEAQEZ2EW6NZFP3CKJFYA7KK37LBXB25GL3N",
+              "pid": 5,
+              "dragDisabled": true,
+              "addTreeNodeDisabled": true,
+              "addLeafNodeDisabled": true,
+              "editNodeDisabled": true,
+              "delNodeDisabled": true,
+              "isLeaf": true,
+              "children": null
+            },
+            {
+              "name": "nats-server-7574d6cbd4-wl7qt",
+              "id": 8,
+              "server_id": "NB2MWNAZCB76MUIBENTOGDDN2ZJ4NQUI7AH32NUEHBIOHLT7WG5GXAUM",
+              "pid": 5,
+              "dragDisabled": true,
+              "addTreeNodeDisabled": true,
+              "addLeafNodeDisabled": true,
+              "editNodeDisabled": true,
+              "delNodeDisabled": true,
+              "isLeaf": true,
+              "children": null
+            }
+          ]
+        },
+        {
+          "name": "ehkd2",
+          "id": 5,
+          "server_id": null,
+          "pid": 3,
+          "dragDisabled": true,
+          "addTreeNodeDisabled": true,
+          "addLeafNodeDisabled": true,
+          "editNodeDisabled": true,
+          "delNodeDisabled": true,
+          "isLeaf": false,
+          "children": [
+            {
+              "name": "nats-server-78ff66cd78-rf8bk",
+              "id": 7,
+              "server_id": "NBXRCM24NOQ25L3UR7J3XQCWGWQR3LMMP37UO3SICQKQ5HVLSIWS4XS2",
+              "pid": 6,
+              "dragDisabled": true,
+              "addTreeNodeDisabled": true,
+              "addLeafNodeDisabled": true,
+              "editNodeDisabled": true,
+              "delNodeDisabled": true,
+              "isLeaf": true,
+              "children": null
+            },
+            {
+              "name": "nats-server-78ff66cd78-lh25j",
+              "id": 8,
+              "server_id": "NDNMYQD7UFJ4K427NLJMIOEL5JLH2ZMECMVDMQOW5PXIGTFMTVYBGPJC",
+              "pid": 6,
+              "dragDisabled": true,
+              "addTreeNodeDisabled": true,
+              "addLeafNodeDisabled": true,
+              "editNodeDisabled": true,
+              "delNodeDisabled": true,
+              "isLeaf": true,
+              "children": null
+            },
+            {
+              "name": "nats-server-78ff66cd78-g4t79",
+              "id": 9,
+              "server_id": "NB24KR5O52UWDX7ONYAKQJI4ZEQXXUX6EB2E7ASKGHOCOBBXHHUSYNI7",
+              "pid": 6,
+              "dragDisabled": true,
+              "addTreeNodeDisabled": true,
+              "addLeafNodeDisabled": true,
+              "editNodeDisabled": true,
+              "delNodeDisabled": true,
+              "isLeaf": true,
+              "children": null
+            },
+            {
+              "name": "nats-server-78ff66cd78-qh9v4",
+              "id": 10,
+              "server_id": "NCK5VSAQ3N5JOLU6QM3GXRBXAZUHDFVJ36P3TEVSMXW2BUPSKXL5TSC4",
+              "pid": 6,
+              "dragDisabled": true,
+              "addTreeNodeDisabled": true,
+              "addLeafNodeDisabled": true,
+              "editNodeDisabled": true,
+              "delNodeDisabled": true,
+              "isLeaf": true,
+              "children": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "cluster nr:1",
+      "id": 4,
+      "server_id": null,
+      "pid": 0,
+      "dragDisabled": true,
+      "addTreeNodeDisabled": true,
+      "addLeafNodeDisabled": true,
+      "editNodeDisabled": true,
+      "delNodeDisabled": true,
+      "isLeaf": false,
+      "children": [
+        {
+          "name": "nats-server-78ff66cd78-rqv4k",
+          "id": 6,
+          "server_id": "NASBNBEYAGQ6SHM426ZVVP452JWTVUIJ4TRHTEXDYBL44RPXTOLDJ5QQ",
+          "pid": 5,
+          "dragDisabled": true,
+          "addTreeNodeDisabled": true,
+          "addLeafNodeDisabled": true,
+          "editNodeDisabled": true,
+          "delNodeDisabled": true,
+          "isLeaf": true,
+          "children": null
+        },
+        {
+          "name": "nats-server-78ff66cd78-x4k7q",
+          "id": 7,
+          "server_id": "NBE3SKWIIGM7P47EEI4O3KXHWHCR4JEJDMM5VTHJTUFPLPBXORPNJKJJ",
+          "pid": 5,
+          "dragDisabled": true,
+          "addTreeNodeDisabled": true,
+          "addLeafNodeDisabled": true,
+          "editNodeDisabled": true,
+          "delNodeDisabled": true,
+          "isLeaf": true,
+          "children": null
+        }
+      ]
+    }
+  ],
+  "timeOfRequest": "2021-05-26T15:56:23.1336388+02:00"
+}

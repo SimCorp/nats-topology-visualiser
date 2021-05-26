@@ -1,32 +1,37 @@
 <template>
 <div id="app">
-  <h2 id="title">Topology Visualizer</h2>
-  <!-- Spinner on page reload -->
-  <b-spinner id="load" label="Loading..."></b-spinner>
-  <Graph
-    ref="graph"
-    @node-click="onNodeClick"
-    :key="renderKey"
-    v-if='dataLoaded'
-    :servers='this.servers'
-    :routes='this.routes'
-    :clusters='this.clusters'
-    :gateways='this.gateways'
-    :leafs='this.leafs'
-    :varz='this.varz'
-    :dataLoaded='this.dataLoaded'
-  ></Graph>
-  <Searchbar id="search" v-on:input="onSearchInput" @button-click="onSearchReset" ref="search"/>
-  <div id="status">
-    <Refresh ref="refresh" @button-click="refreshGraph"/>
-    <Statusbar ref="status" :shouldDisplay="this.showStatus" :timeOfRequest="this.timeOfRequest"></Statusbar>
+  <div class="structure-panel-wrapper">
+    <StructurePanel ref="structurepanel" id="structurePanel" v-on:structure-node-click="onStructureNodeClick" :treeNodes="this.treenodes" v-if='dataLoaded'></StructurePanel>
   </div>
-  <InfoPanel ref="panel"></InfoPanel>
-  <StructurePanel ref="structurepanel" id="structurePanel" v-on:structure-node-click="onStructureNodeClick" :treeNodes="this.treenodes" v-if='dataLoaded'></StructurePanel>
+  <div class="wrapper">
+    <b-spinner id="load" label="Loading..."></b-spinner>
+    <Graph
+      ref="graph"
+      @node-click="onNodeClick"
+      :key="renderKey"
+      v-if='dataLoaded'
+      :servers='this.servers'
+      :routes='this.routes'
+      :clusters='this.clusters'
+      :gateways='this.gateways'
+      :leafs='this.leafs'
+      :varz='this.varz'
+      :dataLoaded='this.dataLoaded'
+    ></Graph>
+    <div class="overlay-ui">
+      <Searchbar id="search" v-on:input="onSearchInput" @button-click="onSearchReset" ref="search"></Searchbar>
+      <div id="status">
+        <Statusbar ref="status" :shouldDisplay="this.showStatus" :timeOfRequest="this.timeOfRequest"></Statusbar>
+        <Refresh ref="refresh" @button-click="refreshGraph"/>
+      </div>
+    </div>
+    <InfoPanel ref="panel"></InfoPanel>
+  </div>
 </div>
 </template>
 
 <script lang="ts">
+// @ts-nocheck
 import axios from 'axios'
 import Graph from '@/components/Graph/Graph.vue'
 import ServerDatum from './components/Graph/ServerDatum'
@@ -44,6 +49,8 @@ import Searchbar from "@/components/Searchbar.vue"
 import LeafDatum from './components/Graph/LeafDatum'
 import Varz from './components/Graph/Varz'
 import Refresh from "@/components/Refresh.vue"
+import Vue from 'vue'
+import Component from 'vue-class-component'
 import {id} from "postcss-selector-parser";
 
 export default {
@@ -63,8 +70,7 @@ export default {
     gateways: GatewayDatum[];
     leafs: LeafDatum[]; // TODO add LeafDatum?
     varz: Varz[];
-    treenodes: Array;
-    timeOfRequest: Date;
+    timeOfRequest: String;
     dataLoaded: boolean;
     isPanelOpen: boolean;
     showStatus: boolean;
@@ -77,8 +83,8 @@ export default {
       gateways: [],
       leafs: [],
       varz: [],
+      timeOfRequest: "",
       treenodes: [],
-      timeOfRequest: undefined,
       dataLoaded: false,
       isPanelOpen: false,
       showStatus: false,
@@ -86,20 +92,24 @@ export default {
     }
   },
   mounted: async function() {
-      this.showStatus = this.displayReloadSpinner(true)
-      this.dataLoaded = await this.getData()
-      this.showStatus = this.displayReloadSpinner(false)
+    const refresh = this.$refs.refresh as Refresh
+    this.showStatus = refresh.displayReloadSpinner(true)
+    this.dataLoaded = await this.getData()
+    this.showStatus = refresh.displayReloadSpinner(false)
   },
   methods: {
     async getData (): Promise<boolean> {
-
       const host = 
         (process.env.NODE_ENV === 'production')
         ? ''
         : 'https://localhost:5001'
 
       // TODO add type safety
-      const data = (await axios.get(`${host}/api/updateEverything`)).data
+      let mockData = true
+      const data =
+        (mockData)
+        ? (await (await fetch('./mock-data-updateeverything.json')).json())
+        : (await axios.get(`${host}/api/updateEverything`)).data
 
       // TODO why no type errors?
       this.servers = data.processedServers
@@ -112,16 +122,19 @@ export default {
       this.timeOfRequest = data.timeOfRequest
       return true
     },
-    onNodeClick ({nodeData, id}) {
-      this.$refs.panel.onNodeClick({nodeData, id})
+    onNodeClick ({nodeData, id}: {nodeData: Varz, id: string}) {
+      const panel = this.$refs.panel as InfoPanel
+      panel.onNodeClick(nodeData, id)
     },
 
     onSearchInput (text: string) {
-      this.$refs.graph.searchFilter(text)
+      const graph = this.$refs.graph as Graph
+      graph.searchFilter(text)
     },
 
     onSearchReset () {
-      this.$refs.graph.searchReset()
+      const graph = this.$refs.graph as Graph
+      graph.searchReset()
     },
 
     getServerWithId(server_id: string): Varz | string {
@@ -134,17 +147,16 @@ export default {
     onStructureNodeClick ({name, server_id}) {
       var nameStr = name.toString()
       var idStr = server_id.toString()
-      console.log(idStr)
       this.$refs.graph.searchFilter(nameStr)
       this.$refs.search.changeText(nameStr)
-
       this.onNodeClick({nodeData: this.getServerWithId(idStr), id: idStr})
     },
 
     async refreshGraph () {
-      this.$refs.refresh.displayRefreshSpinner(true)
+      const refresh = this.$refs.refresh as Refresh
+      refresh.displayRefreshSpinner(true)
       this.dataLoaded = await this.getData()
-      this.$refs.refresh.displayRefreshSpinner(false)
+      refresh.displayRefreshSpinner(false)
       this.renderKey += 1 // Tells the Graph component to completely reload
     },
     displayReloadSpinner (b: boolean) { // Used when reloading the page (F5)
@@ -166,9 +178,43 @@ export default {
 </script>
 
 <style scoped>
-#title {
-  text-align: center;
-  margin-top: 10px;
+#app {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+}
+.wrapper {
+  flex: 1;
+  position: relative;
+  min-width: 490px;
+  height: 100%;
+  width: 100%;
+}
+.structure-panel-wrapper {
+  width: 320px;
+  background-color: rgb(248, 249, 250);
+}
+.overlay-ui {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1em;
+  pointer-events: none;
+}
+.overlay-ui > * {
+  pointer-events: auto;
+}
+#status {
+  display: flex;
+  flex-direction: row;
+  gap: 0.4em;
+  width: 0px;
 }
 #load {
   position: absolute;
@@ -176,10 +222,5 @@ export default {
   bottom: 48%;
   width: 3rem;
   height: 3rem;
-}
-#status {
-  background: black;
-  width: 100%;
-  height: 100%;
 }
 </style>

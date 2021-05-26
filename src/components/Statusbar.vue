@@ -5,13 +5,17 @@
 </template>
 
 <script lang="ts">
+import { Component, Prop, Vue } from 'vue-property-decorator'
 
-export default {
-  name: "Statusbar",
-  props: {
-    timeOfRequest: String,
-    shouldDisplay: Boolean
-  }
+@Component
+export default class Statusbar extends Vue {
+
+  @Prop()
+  timeOfRequest!: string
+  
+  @Prop()
+  shouldDisplay!: boolean
+  
 }
 
 </script>
@@ -20,10 +24,6 @@ export default {
 #status-bar {
   text-align: center;
   width: 320px;
-  position: absolute;
-  display: inline-block;
-  bottom: 0;
-  left: 41%;
-  margin-bottom: 20px;
+  margin: 0;
 }
 </style>
