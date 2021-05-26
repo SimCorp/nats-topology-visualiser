@@ -136,10 +136,8 @@ export default {
     onStructureNodeClick ({name, server_id}) {
       var nameStr = name.toString()
       var idStr = server_id.toString()
-      console.log(idStr)
       this.$refs.graph.searchFilter(nameStr)
       this.$refs.search.changeText(nameStr)
-
       this.onNodeClick({nodeData: this.getServerWithId(idStr), id: idStr})
     },
 
