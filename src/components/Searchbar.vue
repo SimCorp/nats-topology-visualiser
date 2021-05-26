@@ -27,8 +27,9 @@ export default class Searchbar extends Vue {
   onReset () {
     this.text = ''
     this.$emit('button-click')
+  }
 
-  changeText(text){
+  changeText(text: string){
     this.text = text
   }
   
