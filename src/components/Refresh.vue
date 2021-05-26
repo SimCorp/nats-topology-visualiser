@@ -10,25 +10,43 @@
 </div>
 </template>
 
-<script>
-export default {
-name: "Refresh",
-  methods: {
-    displayRefreshSpinner (b) { // Used when clicking the Refresh button
-      const spin = document.getElementById("rs")
-      const button = document.getElementById("rb")
-      if (b) {
-        spin.style.display = "block"
-        button.style.display = "none"
-      } else {
-        spin.style.display = "none"
-        button.style.display = "block"
-      }
-    },
-    refreshGraph () {
-      this.$emit('button-click')
+<script lang="ts">
+import Component from 'vue-class-component'
+import Vue from "vue"
+
+@Component
+export default class Refresh extends Vue {
+
+  displayRefreshSpinner (b: boolean) { // Used when clicking the Refresh button
+    const spin = document.getElementById("rs")
+    const button = document.getElementById("rb")
+    if (b) {
+      spin!.style.display = "block"
+      button!.style.display = "none"
+    } else {
+      spin!.style.display = "none"
+      button!.style.display = "block"
     }
   }
+
+  displayReloadSpinner (b: boolean) { // Used when reloading the page (F5)
+    const spinner = document.getElementById("load")
+    const refresh = document.getElementById("rb")
+    if (b) {
+      spinner!.style.display = "block"
+      refresh!.style.display = "none"
+      return false // Tells App whether the Statusbar should be shown
+    } else {
+      spinner!.style.display = "none"
+      refresh!.style.display = "block"
+      return true
+    }
+  }
+  
+  refreshGraph () {
+    this.$emit('button-click')
+  }
+  
 }
 </script>
 

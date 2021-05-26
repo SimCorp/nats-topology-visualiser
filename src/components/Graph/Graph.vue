@@ -20,28 +20,28 @@ import LinkDatum from './LinkDatum'
 import RouteDatum from './RouteDatum'
 import LeafDatum from './LeafDatum'
 
-import axios from 'axios'
-import { PropType } from 'vue'
 import NodeDatum from './NodeDatum'
 import Varz from './Varz'
+import { Component, Prop, Vue } from 'vue-property-decorator'
+// @ts-ignore
+import VueZoomer from 'vue-zoomer'
 
-export default {
-  name: 'Graph',
-  props: {
-    servers: Array as PropType<ServerDatum[]>,
-    routes: Array as PropType<RouteDatum[]>,
-    clusters: Array as PropType<ClusterDatum[]>,
-    gateways: Array as PropType<GatewayDatum[]>,
-    leafs: Array as PropType<LeafDatum[]>,
-    varz: Array as PropType<Varz[]>
-  },
-  data (): {
-    svg: Selection<SVGSVGElement, unknown, HTMLElement, HTMLElement> | null;
-  } {
-    return {
-      svg: null
-    }
-  },
+@Component
+export default class Graph extends Vue {
+  @Prop()
+  servers!: ServerDatum[]
+  @Prop()
+  routes!: RouteDatum[]
+  @Prop()
+  clusters!: ClusterDatum[]
+  @Prop()
+  gateways!: GatewayDatum[]
+  @Prop()
+  leafs!: LeafDatum[]
+  @Prop()
+  varz!: Varz[]
+  svg!: Selection<SVGSVGElement, unknown, HTMLElement, HTMLElement>
+
   mounted () {
     const width = window.innerWidth
     const height = window.innerHeight
@@ -65,8 +65,8 @@ export default {
 
     this.drawGraph()
     this.searchFilter('')
-  },
-  methods: {
+  }
+
     // Runs every time an input is given to the search bar - searchText is the input
     // Checks whether the current server name contains the given search text/input
     // Updates isSearchMatch field of datums
@@ -96,12 +96,14 @@ export default {
       });
 
       this.drawGraph()
-    },
+    }
+
     // Resets the graph on click of the "X" button
     searchReset() {
       this.searchFilter('')
       this.drawGraph()
-    },
+    }
+
     // Draws graph from given data
     drawGraph (): void {
       const svg = this.svg
@@ -169,7 +171,7 @@ export default {
           serverNode.x += (cluster!.x - serverNode.x) * k;
         })
       })
-    },
+    }
 
     createGatewayLinkSelection (
       svg: d3.Selection<SVGSVGElement, unknown, HTMLElement, HTMLElement> | null,
@@ -188,7 +190,7 @@ export default {
         .text(d => d.errorsAsString)
 
       return gatewayLink
-    },
+    }
 
     // A convex hull (enclosing path) for clusters
     createHullSelection (
@@ -212,7 +214,7 @@ export default {
         .text(d => d.name)
 
       return hull
-    },
+    }
 
     createClusterNodeSelection (
       svg: d3.Selection<SVGSVGElement, unknown, HTMLElement, HTMLElement> | null,
@@ -229,7 +231,7 @@ export default {
         .attr('r', 1)
         .style('opacity', 0)
         .call(this.drag(simulation)) // Handle dragging of the nodes
-    },
+    }
 
     createRouteLinkSelection (
       svg: d3.Selection<SVGSVGElement, unknown, HTMLElement, HTMLElement> | null,
@@ -248,7 +250,7 @@ export default {
         .text(d => d.ntv_error ? 'Something\'s Wrong' : '')
 
       return routeLink
-    },
+    }
 
     createLeafLinkSelection(
       svg: d3.Selection<SVGSVGElement, unknown, HTMLElement, HTMLElement> | null,
@@ -273,7 +275,7 @@ export default {
         .text(d => d.ntv_error ? 'Something\'s Wrong' : '')
         // .attr('stroke', d => d.ntv_error ? '#f00' : '#00f')  // Set line to red, if it has an error
       return leafLink
-    },
+    }
 
     createServerNodeSelection (
       svg: d3.Selection<SVGSVGElement, unknown, HTMLElement, HTMLElement> | null,
@@ -307,7 +309,7 @@ export default {
         .text(d => (d.ntv_error ? '[Crashed?] \n' : '') + 'NAME:' + d.server_name + '\nID:' + d.server_id)
 
       return serverNode
-    },
+    }
 
     getHullPath (cluster: ClusterDatum, servers: ServerDatum[]) {
       // TODO: Find a more efficient method (pre process groupings of nodes according to clusters)
@@ -322,7 +324,7 @@ export default {
       const hullCoords: [number, number][] | null = d3.polygonHull(nodesCoords)
 
       return this.svgPath(hullCoords || nodesCoords) // Polygonhull returns null for 2 or fewer nodes.
-    },
+    }
 
     svgPath (coordinates: [number, number][]): string {
       // Create closed SVG path from coordinates
@@ -333,14 +335,14 @@ export default {
           : `${str} L ${coords[0]},${coords[1]}` // otherwise use LineTo command 'L'
       , initialValue) + ' Z' // End with ClosePath command 'Z'
       return hullPath
-    },
+    }
 
     getServerWithId(server_id: string): Varz | string {
       for (const server of this.varz) {
         if (server.server_id === server_id) return server // TODO add varz type
       }
       return ""
-    },
+    }
 
     drag (simulation: d3.Simulation<NodeDatum, LinkDatum<NodeDatum>>): d3.DragBehavior<Element, ServerDatum, ServerDatum | SubjectPosition> & ((this: Element, event: any, d: ServerDatum) => void) {
       function dragstarted (event: D3DragEvent<SVGElement, NodeDatum, ServerDatum>, d: ServerDatum) {
@@ -361,7 +363,7 @@ export default {
         .on('start', dragstarted)
         .on('drag', dragged)
         .on('end', dragended)
-    },
+    }
 
     calculateViewBoxValue (width: number, height: number, viewBoxScalar: number): string {
       const viewBoxTop = -width / 2
@@ -370,14 +372,17 @@ export default {
       const viewBoxBottom = height
       const viewBoxValue = `${viewBoxTop * viewBoxScalar}, ${viewBoxLeft * viewBoxScalar}, ${viewBoxRight * viewBoxScalar}, ${viewBoxBottom * viewBoxScalar}`
       return viewBoxValue
-    },
-    zoomIn () {
-      this.$refs.zoom.zoomIn(1.20)
-    },
-    zoomOut () {
-      this.$refs.zoom.zoomOut(0.80)
     }
-  }
+
+    zoomIn () {
+      const zoom = this.$refs.zoom as VueZoomer
+      zoom.zoomIn(1.20)
+    }
+
+    zoomOut () {
+      const zoom = this.$refs.zoom as VueZoomer
+      zoom.zoomOut(0.80)
+    }
 }
 
 </script>

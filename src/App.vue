@@ -31,6 +31,7 @@
 </template>
 
 <script lang="ts">
+// @ts-nocheck
 import axios from 'axios'
 import Graph from '@/components/Graph/Graph.vue'
 import ServerDatum from './components/Graph/ServerDatum'
@@ -48,6 +49,8 @@ import Searchbar from "@/components/Searchbar.vue"
 import LeafDatum from './components/Graph/LeafDatum'
 import Varz from './components/Graph/Varz'
 import Refresh from "@/components/Refresh.vue"
+import Vue from 'vue'
+import Component from 'vue-class-component'
 import {id} from "postcss-selector-parser";
 
 export default {
@@ -67,8 +70,7 @@ export default {
     gateways: GatewayDatum[];
     leafs: LeafDatum[]; // TODO add LeafDatum?
     varz: Varz[];
-    treenodes: Array;
-    timeOfRequest: Date;
+    timeOfRequest: String;
     dataLoaded: boolean;
     isPanelOpen: boolean;
     showStatus: boolean;
@@ -81,8 +83,8 @@ export default {
       gateways: [],
       leafs: [],
       varz: [],
+      timeOfRequest: "",
       treenodes: [],
-      timeOfRequest: undefined,
       dataLoaded: false,
       isPanelOpen: false,
       showStatus: false,
@@ -90,9 +92,10 @@ export default {
     }
   },
   mounted: async function() {
-      this.showStatus = this.displayReloadSpinner(true)
-      this.dataLoaded = await this.getData()
-      this.showStatus = this.displayReloadSpinner(false)
+    const refresh = this.$refs.refresh as Refresh
+    this.showStatus = refresh.displayReloadSpinner(true)
+    this.dataLoaded = await this.getData()
+    this.showStatus = refresh.displayReloadSpinner(false)
   },
   methods: {
     async getData (): Promise<boolean> {
@@ -119,16 +122,19 @@ export default {
       this.timeOfRequest = data.timeOfRequest
       return true
     },
-    onNodeClick ({nodeData, id}) {
-      this.$refs.panel.onNodeClick({nodeData, id})
+    onNodeClick ({nodeData, id}: {nodeData: Varz, id: string}) {
+      const panel = this.$refs.panel as InfoPanel
+      panel.onNodeClick(nodeData, id)
     },
 
     onSearchInput (text: string) {
-      this.$refs.graph.searchFilter(text)
+      const graph = this.$refs.graph as Graph
+      graph.searchFilter(text)
     },
 
     onSearchReset () {
-      this.$refs.graph.searchReset()
+      const graph = this.$refs.graph as Graph
+      graph.searchReset()
     },
 
     getServerWithId(server_id: string): Varz | string {
@@ -147,9 +153,10 @@ export default {
     },
 
     async refreshGraph () {
-      this.$refs.refresh.displayRefreshSpinner(true)
+      const refresh = this.$refs.refresh as Refresh
+      refresh.displayRefreshSpinner(true)
       this.dataLoaded = await this.getData()
-      this.$refs.refresh.displayRefreshSpinner(false)
+      refresh.displayRefreshSpinner(false)
       this.renderKey += 1 // Tells the Graph component to completely reload
     },
     displayReloadSpinner (b: boolean) { // Used when reloading the page (F5)
