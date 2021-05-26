@@ -1,12 +1,12 @@
 ﻿<template>
   <div id='graph'>
+    <v-zoomer id="zoomer" ref="zoom" :maxScale="6" :minScale="1">
+      <div id='visualizer'></div>
+    </v-zoomer>
     <div id="zoomButtons">
       <b-button class="zoomButtons" @click="zoomOut" variant="info">-</b-button>
       <b-button class="zoomButtons" @click="zoomIn" variant="info">+</b-button>
     </div>
-    <v-zoomer id="zoomer" ref="zoom" :maxScale="6" :minScale="1">
-    <div id='visualizer'></div>
-    </v-zoomer>
   </div>
 </template>
 
@@ -47,13 +47,14 @@ export default {
     const height = window.innerHeight
     const viewBoxScalar = 0.5
 
+    const sideLength = 1000
+
     // SVG canvas
     this.svg = d3.select('#visualizer')
-      .append('div')
       .append('svg')
-      // Responsive SVG needs these 2 attributes
-      .attr('preserveAspectRatio', 'xMinYMin meet')
-      .attr('viewBox', this.calculateViewBoxValue(width, height, viewBoxScalar))
+      .attr('height', "100%")
+      .attr('width', "100%")
+      .attr('viewBox', this.calculateViewBoxValue(sideLength, sideLength, viewBoxScalar))
 
     this.svg.append('g').attr('id', 'gateways')
     this.svg.append('g').attr('id', 'hulls')
@@ -382,30 +383,28 @@ export default {
 </script>
 
 <style>
-/* Puts the canvas behind all other HTML elements */
-svg {
-  position: absolute;
-  left: 0;
-  top: 0;
-  z-index: -1;
+#graph {
+  height: 100%;
+  width: 100%;
+  position: relative;
 }
 #zoomer {
-  position: absolute;
-  left: 0;
-  top: 0;
-  z-index: -1;
-  width: 100vw;
-  height: 100vh;
+  height: 100%;
+  width: 100%;
+}
+/* Puts the canvas behind all other HTML elements */
+#visualizer {
+  height: 100%;
+  width: 100%;
 }
 #zoomButtons {
   position: absolute;
-  left: 44.5%;
-  bottom: 0;
-  margin-bottom: 65px;
-  margin-left: 50px;
+  display: flex;
+  gap: 0.4em;
+  right: 1em;
+  bottom: 1em;
 }
 .zoomButtons {
   width: 40px;
-  margin: 3px;
 }
 </style>

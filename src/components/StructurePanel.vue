@@ -6,7 +6,7 @@
       title="Network information"
       left
       shadow=true
-      width="300px"
+      width="320px"
       v-model="isPanelOpen"
       no-header-close
     >
@@ -57,10 +57,7 @@ export default {
 
   methods: {
     async getData () {
-      console.log(this.treeNodes)
-      console.log("hej")
       this.data = new Tree(this.treeNodes)
-
     },
     onNodeClick () {
       if (!this.$data.isPanelOpen) {
@@ -68,8 +65,6 @@ export default {
       }
     },
     onClick(params) {
-      console.log(params.server_id)
-      console.log(params.name)
       if (params.server_id != null){
         this.$emit('structure-node-click', {name: (params.name).toString(), server_id: (params.server_id).toString()})
       }

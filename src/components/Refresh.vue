@@ -34,9 +34,9 @@ name: "Refresh",
 
 <style scoped>
 .refresh {
-  position: fixed;
+  /* position: fixed;
   bottom: 20px;
-  left: 1050px;
+  left: 1050px; */
 }
 
 #rs {
