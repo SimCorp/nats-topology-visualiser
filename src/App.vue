@@ -4,7 +4,6 @@
     <StructurePanel ref="structurepanel" id="structurePanel" v-on:structure-node-click="onStructureNodeClick" :treeNodes="this.treenodes" v-if='dataLoaded'></StructurePanel>
   </div>
   <div class="wrapper">
-    <!-- Spinner on page reload -->
     <b-spinner id="load" label="Loading..."></b-spinner>
     <Graph
       ref="graph"
@@ -103,7 +102,7 @@ export default {
         : 'https://localhost:5001'
 
       // TODO add type safety
-      let mockData = false
+      let mockData = true
       const data =
         (mockData)
         ? (await (await fetch('./mock-data-updateeverything.json')).json())
@@ -173,12 +172,13 @@ export default {
 
 <style scoped>
 #app {
-  min-height: 100vh;
-  display: grid;
-  grid-template-columns: 320px 1fr;
-  grid-template-rows: 1fr;
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
 }
 .wrapper {
+  flex: 1;
   position: relative;
   min-width: 490px;
   height: 100%;
