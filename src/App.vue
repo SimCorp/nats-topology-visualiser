@@ -1,6 +1,5 @@
 <template>
 <div id="app">
-  <h2 id="title">Topology Visualizer</h2>
   <!-- Spinner on page reload -->
   <b-spinner id="load" label="Loading..."></b-spinner>
   <Graph
@@ -16,7 +15,7 @@
     :varz='this.varz'
     :dataLoaded='this.dataLoaded'
   ></Graph>
-  <Searchbar id="search" v-on:input="onSearchInput" @button-click="onSearchReset" ref="search"/>
+  <Searchbar id="search" v-on:input="onSearchInput" @button-click="onSearchReset" ref="search"></Searchbar>
   <div id="status">
     <Refresh ref="refresh" @button-click="refreshGraph"/>
     <Statusbar ref="status" :shouldDisplay="this.showStatus" :timeOfRequest="this.timeOfRequest"></Statusbar>
@@ -92,14 +91,17 @@ export default {
   },
   methods: {
     async getData (): Promise<boolean> {
-
       const host = 
         (process.env.NODE_ENV === 'production')
         ? ''
         : 'https://localhost:5001'
 
       // TODO add type safety
-      const data = (await axios.get(`${host}/api/updateEverything`)).data
+      let mockData = true
+      const data =
+        (mockData)
+        ? (await (await fetch('./mock-data-updateeverything.json')).json())
+        : (await axios.get(`${host}/api/updateEverything`)).data
 
       // TODO why no type errors?
       this.servers = data.processedServers
