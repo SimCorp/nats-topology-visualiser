@@ -29,11 +29,11 @@ import SidebarPanel from 'bootstrap-vue'
 export default class InfoPanel extends Vue {
 
   isPanelOpen: boolean = false
-  nodeData: Varz = { server_id: "" }
+  nodeData: Varz | string = ''
   rootName: string = ""
   errorId: string = ""
 
-  onNodeClick (nodeData: Varz, id: string) {
+  onNodeClick (nodeData: Varz | string, id: string) {
 
     if (!this.isPanelOpen) {
       this.isPanelOpen = true
@@ -42,7 +42,7 @@ export default class InfoPanel extends Vue {
     const info = document.getElementById("info")
     const error = document.getElementById("error")
 
-    if (nodeData.server_id === "") {
+    if (nodeData === '') {
       info!.style.display = "none"
       error!.style.display = "block"
       this.errorId = id

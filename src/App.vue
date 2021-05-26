@@ -116,7 +116,7 @@ export default class App extends Vue {
     return true
   }
 
-  onNodeClick ({nodeData, id}: {nodeData: Varz, id: string}) {
+  onNodeClick ({nodeData, id}: {nodeData: Varz | string, id: string}) {
     this.$refs.infoPanel.onNodeClick(nodeData, id)
   }
 
@@ -128,11 +128,11 @@ export default class App extends Vue {
     this.$refs.graph.searchReset()
   }
 
-  getServerWithId(server_id: string): Varz {
+  getServerWithId(server_id: string): Varz | string {
     for (const server of this.varz) {
       if (server.server_id === server_id) return server // TODO add varz type
     }
-    return { server_id: "" }
+    return ''
   }
 
   onStructureNodeClick ({name, server_id}: { name: string; server_id: number }) {
