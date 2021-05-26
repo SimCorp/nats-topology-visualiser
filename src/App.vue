@@ -1,27 +1,33 @@
 <template>
 <div id="app">
-  <!-- Spinner on page reload -->
-  <b-spinner id="load" label="Loading..."></b-spinner>
-  <Graph
-    ref="graph"
-    @node-click="onNodeClick"
-    :key="renderKey"
-    v-if='dataLoaded'
-    :servers='this.servers'
-    :routes='this.routes'
-    :clusters='this.clusters'
-    :gateways='this.gateways'
-    :leafs='this.leafs'
-    :varz='this.varz'
-    :dataLoaded='this.dataLoaded'
-  ></Graph>
-  <Searchbar id="search" v-on:input="onSearchInput" @button-click="onSearchReset" ref="search"></Searchbar>
-  <div id="status">
-    <Refresh ref="refresh" @button-click="refreshGraph"/>
-    <Statusbar ref="status" :shouldDisplay="this.showStatus" :timeOfRequest="this.timeOfRequest"></Statusbar>
+  <div class="structure-panel-wrapper">
+    <StructurePanel ref="structurepanel" id="structurePanel" v-on:structure-node-click="onStructureNodeClick" :treeNodes="this.treenodes" v-if='dataLoaded'></StructurePanel>
   </div>
-  <InfoPanel ref="panel"></InfoPanel>
-  <StructurePanel ref="structurepanel" id="structurePanel" v-on:structure-node-click="onStructureNodeClick" :treeNodes="this.treenodes" v-if='dataLoaded'></StructurePanel>
+  <div class="wrapper">
+    <!-- Spinner on page reload -->
+    <b-spinner id="load" label="Loading..."></b-spinner>
+    <Graph
+      ref="graph"
+      @node-click="onNodeClick"
+      :key="renderKey"
+      v-if='dataLoaded'
+      :servers='this.servers'
+      :routes='this.routes'
+      :clusters='this.clusters'
+      :gateways='this.gateways'
+      :leafs='this.leafs'
+      :varz='this.varz'
+      :dataLoaded='this.dataLoaded'
+    ></Graph>
+    <div class="overlay-ui">
+      <Searchbar id="search" v-on:input="onSearchInput" @button-click="onSearchReset" ref="search"></Searchbar>
+      <div id="status">
+        <Statusbar ref="status" :shouldDisplay="this.showStatus" :timeOfRequest="this.timeOfRequest"></Statusbar>
+        <Refresh ref="refresh" @button-click="refreshGraph"/>
+      </div>
+    </div>
+    <InfoPanel ref="panel"></InfoPanel>
+  </div>
 </div>
 </template>
 
@@ -166,9 +172,42 @@ export default {
 </script>
 
 <style scoped>
-#title {
-  text-align: center;
-  margin-top: 10px;
+#app {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  grid-template-rows: 1fr;
+}
+.wrapper {
+  position: relative;
+  min-width: 490px;
+  height: 100%;
+  width: 100%;
+}
+.structure-panel-wrapper {
+  width: 320px;
+  background-color: rgb(248, 249, 250);
+}
+.overlay-ui {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1em;
+  pointer-events: none;
+}
+.overlay-ui > * {
+  pointer-events: auto;
+}
+#status {
+  display: flex;
+  flex-direction: row;
+  gap: 0.4em;
+  width: 0px;
 }
 #load {
   position: absolute;
@@ -176,10 +215,5 @@ export default {
   bottom: 48%;
   width: 3rem;
   height: 3rem;
-}
-#status {
-  background: black;
-  width: 100%;
-  height: 100%;
 }
 </style>

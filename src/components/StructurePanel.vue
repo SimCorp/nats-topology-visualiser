@@ -6,7 +6,7 @@
       title="Network information"
       left
       shadow=true
-      width="300px"
+      width="320px"
       v-model="isPanelOpen"
       no-header-close
     >

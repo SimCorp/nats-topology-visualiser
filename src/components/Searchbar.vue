@@ -36,8 +36,12 @@ export default {
 </script>
 
 <style scoped>
+#searchbar {
+  /* width: 100%; */
+  width: 20em;
+}
 #search-bar {
-  width: 20%;
-  left: 40%;
+  width: 20em;
+  margin-top: 0 !important;
 }
 </style>

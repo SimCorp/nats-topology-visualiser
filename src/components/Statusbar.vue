@@ -20,10 +20,6 @@ export default {
 #status-bar {
   text-align: center;
   width: 320px;
-  position: absolute;
-  display: inline-block;
-  bottom: 0;
-  left: 41%;
-  margin-bottom: 20px;
+  margin: 0;
 }
 </style>
