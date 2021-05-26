@@ -31,7 +31,6 @@
 </template>
 
 <script lang="ts">
-// @ts-nocheck
 import axios from 'axios'
 import Graph from '@/components/Graph/Graph.vue'
 import ServerDatum from './components/Graph/ServerDatum'
@@ -52,9 +51,9 @@ import Refresh from "@/components/Refresh.vue"
 import Vue from 'vue'
 import Component from 'vue-class-component'
 import {id} from "postcss-selector-parser";
+import TreeNode from './components/TreeNode'
 
-export default {
-  name: 'App',
+@Component({  
   components: {
     Refresh,
     Graph,
@@ -62,115 +61,104 @@ export default {
     Searchbar,
     InfoPanel,
     StructurePanel,
-  },
-  data (): {
-    servers: ServerDatum[];
-    routes: RouteDatum[];
-    clusters: ClusterDatum[];
-    gateways: GatewayDatum[];
-    leafs: LeafDatum[]; // TODO add LeafDatum?
-    varz: Varz[];
-    timeOfRequest: String;
-    dataLoaded: boolean;
-    isPanelOpen: boolean;
-    showStatus: boolean;
-    renderKey: number;
-  } {
-    return {
-      servers: [],
-      routes: [],
-      clusters: [],
-      gateways: [],
-      leafs: [],
-      varz: [],
-      timeOfRequest: "",
-      treenodes: [],
-      dataLoaded: false,
-      isPanelOpen: false,
-      showStatus: false,
-      renderKey: 0
-    }
-  },
-  mounted: async function() {
+  }
+})
+export default class App extends Vue {
+  servers: ServerDatum[] = []
+  routes: RouteDatum[] = []
+  clusters: ClusterDatum[] = []
+  gateways: GatewayDatum[] = []
+  leafs: LeafDatum[] = []
+  varz: Varz[] = []
+  timeOfRequest: String = ""
+  treenodes: TreeNode[] = []
+  dataLoaded: boolean = false
+  isPanelOpen: boolean = false
+  showStatus: boolean = false
+  renderKey: number = 0
+
+  async mounted() {
     const refresh = this.$refs.refresh as Refresh
     this.showStatus = refresh.displayReloadSpinner(true)
     this.dataLoaded = await this.getData()
     this.showStatus = refresh.displayReloadSpinner(false)
-  },
-  methods: {
-    async getData (): Promise<boolean> {
-      const host = 
-        (process.env.NODE_ENV === 'production')
-        ? ''
-        : 'https://localhost:5001'
+  }
 
-      // TODO add type safety
-      let mockData = true
-      const data =
-        (mockData)
-        ? (await (await fetch('./mock-data-updateeverything.json')).json())
-        : (await axios.get(`${host}/api/updateEverything`)).data
+  async getData(): Promise<boolean> {
+    const host = 
+      (process.env.NODE_ENV === 'production')
+      ? ''
+      : 'https://localhost:5001'
 
-      // TODO why no type errors?
-      this.servers = data.processedServers
-      this.routes = data.links
-      this.clusters = data.processedClusters
-      this.gateways = data.gatewayLinks
-      this.leafs = data.leafLinks
-      this.varz = data.varz
-      this.treenodes = data.treeNodes
-      this.timeOfRequest = data.timeOfRequest
+    let mockData = true
+    const data =
+      (mockData)
+      ? (await (await fetch('./mock-data-updateeverything.json')).json())
+      : (await axios.get(`${host}/api/updateEverything`)).data
+
+    this.servers = data.processedServers
+    this.routes = data.links
+    this.clusters = data.processedClusters
+    this.gateways = data.gatewayLinks
+    this.leafs = data.leafLinks
+    this.varz = data.varz
+    this.treenodes = data.treeNodes
+    this.timeOfRequest = data.timeOfRequest
+    return true
+  }
+
+  onNodeClick ({nodeData, id}: {nodeData: Varz, id: string}) {
+    const panel = this.$refs.panel as InfoPanel
+    panel.onNodeClick(nodeData, id)
+  }
+
+  onSearchInput (text: string) {
+    const graph = this.$refs.graph as Graph
+    graph.searchFilter(text)
+  }
+
+  onSearchReset () {
+    const graph = this.$refs.graph as Graph
+    graph.searchReset()
+  }
+
+  getServerWithId(server_id: string): Varz | string {
+    for (const server of this.varz) {
+      if (server.server_id === server_id) return server // TODO add varz type
+    }
+    return ""
+  }
+
+  onStructureNodeClick ({name, server_id}: { name: string; server_id: number }) {
+    var nameStr = name.toString()
+    var idStr = server_id.toString()
+    // @ts-ignore
+    this.$refs.graph.searchFilter(nameStr)
+    // @ts-ignore
+    this.$refs.search.changeText(nameStr)
+    // @ts-ignore
+    this.onNodeClick({nodeData: this.getServerWithId(idStr), id: idStr})
+  }
+
+  async refreshGraph () {
+    const refresh = this.$refs.refresh as Refresh
+    refresh.displayRefreshSpinner(true)
+    this.dataLoaded = await this.getData()
+    refresh.displayRefreshSpinner(false)
+    this.renderKey += 1 // Tells the Graph component to completely reload
+  }
+  
+  displayReloadSpinner (b: boolean) { // Used when reloading the page (F5)
+    const spinner = document.getElementById("load")
+    const refresh = document.getElementById("rb")
+    if (b) {
+      spinner!.style.display = "block"
+      refresh!.style.display = "none"
+      return false // Tells App whether the Statusbar should be shown
+    } else {
+      spinner!.style.display = "none"
+      refresh!.style.display = "block"
       return true
-    },
-    onNodeClick ({nodeData, id}: {nodeData: Varz, id: string}) {
-      const panel = this.$refs.panel as InfoPanel
-      panel.onNodeClick(nodeData, id)
-    },
-
-    onSearchInput (text: string) {
-      const graph = this.$refs.graph as Graph
-      graph.searchFilter(text)
-    },
-
-    onSearchReset () {
-      const graph = this.$refs.graph as Graph
-      graph.searchReset()
-    },
-
-    getServerWithId(server_id: string): Varz | string {
-      for (const server of this.varz) {
-        if (server.server_id === server_id) return server // TODO add varz type
-      }
-      return ""
-    },
-
-    onStructureNodeClick ({name, server_id}) {
-      var nameStr = name.toString()
-      var idStr = server_id.toString()
-      this.$refs.graph.searchFilter(nameStr)
-      this.$refs.search.changeText(nameStr)
-      this.onNodeClick({nodeData: this.getServerWithId(idStr), id: idStr})
-    },
-
-    async refreshGraph () {
-      const refresh = this.$refs.refresh as Refresh
-      refresh.displayRefreshSpinner(true)
-      this.dataLoaded = await this.getData()
-      refresh.displayRefreshSpinner(false)
-      this.renderKey += 1 // Tells the Graph component to completely reload
-    },
-    displayReloadSpinner (b: boolean) { // Used when reloading the page (F5)
-      const spinner = document.getElementById("load")
-      const refresh = document.getElementById("rb")
-      if (b) {
-        spinner.style.display = "block"
-        refresh.style.display = "none"
-        return false // Tells App whether the Statusbar should be shown
-      } else {
-        spinner.style.display = "none"
-        refresh.style.display = "block"
-        return true
-      }
     }
   }
 }
