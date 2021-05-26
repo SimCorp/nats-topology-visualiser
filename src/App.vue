@@ -1,7 +1,7 @@
 <template>
 <div id="app">
   <div class="structure-panel-wrapper">
-    <StructurePanel ref="structurepanel" id="structurePanel" v-on:structure-node-click="onStructureNodeClick" :treeNodes="this.treenodes" v-if='dataLoaded'></StructurePanel>
+    <StructurePanel ref="structurePanel" id="structurePanel" v-on:structure-node-click="onStructureNodeClick" :treeNodes="this.treenodes" v-if='dataLoaded'></StructurePanel>
   </div>
   <div class="wrapper">
     <b-spinner id="load" label="Loading..."></b-spinner>
@@ -19,13 +19,13 @@
       :dataLoaded='this.dataLoaded'
     ></Graph>
     <div class="overlay-ui">
-      <Searchbar id="search" v-on:input="onSearchInput" @button-click="onSearchReset" ref="search"></Searchbar>
+      <Searchbar ref="searchBar" id="search" v-on:input="onSearchInput" @button-click="onSearchReset"></Searchbar>
       <div id="status">
-        <Statusbar ref="status" :shouldDisplay="this.showStatus" :timeOfRequest="this.timeOfRequest"></Statusbar>
+        <Statusbar ref="statusBar" :shouldDisplay="this.showStatus" :timeOfRequest="this.timeOfRequest"></Statusbar>
         <Refresh ref="refresh" @button-click="refreshGraph"/>
       </div>
     </div>
-    <InfoPanel ref="panel"></InfoPanel>
+    <InfoPanel ref="infoPanel"></InfoPanel>
   </div>
 </div>
 </template>
@@ -53,7 +53,7 @@ import Component from 'vue-class-component'
 import {id} from "postcss-selector-parser";
 import TreeNode from './components/TreeNode'
 
-@Component({  
+@Component({
   components: {
     Refresh,
     Graph,
@@ -64,24 +64,33 @@ import TreeNode from './components/TreeNode'
   }
 })
 export default class App extends Vue {
-  servers: ServerDatum[] = []
-  routes: RouteDatum[] = []
-  clusters: ClusterDatum[] = []
-  gateways: GatewayDatum[] = []
-  leafs: LeafDatum[] = []
-  varz: Varz[] = []
-  timeOfRequest: String = ""
-  treenodes: TreeNode[] = []
+  $refs!: {
+    refresh: Refresh,
+    graph : Graph,
+    statusBar : Statusbar,
+    searchBar : Searchbar,
+    infoPanel : InfoPanel,
+    structurePanel : StructurePanel,
+  }
+
+  servers!: ServerDatum[]
+  routes!: RouteDatum[]
+  clusters!: ClusterDatum[]
+  gateways!: GatewayDatum[]
+  leafs!: LeafDatum[]
+  varz!: Varz[]
+  timeOfRequest!: String
+  treenodes!: TreeNode[]
+
   dataLoaded: boolean = false
   isPanelOpen: boolean = false
   showStatus: boolean = false
   renderKey: number = 0
 
   async mounted() {
-    const refresh = this.$refs.refresh as Refresh
-    this.showStatus = refresh.displayReloadSpinner(true)
+    this.showStatus = this.$refs.refresh.displayReloadSpinner(true)
     this.dataLoaded = await this.getData()
-    this.showStatus = refresh.displayReloadSpinner(false)
+    this.showStatus = this.$refs.refresh.displayReloadSpinner(false)
   }
 
   async getData(): Promise<boolean> {
@@ -108,18 +117,15 @@ export default class App extends Vue {
   }
 
   onNodeClick ({nodeData, id}: {nodeData: Varz, id: string}) {
-    const panel = this.$refs.panel as InfoPanel
-    panel.onNodeClick(nodeData, id)
+    this.$refs.infoPanel.onNodeClick(nodeData, id)
   }
 
   onSearchInput (text: string) {
-    const graph = this.$refs.graph as Graph
-    graph.searchFilter(text)
+    this.$refs.graph.searchFilter(text)
   }
 
   onSearchReset () {
-    const graph = this.$refs.graph as Graph
-    graph.searchReset()
+    this.$refs.graph.searchReset()
   }
 
   getServerWithId(server_id: string): Varz {
@@ -130,17 +136,15 @@ export default class App extends Vue {
   }
 
   onStructureNodeClick ({name, server_id}: { name: string; server_id: number }) {
-    const graph = this.$refs.graph as Graph
-    const search = this.$refs.search as Searchbar
     var nameStr = name.toString()
     var idStr = server_id.toString()
-    graph.searchFilter(nameStr)
-    search.changeText(nameStr)
+    this.$refs.graph.searchFilter(nameStr)
+    this.$refs.searchBar.changeText(nameStr)
     this.onNodeClick({nodeData: this.getServerWithId(idStr), id: idStr})
   }
 
   async refreshGraph () {
-    const refresh = this.$refs.refresh as Refresh
+    const refresh = this.$refs.refresh
     refresh.displayRefreshSpinner(true)
     this.dataLoaded = await this.getData()
     refresh.displayRefreshSpinner(false)

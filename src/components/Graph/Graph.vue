@@ -1,6 +1,6 @@
 ﻿<template>
   <div id='graph'>
-    <v-zoomer id="zoomer" ref="zoom" :maxScale="6" :minScale="1">
+    <v-zoomer ref="vueZoomer" id="zoomer" :maxScale="6" :minScale="1">
       <div id='visualizer'></div>
     </v-zoomer>
     <div id="zoomButtons">
@@ -28,6 +28,10 @@ import VueZoomer from 'vue-zoomer'
 
 @Component
 export default class Graph extends Vue {
+  $refs!: {
+    vueZoomer: VueZoomer,
+  }
+
   @Prop()
   servers!: ServerDatum[]
   @Prop()
@@ -375,13 +379,11 @@ export default class Graph extends Vue {
     }
 
     zoomIn () {
-      const zoom = this.$refs.zoom as VueZoomer
-      zoom.zoomIn(1.20)
+      this.$refs.vueZoomer.zoomIn(1.20)
     }
 
     zoomOut () {
-      const zoom = this.$refs.zoom as VueZoomer
-      zoom.zoomOut(0.80)
+      this.$refs.vueZoomer.zoomOut(0.80)
     }
 }
 
