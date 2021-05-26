@@ -122,21 +122,20 @@ export default class App extends Vue {
     graph.searchReset()
   }
 
-  getServerWithId(server_id: string): Varz | string {
+  getServerWithId(server_id: string): Varz {
     for (const server of this.varz) {
       if (server.server_id === server_id) return server // TODO add varz type
     }
-    return ""
+    return { server_id: "" }
   }
 
   onStructureNodeClick ({name, server_id}: { name: string; server_id: number }) {
+    const graph = this.$refs.graph as Graph
+    const search = this.$refs.search as Searchbar
     var nameStr = name.toString()
     var idStr = server_id.toString()
-    // @ts-ignore
-    this.$refs.graph.searchFilter(nameStr)
-    // @ts-ignore
-    this.$refs.search.changeText(nameStr)
-    // @ts-ignore
+    graph.searchFilter(nameStr)
+    search.changeText(nameStr)
     this.onNodeClick({nodeData: this.getServerWithId(idStr), id: idStr})
   }
 

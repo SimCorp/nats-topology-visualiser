@@ -33,17 +33,14 @@
 </template>
 
 <script lang="ts">
-import SidebarPanel from 'bootstrap-vue'
 // @ts-ignore
 import { VueTreeList, Tree, TreeNode } from 'vue-tree-list'
 import axios from "axios"
 import Vue from 'vue'
 import { Component, Prop } from 'vue-property-decorator'
 
-// @ts-ignore
 @Component({
   components: {
-    SidebarPanel,
     VueTreeList
   }
 })
