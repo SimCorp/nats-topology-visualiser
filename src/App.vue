@@ -200,6 +200,7 @@ export default class App extends Vue {
   bottom: 0;
   left: 0;
   display: flex;
+  align-items: flex-start;
   flex-direction: column;
   justify-content: space-between;
   padding: 1em;
@@ -212,7 +213,6 @@ export default class App extends Vue {
   display: flex;
   flex-direction: row;
   gap: 0.4em;
-  width: 0px;
 }
 #load {
   position: absolute;
