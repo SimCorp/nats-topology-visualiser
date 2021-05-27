@@ -28,20 +28,6 @@ export default class Refresh extends Vue {
       button!.style.display = "block"
     }
   }
-
-  displayReloadSpinner (b: boolean) { // Used when reloading the page (F5)
-    const spinner = document.getElementById("load")
-    const refresh = document.getElementById("rb")
-    if (b) {
-      spinner!.style.display = "block"
-      refresh!.style.display = "none"
-      return false // Tells App whether the Statusbar should be shown
-    } else {
-      spinner!.style.display = "none"
-      refresh!.style.display = "block"
-      return true
-    }
-  }
   
   refreshGraph () {
     this.$emit('button-click')

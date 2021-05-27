@@ -12,19 +12,26 @@
 
 <script lang='ts'>
 import * as d3 from 'd3'
+import { D3DragEvent, Selection, SubjectPosition } from 'd3'
+
 import GatewayDatum from './GatewayDatum'
 import ServerDatum from './ServerDatum'
 import ClusterDatum from './ClusterDatum'
-import { D3DragEvent, Selection, SubjectPosition } from 'd3'
 import LinkDatum from './LinkDatum'
 import RouteDatum from './RouteDatum'
 import LeafDatum from './LeafDatum'
-
 import NodeDatum from './NodeDatum'
 import Varz from './Varz'
+
 import { Component, Prop, Vue } from 'vue-property-decorator'
+
 // @ts-ignore
 import VueZoomer from 'vue-zoomer'
+Vue.use(VueZoomer)
+
+import { BButton, BSpinner } from 'bootstrap-vue'
+Vue.component('b-button', BButton)
+Vue.component('b-spinner', BSpinner)
 
 @Component
 export default class Graph extends Vue {

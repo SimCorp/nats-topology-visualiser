@@ -12,6 +12,12 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator'
 
+import { BInputGroup, BFormInput, BSidebar, BInputGroupAppend } from 'bootstrap-vue'
+Vue.component('b-input-group', BInputGroup)
+Vue.component('b-input-group-append', BInputGroupAppend)
+Vue.component('b-form-input', BFormInput)
+Vue.component('b-sidebar', BSidebar)
+
 @Component
 export default class Searchbar extends Vue {
 

@@ -4,7 +4,7 @@
     <StructurePanel ref="structurePanel" id="structurePanel" v-on:structure-node-click="onStructureNodeClick" :treeNodes="this.treenodes" v-if='dataLoaded'></StructurePanel>
   </div>
   <div class="wrapper">
-    <b-spinner id="load" label="Loading..."></b-spinner>
+    <b-spinner ref="load" id="load" label="Loading..."></b-spinner>
     <Graph
       ref="graph"
       @node-click="onNodeClick"
@@ -22,7 +22,9 @@
       <Searchbar ref="searchBar" id="search" v-on:input="onSearchInput" @button-click="onSearchReset"></Searchbar>
       <div id="status">
         <Statusbar ref="statusBar" :shouldDisplay="this.showStatus" :timeOfRequest="this.timeOfRequest"></Statusbar>
-        <Refresh ref="refresh" @button-click="refreshGraph"/>
+          <div ref="refreshWrapper">
+            <Refresh ref="refresh" @button-click="refreshGraph"/>
+          </div>
       </div>
     </div>
     <InfoPanel ref="infoPanel"></InfoPanel>
@@ -53,6 +55,9 @@ import Component from 'vue-class-component'
 import {id} from "postcss-selector-parser";
 import TreeNode from './components/TreeNode'
 
+import { BSpinner } from 'bootstrap-vue'
+Vue.component('b-spinner', BSpinner)
+
 @Component({
   components: {
     Refresh,
@@ -71,6 +76,8 @@ export default class App extends Vue {
     searchBar : Searchbar,
     infoPanel : InfoPanel,
     structurePanel : StructurePanel,
+    load: BSpinner,
+    refreshWrapper: HTMLDivElement
   }
 
   servers!: ServerDatum[]
@@ -79,18 +86,18 @@ export default class App extends Vue {
   gateways!: GatewayDatum[]
   leafs!: LeafDatum[]
   varz!: Varz[]
-  timeOfRequest!: String
   treenodes!: TreeNode[]
 
+  timeOfRequest: String = ""
   dataLoaded: boolean = false
   isPanelOpen: boolean = false
   showStatus: boolean = false
   renderKey: number = 0
 
   async mounted() {
-    this.showStatus = this.$refs.refresh.displayReloadSpinner(true)
+    this.showStatus = this.displayReloadSpinner(true)
     this.dataLoaded = await this.getData()
-    this.showStatus = this.$refs.refresh.displayReloadSpinner(false)
+    this.showStatus = this.displayReloadSpinner(false)
   }
 
   async getData(): Promise<boolean> {
@@ -102,7 +109,7 @@ export default class App extends Vue {
     let mockData = true
     const data =
       (mockData)
-      ? (await (await fetch('./mock-data-updateeverything.json')).json())
+      ? (await axios.get('./mock-data-updateeverything.json')).data
       : (await axios.get(`${host}/api/updateEverything`)).data
 
     this.servers = data.processedServers
@@ -152,8 +159,8 @@ export default class App extends Vue {
   }
   
   displayReloadSpinner (b: boolean) { // Used when reloading the page (F5)
-    const spinner = document.getElementById("load")
-    const refresh = document.getElementById("rb")
+    const spinner = this.$refs.load
+    const refresh = this.$refs.refreshWrapper
     if (b) {
       spinner!.style.display = "block"
       refresh!.style.display = "none"

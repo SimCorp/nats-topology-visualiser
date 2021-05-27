@@ -25,6 +25,9 @@ import Varz from './Graph/Varz';
 import { Component, Prop, Vue } from 'vue-property-decorator'
 import SidebarPanel from 'bootstrap-vue'
 
+import { JSONView } from 'vue-json-component'
+Vue.component('json-view', JSONView)
+
 @Component
 export default class InfoPanel extends Vue {
 
