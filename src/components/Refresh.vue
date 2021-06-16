@@ -1,9 +1,9 @@
 ﻿<template>
 <div id="refresher">
   <!-- Reload button -->
-  <b-button class="refresh" id="rb" @click="refreshGraph" variant="info">&#8635;</b-button>
+  <b-button class="refresh b-button" id="rb" @click="refreshGraph" variant="info">&#8635;</b-button>
   <!-- Reload button spinner -->
-  <b-button class="refresh" id="rs" variant="info" disabled>
+  <b-button class="refresh b-button" id="rs" variant="info" disabled>
     <b-spinner small style="margin-bottom: 2px"></b-spinner>
     <span class="sr-only">Loading...</span>
   </b-button>

@@ -1,9 +1,9 @@
 <template>
 <div id='searchbar'>
   <b-input-group class="mt-3" id='search-bar'>
-    <b-form-input v-model="text" @input="onSearch" placeholder="Search"></b-form-input>
+    <b-form-input id="search-input" v-model="text" @input="onSearch" placeholder="Search"></b-form-input>
     <b-input-group-append>
-      <b-button @click="onReset" variant="info">&#x2715;</b-button>
+      <b-button class="b-button" @click="onReset" variant="info">&#x2715;</b-button>
     </b-input-group-append>
   </b-input-group>
 </div>
@@ -50,5 +50,16 @@ export default class Searchbar extends Vue {
 #search-bar {
   width: 20em;
   margin-top: 0 !important;
+}
+#search-input {
+  background-color: var(--color-neutral-800);
+  color: var(--color-neutral-100);
+}
+#search-input::placeholder {
+  color: var(--color-neutral-300);
+}
+#search-input:focus {
+  border-color: var(--color-primary-500);
+  box-shadow: none;
 }
 </style>

@@ -1,5 +1,5 @@
 ﻿<template>
-  <div>
+  <div id="wrapper">
     <b-sidebar
       id="leftsidepanel"
       class="b-sidebar mr-5"
@@ -104,7 +104,17 @@ export default class StructurePanel extends Vue {
 }
 </script>
 
-<style scoped>
+<style>
+#leftsidepanel {
+  background-color: var(--color-neutral-700) !important;
+  color: var(--color-neutral-100) !important;
+}
+
+.vtl-node-main:hover {
+  background-color: var(--color-neutral-600);
+  cursor: pointer;
+}
+
 #treebox {
   margin-left: 13px;
   margin-right: 13px;

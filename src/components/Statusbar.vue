@@ -25,5 +25,7 @@ export default class Statusbar extends Vue {
   text-align: center;
   width: 320px;
   margin: 0;
+  color: var(--color-neutral-100);
+  background-color: var(--color-neutral-900);
 }
 </style>

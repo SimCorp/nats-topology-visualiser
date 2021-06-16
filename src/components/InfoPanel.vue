@@ -60,10 +60,10 @@ export default class InfoPanel extends Vue {
 
 </script>
 
-<style scoped>
+<style>
 #errorid {
   word-wrap: break-word;
-  color: #268bd2;
+  color: var(--color-error-500);
   font-weight: 600;
   margin-top: -15px;
 }

@@ -21,6 +21,10 @@
     <div class="overlay-ui">
       <Searchbar ref="searchBar" id="search" v-on:input="onSearchInput" @button-click="onSearchReset"></Searchbar>
       <div id="status">
+        <label class="toggle">
+          <input id="toggleDarkMode" type="checkbox">
+          <div id="circle"></div>
+        </label>
         <Statusbar ref="statusBar" :shouldDisplay="this.showStatus" :timeOfRequest="this.timeOfRequest"></Statusbar>
           <div ref="refreshWrapper">
             <Refresh ref="refresh" @button-click="refreshGraph"/>
@@ -98,6 +102,36 @@ export default class App extends Vue {
     this.showStatus = this.displayReloadSpinner(true)
     this.dataLoaded = await this.getData()
     this.showStatus = this.displayReloadSpinner(false)
+
+    let toggleDarkModeButton: HTMLElement | null = document.querySelector('#toggleDarkMode')
+
+    toggleDarkModeButton?.addEventListener('click', e => this.toggleDarkMode(e))
+    this.toggleDarkMode(null)
+  }
+
+  toggleDarkMode(e: MouseEvent | null) {
+    let palette = [
+      "primary-500",
+      "neutral-800",
+      "neutral-700",
+      "neutral-600",
+      "neutral-500",
+      "neutral-400",
+      "neutral-300",
+      "neutral-100",
+      "outlines-500",
+      "error-500",
+    ]
+
+    let isNightMode = (e?.target as HTMLInputElement).checked
+
+    console.log('isNightMode', isNightMode)
+        
+    palette.forEach(color => {
+      document.documentElement.style.setProperty(`--color-${ color }`,
+        `var(--color-${ isNightMode ? "night" : "light" }-${ color }`
+      );
+    })
   }
 
   async getData(): Promise<boolean> {
@@ -175,7 +209,24 @@ export default class App extends Vue {
 
 </script>
 
-<style scoped>
+<style>
+.b-button {
+  background-color: var(--color-primary-500) !important;
+  border-color: var(--color-primary-500) !important;
+}
+.b-button:focus {
+  background-color: var(--color-primary-500) !important;
+  border-color: var(--color-primary-500) !important;
+  box-shadow: none !important;
+}
+
+.b-button:hover,
+.b-button:visited,
+.b-button:active {
+  background-color: var(--color-primary-500) !important;
+  border-color: var(--color-primary-500) !important;
+  filter: brightness(90%) !important;
+}
 #app {
   height: 100vh;
   width: 100%;
@@ -191,7 +242,7 @@ export default class App extends Vue {
 }
 .structure-panel-wrapper {
   width: 320px;
-  background-color: rgb(248, 249, 250);
+  background-color: var(--color-neutral-700);
 }
 .overlay-ui {
   position: absolute;
@@ -220,5 +271,48 @@ export default class App extends Vue {
   bottom: 48%;
   width: 3rem;
   height: 3rem;
+}
+
+/* Toggle button */
+
+input[type=checkbox] {
+  display: none;
+}
+
+.toggle {
+  margin-bottom: 0;
+  height:38px;
+  width: 100px;
+  background-color: var(--color-primary-500);
+  border-width: 5px;
+  border-radius: 80px;
+  /* box-shadow: 0px 4px 5px 0px rgba(0, 0, 0, 0.05); */
+  display: flex;
+  align-items: center;
+  transition: 0.2s ease-in-out;
+}
+
+#circle {
+  height: 30px;
+  width: 30px;
+  border-radius: 30px;
+  background-color: white;
+  margin: 0px 5px;
+  transition: 0.2s ease-in-out;
+  transform-origin: center;
+  transform: rotate(-45deg);
+}
+
+input:checked .toggle {
+  background-color: #444;
+}
+
+input:checked ~ #circle {
+  background-color: white;
+  margin-left: calc(64px + 30px /2);
+  width: calc(30px /2);
+  border-radius: 0px 30px 30px 0px;
+  transform-origin: left center;
+  transform: rotate(45deg);
 }
 </style>

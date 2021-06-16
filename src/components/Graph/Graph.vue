@@ -4,8 +4,8 @@
       <div id='visualizer'></div>
     </v-zoomer>
     <div id="zoomButtons">
-      <b-button class="zoomButtons" @click="zoomOut" variant="info">-</b-button>
-      <b-button class="zoomButtons" @click="zoomIn" variant="info">+</b-button>
+      <b-button class="zoomButtons b-button" @click="zoomOut" variant="info">-</b-button>
+      <b-button class="zoomButtons b-button" @click="zoomIn" variant="info">+</b-button>
     </div>
   </div>
 </template>
@@ -65,6 +65,7 @@ export default class Graph extends Vue {
       .append('svg')
       .attr('height', "100%")
       .attr('width', "100%")
+      .attr('style', 'background-color: var(--color-neutral-800);')
       .attr('viewBox', this.calculateViewBoxValue(sideLength, sideLength, viewBoxScalar))
 
     this.svg.append('g').attr('id', 'gateways')
@@ -193,7 +194,7 @@ export default class Graph extends Vue {
         .selectAll('line') // Select all of type 'line'
         .data(gateways) // Insert the list of links
         .join('line')
-        .attr('stroke', d => d.ntv_error ? '#f00' : '#999') // Set line to red, if it has an error
+        .attr('stroke', d => d.ntv_error ? 'var(--color-error-500)' : 'var(--color-neutral-500)') // Set line to red, if it has an error
         .attr('stroke-width', 3)
         .style('opacity', d => d.isSearchMatch ? 1.0 : 0.2)
 
@@ -214,11 +215,11 @@ export default class Graph extends Vue {
         .data(clusters)
         .join('path')
         .attr('d', '')
-        .attr('stroke', '#ddd')
+        .attr('stroke', 'var(--color-neutral-600)')
         .attr('stroke-width', '13px')
         .attr('stroke-linejoin', 'round')
         .attr('stroke-width', 20)
-        .style('fill', '#ddd')
+        .style('fill', 'var(--color-neutral-600)')
         .call(this.drag(simulation))
 
       hull?.append('title')
@@ -253,7 +254,7 @@ export default class Graph extends Vue {
         .data(routes) // Insert the list of links
         .join('line')
         .attr('stroke-opacity', 0.6)
-        .attr('stroke', d => d.ntv_error ? '#f00' : '#999') // Set line to red, if it has an error
+        .attr('stroke', d => d.ntv_error ? 'var(--color-error-500)' : 'var(--color-neutral-500)') // Set line to red, if it has an error
         .attr('stroke-width', 2)
         .style('opacity', d => d.isSearchMatch ? 1.0 : 0.2)
 
@@ -275,7 +276,7 @@ export default class Graph extends Vue {
           update => update,
           exit => exit.remove()
         )
-        .style( "stroke", "#444" )
+        .style( "stroke", "var(--color-neutral-300)" )
         .style( "stroke-width", 1 )
         .style ("stroke-dasharray", ("3,3"))
         .on('click', (d, i) => { // Log the value of the chosen node on click
@@ -284,7 +285,6 @@ export default class Graph extends Vue {
 
       leafLink?.append('title') // Set title (hover text) for erronious link
         .text(d => d.ntv_error ? 'Something\'s Wrong' : '')
-        // .attr('stroke', d => d.ntv_error ? '#f00' : '#00f')  // Set line to red, if it has an error
       return leafLink
     }
 
@@ -301,12 +301,12 @@ export default class Graph extends Vue {
           update => update,
           exit => exit.remove()
         )
-        .attr('stroke', '#888')
+        .attr('stroke', 'var(--color-neutral-600)')
         .attr('stroke-width', 3)
         .attr('cx', () => { return Math.random() }) // Random because, then the simulation can move them around
         .attr('cy', () => { return Math.random() })
-        .attr('r', 5)
-        .attr('fill', d => d.ntv_error ? '#f00' : '#000') // Make node red if it has error
+        .attr('r', 6)
+        .attr('fill', d => d.ntv_error ? 'var(--color-error-500)' : 'var(--color-neutral-100)') // Make node red if it has error
         .style('opacity', d => d.isSearchMatch ? 1.0 : 0.2)
         .style('cursor', 'pointer')
         .call(this.drag(simulation)) // Handle dragging of the nodes

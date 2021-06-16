@@ -1,6 +1,13 @@
 {
   "processedServers": [
     {
+      "server_id": "NATSSERVERID101",
+      "server_name": "nats-server-101",
+      "ntv_error": false,
+      "ntv_cluster": "nats-cluster-1",
+      "clients": []
+    },
+    {
       "server_id": "NATSSERVERID201",
       "server_name": "nats-server-201",
       "ntv_error": false,
@@ -71,28 +78,8 @@
   ],
   "links": [
     {
-      "source": "NATSSERVERID202",
-      "target": "NATSSERVERID201",
-      "ntv_error": false
-    },
-    {
       "source": "NATSSERVERID201",
       "target": "NATSSERVERID202",
-      "ntv_error": false
-    },
-    {
-      "source": "NATSSERVERID404",
-      "target": "NATSSERVERID401",
-      "ntv_error": false
-    },
-    {
-      "source": "NATSSERVERID404",
-      "target": "NATSSERVERID402",
-      "ntv_error": false
-    },
-    {
-      "source": "NATSSERVERID404",
-      "target": "NATSSERVERID403",
       "ntv_error": false
     },
     {
@@ -106,72 +93,54 @@
       "ntv_error": false
     },
     {
-      "source": "NATSSERVERID401",
-      "target": "NATSSERVERID403",
-      "ntv_error": false
-    },
-    {
-      "source": "NATSSERVERID401",
-      "target": "NATSSERVERID404",
-      "ntv_error": false
-    },
-    {
-      "source": "NATSSERVERID401",
-      "target": "NATSSERVERID402",
-      "ntv_error": false
-    },
-    {
-      "source": "NATSSERVERID402",
-      "target": "NATSSERVERID401",
-      "ntv_error": false
-    },
-    {
-      "source": "NATSSERVERID402",
-      "target": "NATSSERVERID403",
-      "ntv_error": false
-    },
-    {
-      "source": "NATSSERVERID402",
-      "target": "NATSSERVERID404",
-      "ntv_error": false
-    },
-    {
-      "source": "NATSSERVERID403",
-      "target": "NATSSERVERID402",
-      "ntv_error": false
-    },
-    {
-      "source": "NATSSERVERID403",
-      "target": "NATSSERVERID401",
-      "ntv_error": false
-    },
-    {
-      "source": "NATSSERVERID403",
-      "target": "NATSSERVERID404",
-      "ntv_error": false
-    },
-    {
       "source": "NATSSERVERID302",
       "target": "NATSSERVERID303",
       "ntv_error": false
     },
     {
-      "source": "NATSSERVERID302",
-      "target": "NATSSERVERID301",
+      "source": "NATSSERVERID401",
+      "target": "NATSSERVERID402",
       "ntv_error": false
     },
     {
-      "source": "NATSSERVERID303",
-      "target": "NATSSERVERID301",
+      "source": "NATSSERVERID401",
+      "target": "NATSSERVERID403",
       "ntv_error": false
     },
     {
-      "source": "NATSSERVERID303",
-      "target": "NATSSERVERID302",
+      "source": "NATSSERVERID401",
+      "target": "NATSSERVERID404",
+      "ntv_error": false
+    },
+    {
+      "source": "NATSSERVERID402",
+      "target": "NATSSERVERID403",
+      "ntv_error": false
+    },
+    {
+      "source": "NATSSERVERID402",
+      "target": "NATSSERVERID404",
+      "ntv_error": false
+    },
+    {
+      "source": "NATSSERVERID403",
+      "target": "NATSSERVERID404",
       "ntv_error": false
     }
   ],
   "processedClusters": [
+    {
+      "name": "nats-cluster-1",
+      "servers": [
+        {
+          "server_id": "NATSSERVERID101",
+          "server_name": "nats-server-101",
+          "ntv_error": false,
+          "ntv_cluster": "nats-cluster-1",
+          "clients": []
+        }
+      ]
+    },
     {
       "name": "nats-cluster-2",
       "servers": [
@@ -259,61 +228,48 @@
   "gatewayLinks": [
     {
       "errors": [],
-      "errorsAsString": "nats-cluster-4 to/from nats-cluster-3",
-      "source": "nats-cluster-4",
+      "errorsAsString": "nats-cluster-1 to/from nats-cluster-2",
+      "source": "nats-cluster-1",
+      "target": "nats-cluster-2",
+      "ntv_error": false
+    },
+    {
+      "errors": [],
+      "errorsAsString": "nats-cluster-1 to/from nats-cluster-3",
+      "source": "nats-cluster-1",
       "target": "nats-cluster-3",
       "ntv_error": false
-    }
-  ],
-  "leafLinks": [
+    },
     {
-      "connections": [
-        {
-          "account": "EvilCorp",
-          "ip": "10.11.12.666",
-          "port": 49178,
-          "in_msgs": 0,
-          "out_msgs": 0,
-          "in_bytes": 0,
-          "out_bytes": 0,
-          "subscriptions": 4
-        },
-        {
-          "account": "LOL",
-          "ip": "10.11.12.666",
-          "port": 49180,
-          "in_msgs": 4284656,
-          "out_msgs": 3790024,
-          "in_bytes": 3765036213,
-          "out_bytes": 2839300999,
-          "subscriptions": 52
-        },
-        {
-          "account": "LOL",
-          "ip": "420.420.420.420",
-          "port": 7422,
-          "in_msgs": 3790024,
-          "out_msgs": 4284656,
-          "in_bytes": 2839300999,
-          "out_bytes": 3765036213,
-          "subscriptions": 279
-        },
-        {
-          "account": "DankBank",
-          "ip": "420.420.420.420",
-          "port": 7422,
-          "in_msgs": 0,
-          "out_msgs": 0,
-          "in_bytes": 0,
-          "out_bytes": 0,
-          "subscriptions": 4
-        }
-      ],
-      "source": "NATSSERVERID301",
-      "target": "NATSSERVERID201",
+      "errors": [],
+      "errorsAsString": "nats-cluster-1 to/from nats-cluster-4",
+      "source": "nats-cluster-1",
+      "target": "nats-cluster-4",
       "ntv_error": false
+    },
+    {
+      "errors": [],
+      "errorsAsString": "nats-cluster-2 to/from nats-cluster-3",
+      "source": "nats-cluster-2",
+      "target": "nats-cluster-3",
+      "ntv_error": false
+    },
+    {
+      "errors": [],
+      "errorsAsString": "nats-cluster-3 to/from nats-cluster-4",
+      "source": "nats-cluster-3",
+      "target": "nats-cluster-4",
+      "ntv_error": false
+    },
+    {
+      "errors": [],
+      "errorsAsString": "nats-cluster-4 to/from nats-cluster-2",
+      "source": "nats-cluster-4",
+      "target": "nats-cluster-2",
+      "ntv_error": true
     }
   ],
+  "leafLinks": [],
   "varz": [],
   "treeNodes": [],
   "timeOfRequest": "1337-01-01T14:37:59.1336388+02:00"
