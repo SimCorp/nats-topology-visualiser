@@ -1,12 +1,12 @@
 ﻿<template>
   <div id='graph'>
+    <v-zoomer id="zoomer" ref="zoom" :maxScale="6" :minScale="1">
+      <div id='visualizer'></div>
+    </v-zoomer>
     <div id="zoomButtons">
       <b-button class="zoomButtons" @click="zoomOut" variant="info">-</b-button>
       <b-button class="zoomButtons" @click="zoomIn" variant="info">+</b-button>
     </div>
-    <v-zoomer id="zoomer" ref="zoom" :maxScale="6" :minScale="1">
-    <div id='visualizer'></div>
-    </v-zoomer>
   </div>
 </template>
 
@@ -20,40 +20,41 @@ import LinkDatum from './LinkDatum'
 import RouteDatum from './RouteDatum'
 import LeafDatum from './LeafDatum'
 
-import axios from 'axios'
-import { PropType } from 'vue'
 import NodeDatum from './NodeDatum'
 import Varz from './Varz'
+import { Component, Prop, Vue } from 'vue-property-decorator'
+// @ts-ignore
+import VueZoomer from 'vue-zoomer'
 
-export default {
-  name: 'Graph',
-  props: {
-    servers: Array as PropType<ServerDatum[]>,
-    routes: Array as PropType<RouteDatum[]>,
-    clusters: Array as PropType<ClusterDatum[]>,
-    gateways: Array as PropType<GatewayDatum[]>,
-    leafs: Array as PropType<LeafDatum[]>,
-    varz: Array as PropType<Varz[]>
-  },
-  data (): {
-    svg: Selection<SVGSVGElement, unknown, HTMLElement, HTMLElement> | null;
-  } {
-    return {
-      svg: null
-    }
-  },
+@Component
+export default class Graph extends Vue {
+  @Prop()
+  servers!: ServerDatum[]
+  @Prop()
+  routes!: RouteDatum[]
+  @Prop()
+  clusters!: ClusterDatum[]
+  @Prop()
+  gateways!: GatewayDatum[]
+  @Prop()
+  leafs!: LeafDatum[]
+  @Prop()
+  varz!: Varz[]
+  svg!: Selection<SVGSVGElement, unknown, HTMLElement, HTMLElement>
+
   mounted () {
     const width = window.innerWidth
     const height = window.innerHeight
     const viewBoxScalar = 0.5
 
+    const sideLength = 1000
+
     // SVG canvas
     this.svg = d3.select('#visualizer')
-      .append('div')
       .append('svg')
-      // Responsive SVG needs these 2 attributes
-      .attr('preserveAspectRatio', 'xMinYMin meet')
-      .attr('viewBox', this.calculateViewBoxValue(width, height, viewBoxScalar))
+      .attr('height', "100%")
+      .attr('width', "100%")
+      .attr('viewBox', this.calculateViewBoxValue(sideLength, sideLength, viewBoxScalar))
 
     this.svg.append('g').attr('id', 'gateways')
     this.svg.append('g').attr('id', 'hulls')
@@ -64,8 +65,8 @@ export default {
 
     this.drawGraph()
     this.searchFilter('')
-  },
-  methods: {
+  }
+
     // Runs every time an input is given to the search bar - searchText is the input
     // Checks whether the current server name contains the given search text/input
     // Updates isSearchMatch field of datums
@@ -95,12 +96,14 @@ export default {
       });
 
       this.drawGraph()
-    },
+    }
+
     // Resets the graph on click of the "X" button
     searchReset() {
       this.searchFilter('')
       this.drawGraph()
-    },
+    }
+
     // Draws graph from given data
     drawGraph (): void {
       const svg = this.svg
@@ -168,7 +171,7 @@ export default {
           serverNode.x += (cluster!.x - serverNode.x) * k;
         })
       })
-    },
+    }
 
     createGatewayLinkSelection (
       svg: d3.Selection<SVGSVGElement, unknown, HTMLElement, HTMLElement> | null,
@@ -187,7 +190,7 @@ export default {
         .text(d => d.errorsAsString)
 
       return gatewayLink
-    },
+    }
 
     // A convex hull (enclosing path) for clusters
     createHullSelection (
@@ -211,7 +214,7 @@ export default {
         .text(d => d.name)
 
       return hull
-    },
+    }
 
     createClusterNodeSelection (
       svg: d3.Selection<SVGSVGElement, unknown, HTMLElement, HTMLElement> | null,
@@ -228,7 +231,7 @@ export default {
         .attr('r', 1)
         .style('opacity', 0)
         .call(this.drag(simulation)) // Handle dragging of the nodes
-    },
+    }
 
     createRouteLinkSelection (
       svg: d3.Selection<SVGSVGElement, unknown, HTMLElement, HTMLElement> | null,
@@ -247,7 +250,7 @@ export default {
         .text(d => d.ntv_error ? 'Something\'s Wrong' : '')
 
       return routeLink
-    },
+    }
 
     createLeafLinkSelection(
       svg: d3.Selection<SVGSVGElement, unknown, HTMLElement, HTMLElement> | null,
@@ -272,7 +275,7 @@ export default {
         .text(d => d.ntv_error ? 'Something\'s Wrong' : '')
         // .attr('stroke', d => d.ntv_error ? '#f00' : '#00f')  // Set line to red, if it has an error
       return leafLink
-    },
+    }
 
     createServerNodeSelection (
       svg: d3.Selection<SVGSVGElement, unknown, HTMLElement, HTMLElement> | null,
@@ -306,7 +309,7 @@ export default {
         .text(d => (d.ntv_error ? '[Crashed?] \n' : '') + 'NAME:' + d.server_name + '\nID:' + d.server_id)
 
       return serverNode
-    },
+    }
 
     getHullPath (cluster: ClusterDatum, servers: ServerDatum[]) {
       // TODO: Find a more efficient method (pre process groupings of nodes according to clusters)
@@ -321,7 +324,7 @@ export default {
       const hullCoords: [number, number][] | null = d3.polygonHull(nodesCoords)
 
       return this.svgPath(hullCoords || nodesCoords) // Polygonhull returns null for 2 or fewer nodes.
-    },
+    }
 
     svgPath (coordinates: [number, number][]): string {
       // Create closed SVG path from coordinates
@@ -332,14 +335,14 @@ export default {
           : `${str} L ${coords[0]},${coords[1]}` // otherwise use LineTo command 'L'
       , initialValue) + ' Z' // End with ClosePath command 'Z'
       return hullPath
-    },
+    }
 
     getServerWithId(server_id: string): Varz | string {
       for (const server of this.varz) {
         if (server.server_id === server_id) return server // TODO add varz type
       }
       return ""
-    },
+    }
 
     drag (simulation: d3.Simulation<NodeDatum, LinkDatum<NodeDatum>>): d3.DragBehavior<Element, ServerDatum, ServerDatum | SubjectPosition> & ((this: Element, event: any, d: ServerDatum) => void) {
       function dragstarted (event: D3DragEvent<SVGElement, NodeDatum, ServerDatum>, d: ServerDatum) {
@@ -360,7 +363,7 @@ export default {
         .on('start', dragstarted)
         .on('drag', dragged)
         .on('end', dragended)
-    },
+    }
 
     calculateViewBoxValue (width: number, height: number, viewBoxScalar: number): string {
       const viewBoxTop = -width / 2
@@ -369,43 +372,44 @@ export default {
       const viewBoxBottom = height
       const viewBoxValue = `${viewBoxTop * viewBoxScalar}, ${viewBoxLeft * viewBoxScalar}, ${viewBoxRight * viewBoxScalar}, ${viewBoxBottom * viewBoxScalar}`
       return viewBoxValue
-    },
-    zoomIn () {
-      this.$refs.zoom.zoomIn(1.20)
-    },
-    zoomOut () {
-      this.$refs.zoom.zoomOut(0.80)
     }
-  }
+
+    zoomIn () {
+      const zoom = this.$refs.zoom as VueZoomer
+      zoom.zoomIn(1.20)
+    }
+
+    zoomOut () {
+      const zoom = this.$refs.zoom as VueZoomer
+      zoom.zoomOut(0.80)
+    }
 }
 
 </script>
 
 <style>
-/* Puts the canvas behind all other HTML elements */
-svg {
-  position: absolute;
-  left: 0;
-  top: 0;
-  z-index: -1;
+#graph {
+  height: 100%;
+  width: 100%;
+  position: relative;
 }
 #zoomer {
-  position: absolute;
-  left: 0;
-  top: 0;
-  z-index: -1;
-  width: 100vw;
-  height: 100vh;
+  height: 100%;
+  width: 100%;
+}
+/* Puts the canvas behind all other HTML elements */
+#visualizer {
+  height: 100%;
+  width: 100%;
 }
 #zoomButtons {
   position: absolute;
-  left: 44.5%;
-  bottom: 0;
-  margin-bottom: 65px;
-  margin-left: 50px;
+  display: flex;
+  gap: 0.4em;
+  right: 1em;
+  bottom: 1em;
 }
 .zoomButtons {
   width: 40px;
-  margin: 3px;
 }
 </style>

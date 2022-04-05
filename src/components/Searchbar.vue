@@ -9,35 +9,39 @@
 </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      text: ''
-    }
-  },
-  methods: {
-    // This method runs every time an input is given to the search bar
-    // Emits the search text so other components can access it
-    onSearch () {
-      this.$emit('input', this.text)
-    },
-    // Removes text input and emits the click event to parent component (so Graph can use it to reset the graph)
-    onReset () {
-      this.text = ''
-      this.$emit('button-click')
-    },
-    changeText(text){
-      this.text = text
-    }
+<script lang="ts">
+import { Component, Prop, Vue } from 'vue-property-decorator'
 
+@Component
+export default class Searchbar extends Vue {
+
+  text = ""
+
+  // This method runs every time an input is given to the search bar
+  // Emits the search text so other components can access it
+  onSearch () {
+    this.$emit('input', this.text)
   }
+  
+  // Removes text input and emits the click event to parent component (so Graph can use it to reset the graph)
+  onReset () {
+    this.text = ''
+    this.$emit('button-click')
+  }
+  changeText (text: string) {
+    this.text = text
+  }
+  
 }
 </script>
 
 <style scoped>
+#searchbar {
+  /* width: 100%; */
+  width: 20em;
+}
 #search-bar {
-  width: 20%;
-  left: 40%;
+  width: 20em;
+  margin-top: 0 !important;
 }
 </style>
